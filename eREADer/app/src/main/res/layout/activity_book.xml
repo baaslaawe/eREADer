@@ -1,0 +1,164 @@
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/FullscreenTheme"
+    android:background="#ff000000"
+    android:id="@+id/bg"
+    android:orientation="vertical"
+    android:baselineAligned="false"
+    android:gravity="top"
+    android:weightSum="10">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="4.5"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+
+        <LinearLayout
+            android:background="#243840"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:orientation="vertical"
+            android:id="@+id/linearLayout" >
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/optnbtn"
+                android:src="@drawable/optbtn"
+                android:background="#00ffffff"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="left|center_vertical" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:background="#243840"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:id="@+id/linearLayout2"
+            android:weightSum="5"
+            android:baselineAligned="false">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/searchbtn"
+                android:src="@drawable/searchbtn"
+                android:layout_gravity="bottom|right"
+                android:background="#00ffffff"
+                android:layout_marginRight="10dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:weightSum="4"
+        android:baselineAligned="false">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="3"
+            android:id="@+id/roundbtnbg"
+            android:background="@drawable/gro">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/plusbtn"
+                android:src="@drawable/plusbtn"
+                android:background="#00ffffff"
+                android:contentDescription=""
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="1dp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="#ff263941">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/library"
+                    android:id="@+id/mlibtxt"
+                    android:layout_gravity="bottom" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="#fffafafa">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/books"
+                    android:id="@+id/booktxt"
+                    android:gravity="top"
+                    android:textColor="#ff263941" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="#fafafa"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.5"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/botlist"
+            android:baselineAligned="false">
+
+            <ListView
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:id="@+id/booklist"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:choiceMode="singleChoice"
+                android:divider="#96243840"
+                android:dividerHeight="1px"
+                android:clickable="true"
+                android:drawSelectorOnTop="false"
+                android:fastScrollAlwaysVisible="false"
+                android:fastScrollEnabled="true"
+                android:footerDividersEnabled="true"
+                android:headerDividersEnabled="true"
+                android:listSelector="#00ffffff" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
