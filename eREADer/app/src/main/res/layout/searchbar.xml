@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal"
+    android:weightSum="10"
+    android:baselineAligned="false"
+    android:descendantFocusability="blocksDescendants"
+    android:background="#243840">
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="9"
+        android:background="#00ffffff">
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:layout_weight="1">
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/searchinput"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#243840"
+            android:inputType="text"
+            android:editable="true"
+            android:singleLine="true"
+            android:textStyle="italic"
+            android:typeface="normal"
+            android:layout_marginRight="1dp"
+            android:enabled="false"
+            android:text="lel"
+            android:background="#fffafafa" />
+    </LinearLayout>
+</LinearLayout>

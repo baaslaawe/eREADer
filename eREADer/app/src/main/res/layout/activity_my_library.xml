@@ -28,7 +28,7 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/optnbtn"
+                android:id="@+id/optnbtn_lib"
                 android:src="@drawable/optbtn"
                 android:background="#00ffffff"
                 android:layout_marginLeft="10dp"
@@ -40,19 +40,33 @@
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:id="@+id/linearLayout2"
-            android:weightSum="5"
-            android:baselineAligned="false">
+            android:orientation="horizontal"
+            android:baselineAligned="false"
+            android:weightSum="5">
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/searchbtn"
-                android:src="@drawable/searchbtn"
-                android:layout_gravity="bottom|right"
-                android:background="#00ffffff"
-                android:layout_marginRight="10dp" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:id="@+id/layoutToReplace"></LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="4">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/searchbtn_lib"
+                    android:src="@drawable/searchbtn"
+                    android:layout_gravity="bottom|right"
+                    android:background="#00ffffff"
+                    android:layout_marginRight="10dp" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
@@ -105,7 +119,8 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="@string/library"
                     android:id="@+id/mlibtxt"
-                    android:layout_gravity="bottom" />
+                    android:layout_gravity="bottom"
+                    android:textColor="#fffafafa" />
             </LinearLayout>
 
             <LinearLayout
@@ -128,18 +143,21 @@
     </LinearLayout>
 
     <LinearLayout
-        android:background="#fafafa"
+        android:background="#99a1a6"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1.5"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:baselineAligned="false">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:id="@+id/botlist"
-            android:baselineAligned="false">
+            android:baselineAligned="false"
+            android:background="#fafafa"
+            android:layout_marginTop="1px">
 
             <ListView
                 android:layout_width="0dp"

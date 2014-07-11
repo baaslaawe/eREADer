@@ -1,5 +1,8 @@
 package at.ac.tuwien.ims.ereader.Entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
 /**
@@ -50,5 +53,29 @@ public class Book {
 
     public void setLanguage(Language language) {
         this.language = language;
+    }
+
+    public ArrayList<String> getChapters() {
+        return chapters;
+    }
+
+    public void setChapters(ArrayList<String> chapters) {
+        this.chapters = chapters;
+    }
+
+    public ArrayList<String> getContent() {
+        return content;
+    }
+
+    public void setContent(ArrayList<String> content) {
+        this.content = content;
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 }

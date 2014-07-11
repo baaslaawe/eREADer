@@ -1,4 +1,4 @@
-<LinearLayout
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -8,7 +8,8 @@
     android:orientation="vertical"
     android:baselineAligned="false"
     android:gravity="top"
-    android:weightSum="10">
+    android:weightSum="10"
+    tools:context=".BookView">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,7 +29,7 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/optnbtn"
+                android:id="@+id/optnbtn_book"
                 android:src="@drawable/optbtn"
                 android:background="#00ffffff"
                 android:layout_marginLeft="10dp"
@@ -48,7 +49,7 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/searchbtn"
+                android:id="@+id/searchbtn_book"
                 android:src="@drawable/searchbtn"
                 android:layout_gravity="bottom|right"
                 android:background="#00ffffff"
@@ -75,8 +76,8 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/plusbtn"
-                android:src="@drawable/plusbtn"
+                android:id="@+id/playbtn"
+                android:src="@drawable/playbtn"
                 android:background="#00ffffff"
                 android:contentDescription=""
                 android:layout_centerVertical="true"
@@ -103,9 +104,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/library"
-                    android:id="@+id/mlibtxt"
-                    android:layout_gravity="bottom" />
+                    android:text="Title"
+                    android:id="@+id/bktitletxt"
+                    android:layout_gravity="bottom"
+                    android:textColor="#fffafafa" />
             </LinearLayout>
 
             <LinearLayout
@@ -119,8 +121,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="@string/books"
-                    android:id="@+id/booktxt"
+                    android:text="Chapter XX, Page XX"
+                    android:id="@+id/chap_page_txt"
                     android:gravity="top"
                     android:textColor="#ff263941" />
             </LinearLayout>
@@ -128,37 +130,135 @@
     </LinearLayout>
 
     <LinearLayout
-        android:background="#fafafa"
+        android:background="#99a1a6"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1.5"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="5">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/scrollView2"
+                android:layout_marginTop="1px"
+                android:background="#fffafafa"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="blabla"
+                    android:id="@+id/book_text"
+                    android:textColor="#243840"/>
+            </ScrollView>
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/botlist"
+            android:layout_weight="4"
+            android:background="#ff263941"
+            android:weightSum="15"
             android:baselineAligned="false">
 
-            <ListView
-                android:layout_width="0dp"
+            <RelativeLayout
+                android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:id="@+id/booklist"
-                android:layout_gravity="bottom"
-                android:layout_weight="1"
-                android:choiceMode="singleChoice"
-                android:divider="#96243840"
-                android:dividerHeight="1px"
-                android:clickable="true"
-                android:drawSelectorOnTop="false"
-                android:fastScrollAlwaysVisible="false"
-                android:fastScrollEnabled="true"
-                android:footerDividersEnabled="true"
-                android:headerDividersEnabled="true"
-                android:listSelector="#00ffffff" />
+                android:layout_weight="3">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fbbtn"
+                    android:src="@drawable/fbbtn"
+                    android:background="#00ffffff"
+                    android:layout_gravity="center_vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="3.4">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lowsound"
+                    android:src="@drawable/lowsound"
+                    android:layout_gravity="center_vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="2.2">
+
+                <SeekBar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/soundbar"
+                    android:layout_gravity="center_vertical"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="false"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentRight="false"
+                    android:layout_alignParentEnd="true"
+                    android:progress="50" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="3.4">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/loudsound"
+                    android:src="@drawable/loudsound"
+                    android:layout_gravity="center_vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="3">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ffbtn"
+                    android:src="@drawable/ffbtn"
+                    android:background="#00ffffff"
+                    android:layout_gravity="center_vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true" />
+            </RelativeLayout>
 
         </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>
