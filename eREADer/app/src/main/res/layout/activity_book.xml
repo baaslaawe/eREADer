@@ -41,19 +41,9 @@
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:id="@+id/linearLayout2"
-            android:weightSum="5"
-            android:baselineAligned="false">
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/searchbtn_book"
-                android:src="@drawable/searchbtn"
-                android:layout_gravity="bottom|right"
-                android:background="#00ffffff"
-                android:layout_marginRight="10dp" />
+            android:orientation="horizontal"
+            android:baselineAligned="false"
+            android:weightSum="5">
         </LinearLayout>
 
     </LinearLayout>
@@ -104,7 +94,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Title"
                     android:id="@+id/bktitletxt"
                     android:layout_gravity="bottom"
                     android:textColor="#fffafafa" />
@@ -121,7 +110,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Chapter XX, Page XX"
                     android:id="@+id/chap_page_txt"
                     android:gravity="top"
                     android:textColor="#ff263941" />
@@ -158,7 +146,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="blabla"
                     android:id="@+id/book_text"
                     android:textColor="#243840"/>
             </ScrollView>

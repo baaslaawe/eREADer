@@ -2,6 +2,8 @@ package at.ac.tuwien.ims.ereader;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
@@ -9,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import at.ac.tuwien.ims.ereader.Entities.Book;
 import at.ac.tuwien.ims.ereader.Entities.Language;
@@ -18,7 +22,6 @@ import at.ac.tuwien.ims.ereader.Entities.Language;
  */
 public class BookView extends Activity {
     private ImageButton optButton;
-    private ImageButton srchButton;
     private ImageButton ffButton;
     private ImageButton fbButton;
     private ImageButton playButton;
@@ -86,8 +89,6 @@ public class BookView extends Activity {
 
         optButton=(ImageButton)findViewById(R.id.optnbtn_book);
         optButton.setOnClickListener(btnListener);
-        srchButton=(ImageButton)findViewById(R.id.searchbtn_book);
-        srchButton.setOnClickListener(btnListener);
         playButton=(ImageButton)findViewById(R.id.playbtn);
         playButton.setOnClickListener(btnListener);
         ffButton=(ImageButton)findViewById(R.id.ffbtn);
@@ -113,9 +114,6 @@ public class BookView extends Activity {
             if (v==optButton) {
                 //todo
                 showMessage("optn btn clicked book");
-            } else if (v==srchButton) {
-                //todo
-                showMessage("search btn clicked book");
             } else if (v==playButton) {
                 if (playing) {
                     playing=false;
@@ -141,10 +139,8 @@ public class BookView extends Activity {
     private SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {}
-
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {}
-
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             volume=progress;

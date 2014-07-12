@@ -28,8 +28,8 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/optnbtn_lib"
-                android:src="@drawable/optbtn"
+                android:id="@+id/backbtn_lib"
+                android:src="@drawable/backbtn"
                 android:background="#00ffffff"
                 android:layout_marginLeft="10dp"
                 android:layout_gravity="left|center_vertical" />
@@ -44,42 +44,6 @@
             android:baselineAligned="false"
             android:weightSum="5">
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:id="@+id/layoutToReplace">
-
-                <EditText
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/searchinput"
-                    android:layout_gravity="center_horizontal|right"
-                    android:textColor="#fffafafa"
-                    android:inputType="text"
-                    android:singleLine="true"
-                    android:textStyle="italic"
-                    android:typeface="normal"
-                    android:background="@drawable/searchbar" />
-
-                </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="4">
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/searchbtn_lib"
-                    android:src="@drawable/searchbtn"
-                    android:layout_gravity="bottom|right"
-                    android:background="#00ffffff"
-                    android:layout_marginRight="10dp" />
-            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
@@ -89,27 +53,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="4"
-        android:weightSum="4"
+        android:weightSum="6"
         android:baselineAligned="false">
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="3"
+            android:layout_weight="5"
             android:id="@+id/roundbtnbg"
             android:background="@drawable/gro">
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/plusbtn"
-                android:src="@drawable/plusbtn"
-                android:background="#00ffffff"
-                android:contentDescription=""
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginRight="1dp" />
         </RelativeLayout>
 
         <LinearLayout
@@ -130,8 +83,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/library"
-                    android:id="@+id/mlibtxt"
+                    android:text="@string/settings"
+                    android:id="@+id/"
                     android:layout_gravity="bottom"
                     android:textColor="#fffafafa" />
             </LinearLayout>
@@ -143,14 +96,6 @@
                 android:layout_weight="1"
                 android:background="#fffafafa">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="@string/books"
-                    android:id="@+id/booktxt"
-                    android:gravity="top"
-                    android:textColor="#ff263941" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

@@ -1,42 +1,46 @@
 package at.ac.tuwien.ims.ereader;
 
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import at.ac.tuwien.ims.ereader.Entities.Book;
 import at.ac.tuwien.ims.ereader.Entities.Language;
-import at.ac.tuwien.ims.ereader.Util.FragmentNoSearchbar;
-import at.ac.tuwien.ims.ereader.Util.FragmentSearchbar;
 
 public class MyLibrary extends Activity {
     private ImageButton optButton;
     private ImageButton srchButton;
     private BLAdapter blAdapter;
-    private ArrayList<Book> booklist;
-    private boolean searchbarVisible=false;
+    private boolean searchbarVisible;
+    private EditText searchbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_library);
-        getActionBar().hide();
+
+        if (getActionBar() != null)
+            getActionBar().hide();
 
         //todo remove if persistent
-        booklist =new ArrayList<Book>();
+        ArrayList<Book> booklist =new ArrayList<Book>();
         Book testb=new Book("The Lord Of The Rings", "J. R. R. Tolkien", Language.English);
         ArrayList<String> testbContent = new ArrayList<String>();
         testbContent.add("1 BLABLABLABLABLA");
@@ -62,7 +66,7 @@ public class MyLibrary extends Activity {
         booklist.add(new Book("Bla3", "Bla3", Language.Deutsch));
 
         ListView listview = (ListView)findViewById(R.id.booklist);
-        blAdapter = new BLAdapter(listview);
+        blAdapter = new BLAdapter(listview, booklist);
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -81,6 +85,10 @@ public class MyLibrary extends Activity {
 
         srchButton=(ImageButton)findViewById(R.id.searchbtn_lib);
         srchButton.setOnClickListener(btnListener);
+
+        searchbar=(EditText)findViewById(R.id.searchinput);
+        searchbar.addTextChangedListener(textWatcher);
+        hideSearchBar();
     }
 
     private View.OnClickListener btnListener = new View.OnClickListener() {
@@ -91,30 +99,83 @@ public class MyLibrary extends Activity {
                 showMessage("optn btn clicked lib");
             } else if (v==srchButton) {
                 if(!searchbarVisible) {
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.replace(R.id.layoutToReplace, new FragmentSearchbar());
-                    ft.commit();
-                    searchbarVisible = true;
+                    showSearchBar();
                 } else {
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.replace(R.id.layoutToReplace, new FragmentNoSearchbar());
-                    ft.commit();
-                    searchbarVisible = false;
+                    hideSearchBar();
                 }
             }
         }
     };
 
+    private void showSearchBar() {
+        searchbar.setVisibility(View.VISIBLE);
+        searchbarVisible = true;
+    }
+
+    private void hideSearchBar() {
+        searchbar.setVisibility(View.GONE);
+        searchbarVisible = false;
+    }
+
+    private void hideSearchBarAfterSomeTime(int time) {
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (searchbarVisible)
+                            if (searchbar.getText().length() == 0)
+                                hideSearchBar();
+                    }
+                });
+            }
+        }, time);
+    }
+
+
+    private TextWatcher textWatcher = new TextWatcher() {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        public void afterTextChanged(Editable s) {
+            if (s.toString().length()==0) {
+                hideSearchBarAfterSomeTime(5000);
+                return;
+            }
+            blAdapter.updateBookList(s.toString());
+        }
+    };
+
     private class BLAdapter extends BaseAdapter {
         private ListView listview;
+        private ArrayList<Book> initialBooklist;
+        private ArrayList<Book> booklist;
 
         private class ItemHolder {
             public TextView title;
             public TextView author_and_lang;
         }
 
-        public BLAdapter(ListView listview) {
+        public BLAdapter(ListView listview, ArrayList<Book> booklist) {
             this.listview=listview;
+            this.booklist=booklist;
+            this.initialBooklist=booklist;
+        }
+
+        public void updateBookList(String s) {
+            if (s.length()==0 || !searchbarVisible) {
+                booklist=initialBooklist;
+                return;
+            }
+            ArrayList<Book> temp = new ArrayList<Book>();
+            for (Book b : initialBooklist) {
+                if (b.getTitle().toLowerCase().contains(s.toLowerCase()) ||
+                        b.getAuthor().toLowerCase().contains(s.toLowerCase()) ||
+                        b.getLanguage().toString().toLowerCase().contains(s.toLowerCase()))
+                    temp.add(b);
+            }
+            booklist=temp;
+            this.notifyDataSetChanged();
         }
 
         @Override
@@ -143,7 +204,7 @@ public class MyLibrary extends Activity {
                 holder.title = (TextView) convertView.findViewById(R.id.title);
                 holder.author_and_lang = (TextView) convertView.findViewById(R.id.author_and_lang);
 
-                ImageButton bt= (ImageButton)convertView.findViewById(R.id.optbtnlist);
+                ImageButton bt=(ImageButton)convertView.findViewById(R.id.optbtnlist);
                 bt.setOnClickListener(optBtnListener);
                 convertView.setTag(holder);
             } else {

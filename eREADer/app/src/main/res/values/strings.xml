@@ -9,5 +9,6 @@
     <string name="play">Play</string>
     <string name="delete">Delete</string>
     <string name="download">Download</string>
+    <string name="settings">Settings</string>
 
 </resources>
