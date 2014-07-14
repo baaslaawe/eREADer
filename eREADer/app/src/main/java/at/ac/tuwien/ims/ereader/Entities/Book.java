@@ -1,8 +1,5 @@
 package at.ac.tuwien.ims.ereader.Entities;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.util.ArrayList;
 
 /**
@@ -14,7 +11,6 @@ public class Book {
     private ArrayList<String> chapters;
     private ArrayList<String> content;
     private Language language;
-    private String releaseDate;
 
     public Book(String title, String author, Language language) {
         this.title=title;
@@ -28,7 +24,6 @@ public class Book {
         this.chapters=chapters;
         this.content=content;
         this.language=language;
-        this.releaseDate=releaseDate;
     }
 
     public String getTitle() {
@@ -69,13 +64,5 @@ public class Book {
 
     public void setContent(ArrayList<String> content) {
         this.content = content;
-    }
-
-    public String getReleaseDate() {
-        return releaseDate;
-    }
-
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
     }
 }

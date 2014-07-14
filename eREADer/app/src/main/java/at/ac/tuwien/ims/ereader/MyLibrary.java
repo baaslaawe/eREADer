@@ -2,6 +2,8 @@ package at.ac.tuwien.ims.ereader;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,18 +20,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import at.ac.tuwien.ims.ereader.Entities.Book;
 import at.ac.tuwien.ims.ereader.Entities.Language;
+import at.ac.tuwien.ims.ereader.Util.SimpleFileDialog;
 
 public class MyLibrary extends Activity {
     private ImageButton optButton;
     private ImageButton srchButton;
+    private ImageButton addButton;
     private BLAdapter blAdapter;
     private boolean searchbarVisible;
     private EditText searchbar;
+    private ListView listview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +71,7 @@ public class MyLibrary extends Activity {
         booklist.add(new Book("Bla3", "Bla3", Language.Deutsch));
         booklist.add(new Book("Bla3", "Bla3", Language.Deutsch));
 
-        ListView listview = (ListView)findViewById(R.id.booklist);
+        listview = (ListView)findViewById(R.id.booklist);
         blAdapter = new BLAdapter(listview, booklist);
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -86,23 +92,29 @@ public class MyLibrary extends Activity {
         srchButton=(ImageButton)findViewById(R.id.searchbtn_lib);
         srchButton.setOnClickListener(btnListener);
 
+        addButton=(ImageButton)findViewById(R.id.plusbtn);
+        addButton.setOnClickListener(btnListener);
+
         searchbar=(EditText)findViewById(R.id.searchinput);
         searchbar.addTextChangedListener(textWatcher);
         hideSearchBar();
+        registerForContextMenu(addButton);
+        registerForContextMenu(listview);
     }
 
     private View.OnClickListener btnListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if (v==optButton) {
-                //todo
-                showMessage("optn btn clicked lib");
+                Intent myIntent = new Intent(MyLibrary.this, Settings.class);
+                startActivity(myIntent);
             } else if (v==srchButton) {
-                if(!searchbarVisible) {
+                if(!searchbarVisible)
                     showSearchBar();
-                } else {
+                else
                     hideSearchBar();
-                }
+            } else if (v==addButton) {
+                openContextMenu(v);
             }
         }
     };
@@ -133,7 +145,6 @@ public class MyLibrary extends Activity {
         }, time);
     }
 
-
     private TextWatcher textWatcher = new TextWatcher() {
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
         public void onTextChanged(CharSequence s, int start, int before, int count) {}
@@ -162,20 +173,29 @@ public class MyLibrary extends Activity {
             this.initialBooklist=booklist;
         }
 
+        public void updateBookList() {
+            updateBookList("");
+        }
+
         public void updateBookList(String s) {
             if (s.length()==0 || !searchbarVisible) {
                 booklist=initialBooklist;
-                return;
+            } else {
+                ArrayList<Book> temp = new ArrayList<Book>();
+                for (Book b : initialBooklist) {
+                    if (b.getTitle().toLowerCase().contains(s.toLowerCase()) ||
+                            b.getAuthor().toLowerCase().contains(s.toLowerCase()) ||
+                            b.getLanguage().toString().toLowerCase().contains(s.toLowerCase()))
+                        temp.add(b);
+                }
+                booklist = temp;
             }
-            ArrayList<Book> temp = new ArrayList<Book>();
-            for (Book b : initialBooklist) {
-                if (b.getTitle().toLowerCase().contains(s.toLowerCase()) ||
-                        b.getAuthor().toLowerCase().contains(s.toLowerCase()) ||
-                        b.getLanguage().toString().toLowerCase().contains(s.toLowerCase()))
-                    temp.add(b);
-            }
-            booklist=temp;
             this.notifyDataSetChanged();
+        }
+
+        public void deleteBook(int position) {
+            initialBooklist.remove(position);
+            updateBookList();
         }
 
         @Override
@@ -204,7 +224,7 @@ public class MyLibrary extends Activity {
                 holder.title = (TextView) convertView.findViewById(R.id.title);
                 holder.author_and_lang = (TextView) convertView.findViewById(R.id.author_and_lang);
 
-                ImageButton bt=(ImageButton)convertView.findViewById(R.id.optbtnlist);
+                ImageButton bt = (ImageButton) convertView.findViewById(R.id.optbtnlist);
                 bt.setOnClickListener(optBtnListener);
                 convertView.setTag(holder);
             } else {
@@ -212,8 +232,19 @@ public class MyLibrary extends Activity {
             }
 
             holder.title.setText(booklist.get(position).getTitle());
-            holder.author_and_lang.setText(booklist.get(position).getAuthor() + ", " + booklist.get(position).getLanguage());
-
+            String lang="";
+            switch (booklist.get(position).getLanguage()) {
+                case English:
+                    lang=getString(R.string.eng);
+                    break;
+                case Deutsch:
+                    lang=getString(R.string.ger);
+                    break;
+                case Espanol:
+                    lang=getString(R.string.esp);
+                    break;
+            }
+            holder.author_and_lang.setText(booklist.get(position).getAuthor() + ", " + lang);
             return convertView;
         }
 
@@ -222,7 +253,6 @@ public class MyLibrary extends Activity {
             public void onClick(View v) {
                 final int position = listview.getPositionForView(v);
                 if (position != ListView.INVALID_POSITION) {
-                    registerForContextMenu(v);
                     openContextMenu(v);
                 }
             }
@@ -232,7 +262,10 @@ public class MyLibrary extends Activity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        getMenuInflater().inflate(R.menu.library_context_menu, menu);
+        if(v.getId() == R.id.booklist)
+            getMenuInflater().inflate(R.menu.library_context_menu, menu);
+        else if(v.getId() == R.id.plusbtn)
+            getMenuInflater().inflate(R.menu.library_context_add, menu);
     }
 
     @Override
@@ -241,12 +274,35 @@ public class MyLibrary extends Activity {
 
         switch(item.getItemId()){
             case R.id.play:
-                //todo
-                showMessage("cntxt menu play pressed");
+                Intent myIntent = new Intent(MyLibrary.this, BookView.class);
+                Bundle b = new Bundle();
+                b.putInt("list", info.position);
+                myIntent.putExtras(b);
+                startActivity(myIntent);
                 break;
             case R.id.delete:
-                //todo
-                showMessage("cntxt menu delete pressed");
+                //todo delete persistent
+                showMessage(blAdapter.getItem(info.position).getTitle()+" "+getString(R.string.wasdeleted));
+                blAdapter.deleteBook(info.position);
+                break;
+            case R.id.manually:
+                //todo add
+                SimpleFileDialog foDialog=new SimpleFileDialog(MyLibrary.this, "FileOpen",
+                        new SimpleFileDialog.SimpleFileDialogListener() {
+                            @Override
+                            public void onChosenDir(String chosenDir) {
+                                if (chosenDir.endsWith(".epub") || chosenDir.endsWith(".txt") || chosenDir.endsWith(".pdf") || chosenDir.endsWith(".html") || chosenDir.endsWith(".mobi"))
+                                    showMessage("picked correct file: "+chosenDir);
+                                else
+                                    showMessage("picked wrong file: "+chosenDir);
+                            }
+                        });
+                foDialog.Default_File_Name = "";
+                foDialog.chooseFile_or_Dir();
+                break;
+            case R.id.download:
+                //todo download
+                showMessage("download pressed");
                 break;
         }
         return super.onContextItemSelected(item);

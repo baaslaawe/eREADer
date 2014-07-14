@@ -1,6 +1,7 @@
 package at.ac.tuwien.ims.ereader;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -39,7 +40,8 @@ public class BookView extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
-        getActionBar().hide();
+        if (getActionBar() != null)
+            getActionBar().hide();
 
         int selectedBook=getIntent().getExtras().getInt("list");
 
@@ -112,9 +114,10 @@ public class BookView extends Activity {
         @Override
         public void onClick(View v) {
             if (v==optButton) {
-                //todo
-                showMessage("optn btn clicked book");
+                Intent myIntent = new Intent(BookView.this, Settings.class);
+                startActivity(myIntent);
             } else if (v==playButton) {
+                //todo
                 if (playing) {
                     playing=false;
                     playButton.setImageDrawable(getResources().getDrawable(R.drawable.pausebtn));
@@ -123,11 +126,13 @@ public class BookView extends Activity {
                     playButton.setImageDrawable(getResources().getDrawable(R.drawable.playbtn));
                 }
             } else if (v==ffButton) {
+                //todo
                 if (currentChapter < book.getChapters().size()-1) {
                     currentChapter++;
                     updateText();
                 }
             } else if(v==fbButton) {
+                //todo
                 if (currentChapter > 0) {
                     currentChapter--;
                     updateText();
