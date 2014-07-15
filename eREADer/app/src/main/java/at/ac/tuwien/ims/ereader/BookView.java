@@ -3,8 +3,6 @@ package at.ac.tuwien.ims.ereader;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
@@ -12,8 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import at.ac.tuwien.ims.ereader.Entities.Book;
 import at.ac.tuwien.ims.ereader.Entities.Language;
@@ -34,6 +30,7 @@ public class BookView extends Activity {
     private Book book;
     private int volume=50;
     private int currentChapter=0;
+    private int currentPage=0; //todo change
     private boolean playing=true;
 
     @Override
@@ -47,47 +44,16 @@ public class BookView extends Activity {
 
         //todo remove if persistent
         ArrayList<Book> templist=new ArrayList<Book>();
-        Book testb=new Book("The Lord Of The Rings", "J. R. R. Tolkien", Language.English);
-        ArrayList<String> testbContent = new ArrayList<String>();
-        testbContent.add("1 BLABLABLABLABLABLABLABLABLABLABLABLABLABLABL\nABLABLABLA\nBLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLA" +
-                "BLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLA" +
-                "BLABLABLABLABLABLABL\nABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLA" +
-                "BLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLA" +
-                "BLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLA" +
-                "BLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLAB\nLABLABLABLABLABLABLABLA" +
-                "BLABLABLABLABLABLABLABLABLABLABLABLA\nBLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLA" +
-                "BLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLA\nBLABLABLABLABLABLABLABLABLABLABLABLABLABLA" +
-                "BLABLABLABLABLABL\nABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLA" +
-                "BLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLA" +
-                "BLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLAB\nLABLABLABLABLABLABLABLABLABLA" +
-                "BLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLA");
-        testbContent.add("2 BLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLA" +
-                "BLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLA" +
-                "BLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLA" +
-                "BLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLA" +
-                "BLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLA" +
-                "BLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLA" +
-                "BLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLA" +
-                "BLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLA" +
-                "BLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLABLA");
-        testbContent.add("3 BLABLABLABLABLA");
-        testbContent.add("4 BLABLABLABLABLA");
-        testb.setContent(testbContent);
-        ArrayList<String> testbChapter = new ArrayList<String>();
-        testbChapter.add("Chapter 1");
-        testbChapter.add("Chapter 2");
-        testbChapter.add("Chapter 3");
-        testbChapter.add("Chapter 4");
-        testb.setChapters(testbChapter);
+        Book testb=new Book("The Lord Of The Rings", "J. R. R. Tolkien", Language.EN);
         templist.add(testb);
-        templist.add(new Book("Bla1", "Bla1", Language.English));
-        templist.add(new Book("Bla2", "Bla2", Language.Espanol));
-        templist.add(new Book("Bla3", "Bla3", Language.Deutsch));
-        templist.add(new Book("Bla3", "Bla3", Language.Deutsch));
-        templist.add(new Book("Bla3", "Bla3", Language.Deutsch));
-        templist.add(new Book("Bla3", "Bla3", Language.Deutsch));
-        templist.add(new Book("Bla3", "Bla3", Language.Deutsch));
-        templist.add(new Book("Bla3", "Bla3", Language.Deutsch));
+        templist.add(new Book("Bla1", "Bla1", Language.EN));
+        templist.add(new Book("Bla2", "Bla2", Language.ES));
+        templist.add(new Book("Bla3", "Bla3", Language.DE));
+        templist.add(new Book("Bla3", "Bla3", Language.DE));
+        templist.add(new Book("Bla3", "Bla3", Language.DE));
+        templist.add(new Book("Bla3", "Bla3", Language.DE));
+        templist.add(new Book("Bla3", "Bla3", Language.DE));
+        templist.add(new Book("Bla3", "Bla3", Language.DE));
 
         optButton=(ImageButton)findViewById(R.id.optnbtn_book);
         optButton.setOnClickListener(btnListener);
@@ -105,8 +71,7 @@ public class BookView extends Activity {
 
         book=templist.get(selectedBook);
         title.setText(book.getTitle());
-        chap_page.setText(book.getChapters().get(currentChapter) + ", Page XX");
-        content.setText(book.getContent().get(currentChapter));
+        updateText();
         fbButton.setAlpha(0.2f);
     }
 
@@ -153,8 +118,8 @@ public class BookView extends Activity {
     };
 
     private void updateText() {
-        content.setText(book.getContent().get(currentChapter));
-        chap_page.setText(book.getChapters().get(currentChapter) + ", Page XX");
+        content.setText(book.getContent(currentChapter, currentPage));
+        chap_page.setText(book.getChapterHeading(currentChapter) + ", "+ getString(R.string.page)+" "+ currentPage);
 
         if (currentChapter == 0)
             fbButton.setAlpha(0.2f);

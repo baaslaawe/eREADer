@@ -19,5 +19,6 @@
     <string name="download_book">Download book</string>
     <string name="path">Path</string>
     <string name="wasdeleted">was successfully deleted</string>
+    <string name="page">Page</string>
 
 </resources>

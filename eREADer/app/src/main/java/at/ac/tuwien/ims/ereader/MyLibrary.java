@@ -2,8 +2,6 @@ package at.ac.tuwien.ims.ereader;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -47,29 +44,16 @@ public class MyLibrary extends Activity {
 
         //todo remove if persistent
         ArrayList<Book> booklist =new ArrayList<Book>();
-        Book testb=new Book("The Lord Of The Rings", "J. R. R. Tolkien", Language.English);
-        ArrayList<String> testbContent = new ArrayList<String>();
-        testbContent.add("1 BLABLABLABLABLA");
-        testbContent.add("3 BLABLABLABLABLA");
-        testbContent.add("4 BLABLABLABLABLA");
-        testbContent.add("5 BLABLABLABLABLA");
-        testb.setContent(testbContent);
-        ArrayList<String> testbChapter = new ArrayList<String>();
-        testbChapter.add("Chapter 1");
-        testbChapter.add("Chapter 2");
-        testbChapter.add("Chapter 3");
-        testbChapter.add("Chapter 4");
-        testbChapter.add("Chapter 5");
-        testb.setChapters(testbChapter);
+        Book testb=new Book("The Lord Of The Rings", "J. R. R. Tolkien", Language.EN);
         booklist.add(testb);
-        booklist.add(new Book("Bla1", "Bla1", Language.English));
-        booklist.add(new Book("Bla2", "Bla2", Language.Espanol));
-        booklist.add(new Book("Bla3", "Bla3", Language.Deutsch));
-        booklist.add(new Book("Bla3", "Bla3", Language.Deutsch));
-        booklist.add(new Book("Bla3", "Bla3", Language.Deutsch));
-        booklist.add(new Book("Bla3", "Bla3", Language.Deutsch));
-        booklist.add(new Book("Bla3", "Bla3", Language.Deutsch));
-        booklist.add(new Book("Bla3", "Bla3", Language.Deutsch));
+        booklist.add(new Book("Bla1", "Bla1", Language.EN));
+        booklist.add(new Book("Bla2", "Bla2", Language.ES));
+        booklist.add(new Book("Bla3", "Bla3", Language.DE));
+        booklist.add(new Book("Bla3", "Bla3", Language.DE));
+        booklist.add(new Book("Bla3", "Bla3", Language.DE));
+        booklist.add(new Book("Bla3", "Bla3", Language.DE));
+        booklist.add(new Book("Bla3", "Bla3", Language.DE));
+        booklist.add(new Book("Bla3", "Bla3", Language.DE));
 
         listview = (ListView)findViewById(R.id.booklist);
         blAdapter = new BLAdapter(listview, booklist);
@@ -234,13 +218,13 @@ public class MyLibrary extends Activity {
             holder.title.setText(booklist.get(position).getTitle());
             String lang="";
             switch (booklist.get(position).getLanguage()) {
-                case English:
+                case EN:
                     lang=getString(R.string.eng);
                     break;
-                case Deutsch:
+                case DE:
                     lang=getString(R.string.ger);
                     break;
-                case Espanol:
+                case ES:
                     lang=getString(R.string.esp);
                     break;
             }

@@ -50,11 +50,11 @@ public class Settings extends Activity {
         @Override
         public void onClick(View v) {
             if (v==saveButton) {
-                int item=spinner.getSelectedItemPosition();
                 SharedPreferences pref = getSharedPreferences("settings", 0);
                 SharedPreferences.Editor editor = pref.edit();
 
                 //language todo do we need this?
+                int item=spinner.getSelectedItemPosition();
                 editor.putInt("language", item);
                 editor.apply();
 
