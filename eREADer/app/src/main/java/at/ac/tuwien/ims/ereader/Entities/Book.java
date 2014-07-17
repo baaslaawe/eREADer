@@ -6,18 +6,22 @@ import java.util.List;
  * Created by Flo on 04.07.2014.
  */
 public class Book {
-    private int id;
+    private long id;
     private String title;
     private String author;
     private Language language;
-    private List<Chapter> chapters;
 
-    public Book() {}
+    public Book(long id, String title, String author, Language language) {
+        this.language = language;
+        this.id = id;
+        this.title = title;
+        this.author = author;
+    }
 
     public Book(String title, String author, Language language) {
-        this.title=title;
-        this.author=author;
-        this.language=language;
+        this.language = language;
+        this.title = title;
+        this.author = author;
     }
 
     public String getTitle() {
@@ -44,28 +48,12 @@ public class Book {
         this.language = language;
     }
 
-    public List<Chapter> getChapters() {
-        return chapters;
-    }
-
-    public void setChapters(List<Chapter> chapters) {
-        this.chapters = chapters;
-    }
-
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
-    }
-
-    public String getContent(int chap, int page) {
-        return getChapters().get(chap).getPages().get(page).getContent();
-    }
-
-    public String getChapterHeading(int chap) {
-        return getChapters().get(chap).getHeading();
     }
 
     public String toString() {

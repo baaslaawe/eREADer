@@ -44,6 +44,31 @@
             android:orientation="horizontal"
             android:baselineAligned="false"
             android:weightSum="5">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:id="@+id/layoutToReplace">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="4">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/libbtn"
+                    android:layout_gravity="bottom|right"
+                    android:background="#00ffffff"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/libbtn" />
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

@@ -18,11 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import at.ac.tuwien.ims.ereader.Entities.Book;
-import at.ac.tuwien.ims.ereader.Entities.Language;
+import at.ac.tuwien.ims.ereader.Services.BookService;
 import at.ac.tuwien.ims.ereader.Util.SimpleFileDialog;
 
 public class MyLibrary extends Activity {
@@ -34,6 +35,8 @@ public class MyLibrary extends Activity {
     private EditText searchbar;
     private ListView listview;
 
+    private BookService bookService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,29 +44,18 @@ public class MyLibrary extends Activity {
 
         if (getActionBar() != null)
             getActionBar().hide();
-
-        //todo remove if persistent
-        ArrayList<Book> booklist =new ArrayList<Book>();
-        Book testb=new Book("The Lord Of The Rings", "J. R. R. Tolkien", Language.EN);
-        booklist.add(testb);
-        booklist.add(new Book("Bla1", "Bla1", Language.EN));
-        booklist.add(new Book("Bla2", "Bla2", Language.ES));
-        booklist.add(new Book("Bla3", "Bla3", Language.DE));
-        booklist.add(new Book("Bla3", "Bla3", Language.DE));
-        booklist.add(new Book("Bla3", "Bla3", Language.DE));
-        booklist.add(new Book("Bla3", "Bla3", Language.DE));
-        booklist.add(new Book("Bla3", "Bla3", Language.DE));
-        booklist.add(new Book("Bla3", "Bla3", Language.DE));
+        bookService=new BookService(this);
+        bookService.insertTestBooks();
 
         listview = (ListView)findViewById(R.id.booklist);
-        blAdapter = new BLAdapter(listview, booklist);
+        blAdapter = new BLAdapter(listview, bookService.getAllBooks());
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3) {
-                Intent myIntent = new Intent(MyLibrary.this, BookView.class);
+                Intent myIntent = new Intent(MyLibrary.this, BookChapters.class);
                 Bundle b = new Bundle();
-                b.putInt("list", position);
+                b.putInt("book_id", (int)blAdapter.getItem(position).getId());
                 myIntent.putExtras(b);
                 startActivity(myIntent);
             }
@@ -84,6 +76,7 @@ public class MyLibrary extends Activity {
         hideSearchBar();
         registerForContextMenu(addButton);
         registerForContextMenu(listview);
+        blAdapter.updateBookList();
     }
 
     private View.OnClickListener btnListener = new View.OnClickListener() {
@@ -143,18 +136,18 @@ public class MyLibrary extends Activity {
 
     private class BLAdapter extends BaseAdapter {
         private ListView listview;
-        private ArrayList<Book> initialBooklist;
-        private ArrayList<Book> booklist;
+        private List<Book> booklist;
+        private List<Book> visiblebooklist;
 
         private class ItemHolder {
             public TextView title;
             public TextView author_and_lang;
         }
 
-        public BLAdapter(ListView listview, ArrayList<Book> booklist) {
+        public BLAdapter(ListView listview, List<Book> booklist) {
             this.listview=listview;
             this.booklist=booklist;
-            this.initialBooklist=booklist;
+            this.visiblebooklist=booklist;
         }
 
         public void updateBookList() {
@@ -162,24 +155,21 @@ public class MyLibrary extends Activity {
         }
 
         public void updateBookList(String s) {
+            booklist=bookService.getAllBooks();
+
             if (s.length()==0 || !searchbarVisible) {
-                booklist=initialBooklist;
+                visiblebooklist=booklist;
             } else {
                 ArrayList<Book> temp = new ArrayList<Book>();
-                for (Book b : initialBooklist) {
+                for (Book b : booklist) {
                     if (b.getTitle().toLowerCase().contains(s.toLowerCase()) ||
                             b.getAuthor().toLowerCase().contains(s.toLowerCase()) ||
                             b.getLanguage().toString().toLowerCase().contains(s.toLowerCase()))
                         temp.add(b);
                 }
-                booklist = temp;
+                visiblebooklist = temp;
             }
             this.notifyDataSetChanged();
-        }
-
-        public void deleteBook(int position) {
-            initialBooklist.remove(position);
-            updateBookList();
         }
 
         @Override
@@ -215,9 +205,9 @@ public class MyLibrary extends Activity {
                 holder = (ItemHolder) convertView.getTag();
             }
 
-            holder.title.setText(booklist.get(position).getTitle());
+            holder.title.setText(visiblebooklist.get(position).getTitle());
             String lang="";
-            switch (booklist.get(position).getLanguage()) {
+            switch (visiblebooklist.get(position).getLanguage()) {
                 case EN:
                     lang=getString(R.string.eng);
                     break;
@@ -228,7 +218,7 @@ public class MyLibrary extends Activity {
                     lang=getString(R.string.esp);
                     break;
             }
-            holder.author_and_lang.setText(booklist.get(position).getAuthor() + ", " + lang);
+            holder.author_and_lang.setText(visiblebooklist.get(position).getAuthor() + ", " + lang);
             return convertView;
         }
 
@@ -260,14 +250,15 @@ public class MyLibrary extends Activity {
             case R.id.play:
                 Intent myIntent = new Intent(MyLibrary.this, BookView.class);
                 Bundle b = new Bundle();
-                b.putInt("list", info.position);
+                b.putInt("book_id", (int)blAdapter.getItem(info.position).getId());
+                b.putInt("chapter", -1);
                 myIntent.putExtras(b);
                 startActivity(myIntent);
                 break;
             case R.id.delete:
-                //todo delete persistent
-                showMessage(blAdapter.getItem(info.position).getTitle()+" "+getString(R.string.wasdeleted));
-                blAdapter.deleteBook(info.position);
+                bookService.deleteBook((int)blAdapter.getItem(info.position).getId());
+                showMessage(blAdapter.getItem(info.position).getTitle() + " " + getString(R.string.wasdeleted));
+                blAdapter.updateBookList();
                 break;
             case R.id.manually:
                 //todo add
@@ -283,10 +274,12 @@ public class MyLibrary extends Activity {
                         });
                 foDialog.Default_File_Name = "";
                 foDialog.chooseFile_or_Dir();
+                blAdapter.updateBookList();
                 break;
             case R.id.download:
                 //todo download
                 showMessage("download pressed");
+                blAdapter.updateBookList();
                 break;
         }
         return super.onContextItemSelected(item);

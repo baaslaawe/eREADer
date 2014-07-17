@@ -12,8 +12,9 @@ public interface PageCRUD {
      * Inserts a new page to the DB.
      *
      * @param page page to add
+     * @return the generated id of the inserted page
      */
-    public void insertPage(Page page);
+    public long insertPage(Page page);
 
     /**
      * Gets a page from the DB.
@@ -21,7 +22,7 @@ public interface PageCRUD {
      * @param id id of the page
      * @return the page specified by id
      */
-    public Page getPage(int id);
+    public Page getPage(long id);
 
     /**
      * Returns all the pages from a certain chapter.
@@ -29,12 +30,12 @@ public interface PageCRUD {
      * @param chapter_id id of the chapter
      * @return a list with pages
      */
-    public List<Page> getPagesByChapter(int chapter_id);
+    public List<Page> getPagesByChapter(long chapter_id);
 
     /**
      * Deletes a page from the DB.
      *
-     * @param page page to delete
+     * @param page_id id of page to delete
      */
-    public void deletePage(Page page);
+    public void deletePage(long page_id);
 }

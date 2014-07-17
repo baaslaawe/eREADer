@@ -12,8 +12,9 @@ public interface BookCRUD {
      * Inserts a new book to the DB.
      *
      * @param book book to add
+     * @return the generated id of the inserted book
      */
-    public void insertBook(Book book);
+    public long insertBook(Book book);
 
     /**
      * Gets a book from the DB.
@@ -21,7 +22,7 @@ public interface BookCRUD {
      * @param id id of the book
      * @return the book specified by id
      */
-    public Book getBook(int id);
+    public Book getBook(long id);
 
     /**
      * Returns all the books from the DB.
@@ -40,7 +41,7 @@ public interface BookCRUD {
     /**
      * Deletes a book from the DB (including all its chapters and pages).
      *
-     * @param book book to delete
+     * @param book_id if of book to delete
      */
-    public void deleteBook(Book book);
+    public void deleteBook(long book_id);
 }

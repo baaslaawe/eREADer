@@ -12,8 +12,9 @@ public interface ChapterCRUD {
      * Inserts a new chapter to the DB.
      *
      * @param chapter chapter to add
+     * @return the generated id of the inserted chapter
      */
-    public void insertChapter(Chapter chapter);
+    public long insertChapter(Chapter chapter);
 
     /**
      * Gets a chapter from the DB.
@@ -21,7 +22,7 @@ public interface ChapterCRUD {
      * @param id id of the chapter
      * @return the chapter specified by id
      */
-    public Chapter getChapter(int id);
+    public Chapter getChapter(long id);
 
     /**
      * Returns all chapters from a book.
@@ -29,12 +30,12 @@ public interface ChapterCRUD {
      * @param book_id id of the book
      * @return a list with chapters
      */
-    public List<Chapter> getChaptersByBook(int book_id);
+    public List<Chapter> getChaptersByBook(long book_id);
 
     /**
-     * Deletes a chapter from the DB including its pages.
+     * Deletes a chapter from the DB (including all its pages).
      *
-     * @param chapter chapter to delete
+     * @param chapter_id id of chapter to delete
      */
-    public void deleteChapter(Chapter chapter);
+    public void deleteChapter(long chapter_id);
 }

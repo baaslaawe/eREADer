@@ -16,9 +16,14 @@
     <string name="esp">Espanol</string>
     <string name="addbook">Add Book</string>
     <string name="manually_book">Add book manually</string>
-    <string name="download_book">Download book</string>
+    <string name="download_book">Download books</string>
     <string name="path">Path</string>
     <string name="wasdeleted">was successfully deleted</string>
     <string name="page">Page</string>
+    <string name="reset">Reset Database and Settings</string>
+    <string name="resetbtn">Reset Now</string>
+    <string name="sure">Are you sure?</string>
+    <string name="positive">Yes</string>
+    <string name="negative">No</string>
 
 </resources>

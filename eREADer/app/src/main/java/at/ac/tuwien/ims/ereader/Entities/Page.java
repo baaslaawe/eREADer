@@ -9,6 +9,19 @@ public class Page {
     private int page_nr;
     private String content;
 
+    public Page(int id, Chapter chapter, int page_nr, String content) {
+        this.id = id;
+        this.chapter = chapter;
+        this.page_nr = page_nr;
+        this.content = content;
+    }
+
+    public Page(Chapter chapter, int page_nr, String content) {
+        this.chapter = chapter;
+        this.page_nr = page_nr;
+        this.content = content;
+    }
+
     public int getId() {
         return id;
     }

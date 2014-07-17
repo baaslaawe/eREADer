@@ -6,17 +6,29 @@ import java.util.List;
  * Created by Flo on 14.07.2014.
  */
 public class Chapter {
-    private int id;
+    private long id;
     private Book book;
-    private int chapter_nr;
     private String heading;
-    private List<Page> pages;
+    private int chapter_nr;
+
+    public Chapter(long id, Book book, String heading, int chapter_nr) {
+        this.id = id;
+        this.book = book;
+        this.heading = heading;
+        this.chapter_nr=chapter_nr;
+    }
+
+    public Chapter(Book book, String heading, int chapter_nr) {
+        this.book = book;
+        this.heading = heading;
+        this.chapter_nr=chapter_nr;
+    }
 
     public Book getBook() {
         return book;
     }
 
-    public void setBook(Book book_id) {
+    public void setBook(Book book) {
         this.book = book;
     }
 
@@ -28,20 +40,16 @@ public class Chapter {
         this.heading = heading;
     }
 
-    public List<Page> getPages() {
-        return pages;
-    }
-
-    public void setPages(List<Page> pages) {
-        this.pages = pages;
-    }
-
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
+    }
+
+    public String toString() {
+        return heading+" ("+book.getTitle()+")";
     }
 
     public int getChapter_nr() {
@@ -50,9 +58,5 @@ public class Chapter {
 
     public void setChapter_nr(int chapter_nr) {
         this.chapter_nr = chapter_nr;
-    }
-
-    public String toString() {
-        return heading+" ("+book.getTitle()+")";
     }
 }
