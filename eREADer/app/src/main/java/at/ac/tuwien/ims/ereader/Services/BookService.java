@@ -41,7 +41,8 @@ public class BookService {
         insertPage(ch1, 3, "cont3b2");
 
         Chapter ch2=insertChapter(b1, "lelchapchapb1", 2);
-        Page p4=insertPage(ch2, 4, "0 This is a Test. 1 This is a Test. 2 This is a Test. 3 This is a Test. 4 This is a Test. 5 This is a Test.");
+        Page p4=insertPage(ch2, 4, "Das ist der erste Test. Das ist der zweite Test. Das ist der dritte Test. Das ist ein Test." +
+                "Das ist ein Test. Das ist ein Test. Das ist ein Test. Das ist ein Test. Das ist ein Test. Das ist ein Test. Das ist ein Test.");
         insertPage(ch2, 5, "cont3b2");
 
         Chapter ch3=insertChapter(b1, "lelchap3b1", 3);
@@ -68,10 +69,11 @@ public class BookService {
         insertPage(ch5, 5, "cont3b2");
 
         Chapter ch6=insertChapter(b2, "lelchap3b2", 3);
-        Page p6=insertPage(ch6, 6, "0 This is a Test. 1 This is a Test. 2 This is a Test. 3 This is a Test. 4 This is a Test. 5 This is a Test.");
+        Page p6=insertPage(ch6, 6, "This is the first Test. This is the second Test. This is the third Test. This is the fourth Test. This is a Test. This is a Test." +
+                "This is a Test. This is a Test. This is a Test. This is a Test. This is a Test. This is a Test. This is a Test. This is a Test.");
 
-        updateCurrentPosition(new CurrentPosition(b1.getId(), 1, 0, 3));
-        updateCurrentPosition(new CurrentPosition(b2.getId(), 2, 0, 2));
+        updateCurrentPosition(new CurrentPosition(b1.getId(), 1, 0, 1));
+        updateCurrentPosition(new CurrentPosition(b2.getId(), 2, 0, 1));
     }
 
     public Book insertBook(String title, String author, Language language) {

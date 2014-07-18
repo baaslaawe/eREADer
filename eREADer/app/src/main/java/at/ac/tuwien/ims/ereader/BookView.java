@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +16,7 @@ import at.ac.tuwien.ims.ereader.Entities.Chapter;
 import at.ac.tuwien.ims.ereader.Entities.CurrentPosition;
 import at.ac.tuwien.ims.ereader.Entities.Page;
 import at.ac.tuwien.ims.ereader.Services.BookService;
+import at.ac.tuwien.ims.ereader.Services.ReadingService;
 
 /**
  * Created by Flo on 09.07.2014.
@@ -30,18 +30,19 @@ public class BookView extends Activity {
     private TextView content;
     private TextView title;
     private TextView chap_page;
-    private SeekBar volumeBar;
+    private ImageButton volumeButton;
 
     private Book book;
     private List<Chapter> chapters;
     private HashMap<Integer, List<Page>> pages;
-    private int volume=50;
     private int currentChapter;
     private int currentPage;
     private int currentSentence;
-    private boolean playing=true;
+    private boolean playing=false;
+    private boolean muted=false;
 
     private BookService bookService;
+    private ReadingService readingService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +70,8 @@ public class BookView extends Activity {
         content=(TextView)findViewById(R.id.book_text);
         title=(TextView)findViewById(R.id.bktitletxt);
         chap_page=(TextView)findViewById(R.id.chap_page_txt);
-        volumeBar =(SeekBar)findViewById(R.id.soundbar);
-        volumeBar.setOnSeekBarChangeListener(seekBarChangeListener);
+        volumeButton =(ImageButton)findViewById(R.id.volume_btn);
+        libbtn.setOnClickListener(btnListener);
 
         title.setText(book.getTitle());
 
@@ -84,7 +85,14 @@ public class BookView extends Activity {
             currentPage=0;
             currentSentence=0;
         }
+        readingService=new ReadingService(this, book, currentSentence);
         updateText();
+    }
+
+    @Override
+    public void onDestroy() {
+        readingService.close();
+        super.onDestroy();
     }
 
     private View.OnClickListener btnListener = new View.OnClickListener() {
@@ -94,15 +102,16 @@ public class BookView extends Activity {
                 Intent myIntent = new Intent(BookView.this, Settings.class);
                 startActivity(myIntent);
             } else if (v==playButton) {
-                //todo
                 if (playing) {
-                    CurrentPosition c=new CurrentPosition(book.getId(), currentChapter, currentPage, currentSentence);
+                    CurrentPosition c=new CurrentPosition(book.getId(), currentChapter, currentPage, readingService.getCurrentSentence());
                     bookService.updateCurrentPosition(c);
                     playing=false;
-                    playButton.setImageDrawable(getResources().getDrawable(R.drawable.pausebtn));
+                    playButton.setImageDrawable(getResources().getDrawable(R.drawable.playbtn));
+                    readingService.stopReadingCurrentText();
                 } else {
                     playing=true;
-                    playButton.setImageDrawable(getResources().getDrawable(R.drawable.playbtn));
+                    playButton.setImageDrawable(getResources().getDrawable(R.drawable.pausebtn));
+                    readingService.readPage();
                 }
             } else if (v==ffButton) {
                 if (currentChapter < chapters.size()-1) {
@@ -127,25 +136,24 @@ public class BookView extends Activity {
             } else if (v==libbtn) {
                 Intent myIntent = new Intent(BookView.this, MyLibrary.class);
                 startActivity(myIntent);
+            } else if (v== volumeButton) {
+                //todo
+                if (muted) {
+                    muted=false;
+                    volumeButton.setImageDrawable(getResources().getDrawable(R.drawable.notmuted));
+                } else {
+                    muted=true;
+                    volumeButton.setImageDrawable(getResources().getDrawable(R.drawable.muted));
+                }
             }
         }
     };
 
-    private SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {}
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {}
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            volume=progress;
-        }
-    };
-
     private void updateText() {
-        content.setText(pages.get(currentChapter).get(currentPage).getContent());
-        chap_page.setText(chapters.get(currentChapter).getHeading()
-                + ", "+ getString(R.string.page)+" "+ pages.get(currentChapter).get(currentPage).getPage_nr());
+        Page p=pages.get(currentChapter).get(currentPage);
+        content.setText(p.getContent());
+        readingService.updatePage(p.getContent(), currentSentence);
+        chap_page.setText(chapters.get(currentChapter).getHeading() + ", " + getString(R.string.page) + " " + p.getPage_nr());
 
         if (currentChapter==0 && currentPage==0) {
             fbButton.setAlpha(0.2f);
