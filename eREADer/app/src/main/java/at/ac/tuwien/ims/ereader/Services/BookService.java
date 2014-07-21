@@ -50,7 +50,7 @@ public class BookService {
 
 
 
-        Book b2=insertBook("Lelbook2", "Lelman jr.", Language.EN);
+        Book b2=insertBook("Faust", "Johann Wolfgang von Goethe", Language.EN);
 
         Chapter ch4=insertChapter(b2, "lelchap", 1);
         insertPage(ch4, 1, "b2CONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENT\n" +
@@ -65,15 +65,60 @@ public class BookService {
         insertPage(ch4, 3, "cont3");
 
         Chapter ch5=insertChapter(b2, "lelchapchapb2", 2);
-        insertPage(ch5, 4, "cont2b2");
-        insertPage(ch5, 5, "cont3b2");
+        insertPage(ch5, 4, "CONTENT CONTENT CONTENT CONTENT CONTENT CONTENT CONTENT ");
+        insertPage(ch5, 5, "CONTENT CONTENT CONTENT CONTENT CONTENT CONTENT CONTENT CONTENT CONTENT CONTENT CONTENT ");
 
-        Chapter ch6=insertChapter(b2, "lelchap3b2", 3);
-        Page p6=insertPage(ch6, 6, "This is the first Test. This is the second Test. This is the third Test. This is the fourth Test. This is a Test. This is a Test." +
-                "This is a Test. This is a Test. This is a Test. This is a Test. This is a Test. This is a Test. This is a Test. This is a Test.");
+        Chapter ch6=insertChapter(b2, "TestChapter", 3);
+        insertPage(ch6, 6, "Chiefly, enough of incident prepare!\n" +
+                "They come to look, and they prefer to stare.\n" +
+                "Reel off a host of threads before their faces,\n" +
+                "So that they gape in stupid wonder: then\n" +
+                "By sheer diffuseness you have won their graces,\n" +
+                "And are, at once, most popular of men.\n" +
+                "Only by mass you touch the mass; for any\n" +
+                "Will finally, himself, his bit select:\n" +
+                "Who offers much, brings something unto many,\n" +
+                "And each goes home content with the effect,\n" +
+                "If you've a piece, why, just in pieces give it:\n" +
+                "A hash, a stew, will bring success, believe it!\n" +
+                "'Tis easily displayed, and easy to invent.\n" +
+                "What use, a Whole compactly to present?\n" +
+                "Your hearers pick and pluck, as soon as they receive it!");
+
+        insertPage(ch6, 7, "You do not feel, how such a trade debases;\n" +
+                "How ill it suits the Artist, proud and true!\n" +
+                "The botching work each fine pretender traces\n" +
+                "Is, I perceive, a principle with you.");
+
+        insertPage(ch6, 8, "Such a reproach not in the least offends;\n" +
+                "A man who some result intends\n" +
+                "Must use the tools that best are fitting.\n" +
+                "Reflect, soft wood is given to you for splitting,\n" +
+                "And then, observe for whom you write!\n" +
+                "If one comes bored, exhausted quite,\n" +
+                "Another, satiate, leaves the banquet's tapers,\n" +
+                "And, worst of all, full many a wight\n" +
+                "Is fresh from reading of the daily papers.\n" +
+                "Idly to us they come, as to a masquerade,\n" +
+                "Mere curiosity their spirits warming:\n" +
+                "The ladies with themselves, and with their finery, aid,\n" +
+                "Without a salary their parts performing.\n" +
+                "What dreams are yours in high poetic places?\n" +
+                "You're pleased, forsooth, full houses to behold?\n" +
+                "Draw near, and view your patrons' faces!\n" +
+                "The half are coarse, the half are cold.\n" +
+                "One, when the play is out, goes home to cards;\n" +
+                "A wild night on a wench's breast another chooses:\n" +
+                "Why should you rack, poor, foolish bards,\n" +
+                "For ends like these, the gracious Muses?\n" +
+                "I tell you, give but more—more, ever more, they ask:\n" +
+                "Thus shall you hit the mark of gain and glory.\n" +
+                "Seek to confound your auditory!\n" +
+                "To satisfy them is a task.—\n" +
+                "What ails you now? Is't suffering, or pleasure?");
 
         updateCurrentPosition(new CurrentPosition(b1.getId(), 1, 0, 1));
-        updateCurrentPosition(new CurrentPosition(b2.getId(), 2, 0, 1));
+        updateCurrentPosition(new CurrentPosition(b2.getId(), 2, 0, 0));
     }
 
     public Book insertBook(String title, String author, Language language) {

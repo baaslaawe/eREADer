@@ -38,6 +38,11 @@
             android:label="@string/app_name"
             android:theme="@style/FullscreenTheme" >
         </activity>
+
+        <service
+            android:name=".Services.ReadingService"
+            android:exported="false"
+        />
     </application>
 
 </manifest>

@@ -25,5 +25,6 @@
     <string name="sure">Are you sure?</string>
     <string name="positive">Yes</string>
     <string name="negative">No</string>
+    <string name="notification_bar_welcome">Now reading</string>
 
 </resources>

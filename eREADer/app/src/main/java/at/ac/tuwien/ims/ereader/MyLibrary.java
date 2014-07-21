@@ -1,7 +1,10 @@
 package at.ac.tuwien.ims.ereader;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -33,7 +36,6 @@ public class MyLibrary extends Activity {
     private BLAdapter blAdapter;
     private boolean searchbarVisible;
     private EditText searchbar;
-    private ListView listview;
 
     private BookService bookService;
 
@@ -47,7 +49,7 @@ public class MyLibrary extends Activity {
         bookService=new BookService(this);
         bookService.insertTestBooks();
 
-        listview = (ListView)findViewById(R.id.booklist);
+        ListView listview = (ListView)findViewById(R.id.booklist);
         blAdapter = new BLAdapter(listview, bookService.getAllBooks());
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,9 +32,6 @@ public class BookChapters extends Activity {
     private CLAdapter clAdapter;
     private boolean searchbarVisible;
     private EditText searchbar;
-    private ListView listview;
-    private TextView booktitle;
-    private TextView author_lang;
 
     private Book book;
     private BookService bookService;
@@ -48,7 +46,7 @@ public class BookChapters extends Activity {
         bookService=new BookService(this);
         book=bookService.getBook(getIntent().getExtras().getInt("book_id"));
 
-        listview = (ListView)findViewById(R.id.chapterlist);
+        ListView listview = (ListView)findViewById(R.id.chapterlist);
         clAdapter = new CLAdapter(bookService.getChaptersOfBook(book.getId()));
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -72,9 +70,10 @@ public class BookChapters extends Activity {
         playbtn.setOnClickListener(btnListener);
         searchbar=(EditText)findViewById(R.id.searchinput_chapter);
         searchbar.addTextChangedListener(textWatcher);
-        booktitle=(TextView)findViewById(R.id.booktitle_chapters);
+
+        TextView booktitle=(TextView)findViewById(R.id.booktitle_chapters);
         booktitle.setText(book.getTitle());
-        author_lang=(TextView)findViewById(R.id.author_and_lang_chapters);
+        TextView author_lang=(TextView)findViewById(R.id.author_and_lang_chapters);
         String lang="";
         switch (book.getLanguage()) {
             case EN:
@@ -159,6 +158,7 @@ public class BookChapters extends Activity {
         private class ItemHolder {
             public TextView heading;
             public TextView pages;
+            public ImageView marker;
             public int minPage;
             public int maxPage;
         }
@@ -214,6 +214,7 @@ public class BookChapters extends Activity {
                 holder = new ItemHolder();
                 holder.heading = (TextView) convertView.findViewById(R.id.chapter_heading);
                 holder.pages = (TextView) convertView.findViewById(R.id.chapter_pages);
+                holder.marker = (ImageView)convertView.findViewById(R.id.currPosMarker);
                 convertView.setTag(holder);
             } else {
                 holder = (ItemHolder) convertView.getTag();
@@ -226,6 +227,13 @@ public class BookChapters extends Activity {
                 holder.pages.setText("Page "+holder.minPage);
             else
                 holder.pages.setText("Page "+holder.minPage+" - Page "+holder.maxPage);
+
+            if (bookService.getCurrentPosition(book.getId()).getCurrentChapter()==position)
+                holder.marker.setVisibility(View.VISIBLE);
+            else
+                holder.marker.setVisibility(View.GONE);
+
+
             return convertView;
         }
     }
