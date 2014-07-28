@@ -121,6 +121,7 @@ public class BookChapters extends Activity {
     private void hideSearchBar() {
         searchbar.setVisibility(View.GONE);
         searchbarVisible = false;
+        clAdapter.updateChapterList();
     }
 
     private void hideSearchBarAfterSomeTime(int time) {
@@ -143,10 +144,11 @@ public class BookChapters extends Activity {
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
         public void onTextChanged(CharSequence s, int start, int before, int count) {}
         public void afterTextChanged(Editable s) {
-            if (s.toString().length()==0) {
-                hideSearchBarAfterSomeTime(5000);
+            if (s.toString().isEmpty()) {
+                hideSearchBarAfterSomeTime(1000);
                 return;
             }
+            hideSearchBarAfterSomeTime(10000);
             clAdapter.updateChapterList(s.toString());
         }
     };
@@ -175,28 +177,29 @@ public class BookChapters extends Activity {
         public void updateChapterList(String s) {
             chapterlist=bookService.getChaptersOfBook(book.getId());
 
-            if (s.length()==0 || !searchbarVisible) {
-                visiblechapterlist=chapterlist;
-            } else {
+            if (!s.isEmpty() && searchbarVisible) {
                 ArrayList<Chapter> temp = new ArrayList<Chapter>();
                 for (Chapter c : chapterlist) {
-                    if (c.getHeading().toLowerCase().contains(s.toLowerCase())
-                            || (bookService.getMinPage(c) >= Integer.parseInt(s) && bookService.getMaxPage(c) <= Integer.parseInt(s)))
+                    if (c.getHeading().toLowerCase().contains(s.toLowerCase()))
                         temp.add(c);
+                    else if (s.matches("\\d+"))
+                        if (bookService.getMinPage(c) >= Integer.parseInt(s) && bookService.getMaxPage(c) <= Integer.parseInt(s))
+                            temp.add(c);
                 }
                 visiblechapterlist = temp;
-            }
+            } else
+                visiblechapterlist=chapterlist;
             this.notifyDataSetChanged();
         }
 
         @Override
         public int getCount() {
-            return chapterlist.size();
+            return visiblechapterlist.size();
         }
 
         @Override
         public Chapter getItem(int position) {
-            return chapterlist.get(position);
+            return visiblechapterlist.get(position);
         }
 
         @Override

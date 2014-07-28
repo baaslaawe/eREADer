@@ -177,6 +177,9 @@ public class BookView extends Activity {
         super.onStart();
         Intent mIntent = new Intent(this, ReadingService.class);
         bindService(mIntent, mConnection, BIND_AUTO_CREATE);
+
+        if (serviceBound)
+            readingService.updateBook(book);
     }
 
     ServiceConnection mConnection = new ServiceConnection() {
@@ -215,6 +218,9 @@ public class BookView extends Activity {
     public void onResume() {
         super.onResume();
         registerReceiver(broadcastReceiver, new IntentFilter(ReadingService.BROADCAST_ACTION));
+
+        if (serviceBound)
+            readingService.updateBook(book);
     }
 
     @Override

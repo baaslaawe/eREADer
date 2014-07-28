@@ -40,9 +40,14 @@
         </activity>
 
         <service
-            android:name=".Services.ReadingService"
-            android:exported="false"
-        />
+            android:name="at.ac.tuwien.ims.ereader.Services.ReadingService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="at.ac.tuwien.ims.ereader.Services.ACTION_PLAY" />
+                <action android:name="at.ac.tuwien.ims.ereader.Services.ACTION_PAUSE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

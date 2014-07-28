@@ -78,7 +78,6 @@ public class MyLibrary extends Activity {
         hideSearchBar();
         registerForContextMenu(addButton);
         registerForContextMenu(listview);
-        blAdapter.updateBookList();
     }
 
     private View.OnClickListener btnListener = new View.OnClickListener() {
@@ -106,6 +105,7 @@ public class MyLibrary extends Activity {
     private void hideSearchBar() {
         searchbar.setVisibility(View.GONE);
         searchbarVisible = false;
+        blAdapter.updateBookList();
     }
 
     private void hideSearchBarAfterSomeTime(int time) {
@@ -116,7 +116,7 @@ public class MyLibrary extends Activity {
                     @Override
                     public void run() {
                         if (searchbarVisible)
-                            if (searchbar.getText().length() == 0)
+                            if (searchbar.getText().toString().isEmpty())
                                 hideSearchBar();
                     }
                 });
@@ -128,10 +128,11 @@ public class MyLibrary extends Activity {
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
         public void onTextChanged(CharSequence s, int start, int before, int count) {}
         public void afterTextChanged(Editable s) {
-            if (s.toString().length()==0) {
-                hideSearchBarAfterSomeTime(5000);
+            if (s.toString().isEmpty()) {
+                hideSearchBarAfterSomeTime(1000);
                 return;
             }
+            hideSearchBarAfterSomeTime(10000);
             blAdapter.updateBookList(s.toString());
         }
     };
@@ -146,10 +147,10 @@ public class MyLibrary extends Activity {
             public TextView author_and_lang;
         }
 
-        public BLAdapter(ListView listview, List<Book> booklist) {
+        public BLAdapter(ListView listview, List<Book> bl) {
             this.listview=listview;
-            this.booklist=booklist;
-            this.visiblebooklist=booklist;
+            this.booklist=bl;
+            this.visiblebooklist=bl;
         }
 
         public void updateBookList() {
@@ -159,9 +160,7 @@ public class MyLibrary extends Activity {
         public void updateBookList(String s) {
             booklist=bookService.getAllBooks();
 
-            if (s.length()==0 || !searchbarVisible) {
-                visiblebooklist=booklist;
-            } else {
+            if (!s.isEmpty() && searchbarVisible) {
                 ArrayList<Book> temp = new ArrayList<Book>();
                 for (Book b : booklist) {
                     if (b.getTitle().toLowerCase().contains(s.toLowerCase()) ||
@@ -169,19 +168,20 @@ public class MyLibrary extends Activity {
                             b.getLanguage().toString().toLowerCase().contains(s.toLowerCase()))
                         temp.add(b);
                 }
-                visiblebooklist = temp;
-            }
-            this.notifyDataSetChanged();
+                visiblebooklist=temp;
+            } else
+                visiblebooklist=booklist;
+            notifyDataSetChanged();
         }
 
         @Override
         public int getCount() {
-            return booklist.size();
+            return visiblebooklist.size();
         }
 
         @Override
         public Book getItem(int position) {
-            return booklist.get(position);
+            return visiblebooklist.get(position);
         }
 
         @Override

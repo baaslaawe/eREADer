@@ -6,6 +6,8 @@ import android.app.Service;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.os.Binder;
 import android.os.Bundle;
@@ -63,18 +65,23 @@ public class ReadingService extends Service {
     public void startReading() {
         if (ttsService != null) {
             broadcast(false, true);
-            showNotification();
             playing = true;
+
+            if (ttsService.isLanguageAvailable(lang)==TextToSpeech.LANG_COUNTRY_AVAILABLE)
+                ttsService.setLanguage(lang);
+
+            updateNotificationBar();
+
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     while (playing) {
                         synchronized (ttsService) {
+                            bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentChapter, currentPage, currentSentence));
+
                             while (reading);
                             if(!playing)
                                 return;
-
-                            bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentChapter, currentPage, currentSentence));
 
                             if (currentSentence < sentences.size()-1) {
                                 HashMap<String, String> map = new HashMap<String, String>();
@@ -105,13 +112,12 @@ public class ReadingService extends Service {
 
     public void stopReading() {
         if (ttsService != null) {
-            if(reading)
-                currentSentence--;
             if (ttsService.isSpeaking())
                 ttsService.stop();
-            playing = false;
+            playing=false;
             broadcast(false, true);
         }
+        updateNotificationBar();
     }
 
     private void broadcast(boolean updateChapter, boolean updateContent) {
@@ -215,10 +221,6 @@ public class ReadingService extends Service {
         return playing;
     }
 
-    public boolean getReading() {
-        return reading;
-    }
-
     public void setMuted(boolean muted) {
         this.muted=muted;
         AudioManager aManager=(AudioManager)getSystemService(AUDIO_SERVICE);
@@ -265,7 +267,7 @@ public class ReadingService extends Service {
         String content=getCurrentContent();
         sentences=new ArrayList<String>();
         BreakIterator it=null;
-        if (lang !=null)
+        if (lang!=null)
             it = BreakIterator.getSentenceInstance(lang);
         else
             it = BreakIterator.getSentenceInstance(Locale.US);
@@ -282,14 +284,23 @@ public class ReadingService extends Service {
         }
     }
 
-    private void showNotification() {
+    private void updateNotificationBar() {
         notificationView = new RemoteViews(getPackageName(), R.layout.navigation_bar);
 
-        Intent intentAction = new Intent(ACTION_PAUSE);
-        PendingIntent pendingIntentAction=PendingIntent.getService(getApplicationContext(),
-                0, intentAction, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntentAction=null;
+        if(playing) {
+            Intent intentAction = new Intent(ACTION_PAUSE);
+            pendingIntentAction = PendingIntent.getService(getApplicationContext(),
+                    0, intentAction, PendingIntent.FLAG_UPDATE_CURRENT);
+            notificationView.setImageViewResource(R.id.bar_btnPlay, R.drawable.pausebtn_bar);
+        } else {
+            Intent intentAction = new Intent(ACTION_PLAY);
+            pendingIntentAction = PendingIntent.getService(getApplicationContext(),
+                    0, intentAction, PendingIntent.FLAG_UPDATE_CURRENT);
+            notificationView.setImageViewResource(R.id.bar_btnPlay, R.drawable.playbtn_bar);
+        }
 
-        notificationView.setOnClickPendingIntent(R.id.bar_btnPlay, pendingIntentAction); //todo change and action
+        notificationView.setOnClickPendingIntent(R.id.bar_btnPlay, pendingIntentAction);
         notificationView.setTextViewText(R.id.bar_title_book, getCurrentBookTitle());
         notificationView.setTextViewText(R.id.bar_chapter_page, getCurrChapterHeading()+", "+getString(R.string.page)+ " "+getCurrentPageNumber());
 
@@ -298,8 +309,6 @@ public class ReadingService extends Service {
                         .setSmallIcon(R.drawable.logo_small_bar)
                         .setTicker(getString(R.string.notification_bar_welcome)+ ": "+getCurrentBookTitle())
                         .setContent(notificationView);
-                        /*.setContentTitle(getCurrentBookTitle())
-                        .setContentText(getCurrChapterHeading()+", "+getString(R.string.page)+ " "+getCurrentPageNumber())*/
 
         Intent resultIntent = new Intent(this, BookView.class);
         Bundle b = new Bundle();
@@ -373,16 +382,18 @@ public class ReadingService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(ReadingService.class.getName(), "Received start id " + startId + ": " + intent);
         if (intent != null) {
             String action = intent.getAction();
             if (!TextUtils.isEmpty(action)) {
                 if (action.equals(ACTION_PLAY)) {
+                    Log.d(ReadingService.class.getName(), "Pressed play from Notificationbar");
                     startReading();
-                }else if(action.equals(ACTION_PAUSE)) {
+                } else if(action.equals(ACTION_PAUSE)) {
+                    Log.d(ReadingService.class.getName(), "Pressed pause from Notificationbar");
                     stopReading();
                 }
             }
+            broadcast(true, true);
         }
         return START_STICKY;
     }
