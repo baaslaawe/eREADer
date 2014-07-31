@@ -204,9 +204,8 @@ public class BookView extends Activity {
         public void onReceive(Context context, Intent intent) {String action = intent.getAction();
             if(action.equalsIgnoreCase(ReadingService.BROADCAST_ACTION)) {
                 Bundle extra = intent.getExtras();
-                if (extra.getBoolean("updateContent"))
+                if (extra.getBoolean("update")) {
                     updateContent();
-                if (extra.getBoolean("updateChapter")) {
                     updateText();
                     updateButtons();
                 }
@@ -237,9 +236,5 @@ public class BookView extends Activity {
             serviceBound = false;
         }
 
-    }
-
-    private void showMessage(String message) {
-        Toast.makeText(BookView.this, message, Toast.LENGTH_SHORT).show();
     }
 }

@@ -47,7 +47,6 @@ public class MyLibrary extends Activity {
         if (getActionBar() != null)
             getActionBar().hide();
         bookService=new BookService(this);
-        bookService.insertTestBooks();
 
         ListView listview = (ListView)findViewById(R.id.booklist);
         blAdapter = new BLAdapter(listview, bookService.getAllBooks());
@@ -264,7 +263,7 @@ public class MyLibrary extends Activity {
                 break;
             case R.id.manually:
                 //todo add
-                SimpleFileDialog foDialog=new SimpleFileDialog(MyLibrary.this, "FileOpen",
+                /*SimpleFileDialog foDialog=new SimpleFileDialog(MyLibrary.this, "FileOpen",
                         new SimpleFileDialog.SimpleFileDialogListener() {
                             @Override
                             public void onChosenDir(String chosenDir) {
@@ -275,7 +274,8 @@ public class MyLibrary extends Activity {
                             }
                         });
                 foDialog.Default_File_Name = "";
-                foDialog.chooseFile_or_Dir();
+                foDialog.chooseFile_or_Dir();*/
+                bookService.insertTestBooks();
                 blAdapter.updateBookList();
                 break;
             case R.id.download:

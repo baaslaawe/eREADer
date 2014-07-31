@@ -6,8 +6,6 @@ import android.app.Service;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.os.Binder;
 import android.os.Bundle;
@@ -18,7 +16,7 @@ import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.RemoteViews;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.BreakIterator;
 import java.util.ArrayList;
@@ -43,7 +41,6 @@ public class ReadingService extends Service {
     public static final String ACTION_PAUSE="at.ac.tuwien.ims.ereader.Services.ACTION_PAUSE";
 
     private BookService bookService;
-    private RemoteViews notificationView;
 
     private Book book;
     private Locale lang;
@@ -64,44 +61,26 @@ public class ReadingService extends Service {
 
     public void startReading() {
         if (ttsService != null) {
-            broadcast(false, true);
             playing = true;
-
-            if (ttsService.isLanguageAvailable(lang)==TextToSpeech.LANG_COUNTRY_AVAILABLE)
-                ttsService.setLanguage(lang);
-
+            setMuted(false);
+            updateTTS();
             updateNotificationBar();
+            broadcastUpdate();
 
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     while (playing) {
                         synchronized (ttsService) {
-                            bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentChapter, currentPage, currentSentence));
-
                             while (reading);
                             if(!playing)
                                 return;
 
-                            if (currentSentence < sentences.size()-1) {
-                                HashMap<String, String> map = new HashMap<String, String>();
-                                map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "UniqueID");
-                                map.put(TextToSpeech.Engine.KEY_FEATURE_NETWORK_SYNTHESIS, "true");
-
-                                broadcast(false, true);
-                                ttsService.speak(sentences.get(currentSentence), TextToSpeech.QUEUE_FLUSH, map);
-                                reading=true;
-                            } else if (sentences.size()==1) {
-                                HashMap<String, String> map = new HashMap<String, String>();
-                                map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "UniqueID");
-                                map.put(TextToSpeech.Engine.KEY_FEATURE_NETWORK_SYNTHESIS, "true");
-
-                                broadcast(false, true);
-                                ttsService.speak(sentences.get(0), TextToSpeech.QUEUE_FLUSH, map);
-                                reading=true;
-                                playing=false;
-                            } else
-                                playing = false;
+                            HashMap<String, String> map = new HashMap<String, String>();
+                            map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "UniqueID");
+                            map.put(TextToSpeech.Engine.KEY_FEATURE_NETWORK_SYNTHESIS, "true");
+                            ttsService.speak(sentences.get(currentSentence), TextToSpeech.QUEUE_FLUSH, map);
+                            reading=true;
                         }
                     }
                 }
@@ -115,53 +94,47 @@ public class ReadingService extends Service {
             if (ttsService.isSpeaking())
                 ttsService.stop();
             playing=false;
-            broadcast(false, true);
+            broadcastUpdate();
         }
         updateNotificationBar();
     }
 
-    private void broadcast(boolean updateChapter, boolean updateContent) {
+    private void broadcastUpdate() {
         Intent intent = new Intent(BROADCAST_ACTION);
-        intent.putExtra("updateChapter", updateChapter);
-        intent.putExtra("updateContent", updateContent);
+        intent.putExtra("update", true);
         sendBroadcast(intent);
     }
 
-    public void next(){
-        if (currentChapter < chapters.size()-1) {
-            Intent intent = new Intent(BROADCAST_ACTION);
+    public void next() {
+        if (currentChapter <= chapters.size()-1) {
+            stopReading();
             if (currentPage < pages.get(currentChapter).size() - 1) {
                 currentPage++;
-                intent.putExtra("updateChapter", false);
-            } else {
+                currentSentence=0;
+                updateSentences();
+                broadcastUpdate();
+            } else if(currentChapter < chapters.size()-1) {
                 currentChapter++;
                 currentPage=0;
-                intent.putExtra("updateChapter", true);
+                currentSentence=0;
+                updateSentences();
+                broadcastUpdate();
             }
-            currentSentence=0;
-            bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentChapter, currentPage, currentSentence));
-            intent.putExtra("updateContent", true);
-            updateSentences();
-            sendBroadcast(intent);
         }
     }
 
-    public void last(){
+    public void last() {
         if (currentChapter >= 0) {
-            Intent intent = new Intent(BROADCAST_ACTION);
+            stopReading();
             if (currentPage > 0) {
                 currentPage--;
-                intent.putExtra("updateChapter", false);
             } else if (currentChapter > 0) {
                 currentChapter--;
                 currentPage=pages.get(currentChapter).size()-1;
-                intent.putExtra("updateChapter", true);
             }
             currentSentence=0;
-            bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentChapter, currentPage, currentSentence));
-            intent.putExtra("updateContent", true);
             updateSentences();
-            sendBroadcast(intent);
+            broadcastUpdate();
         }
     }
 
@@ -181,20 +154,20 @@ public class ReadingService extends Service {
         return pages.get(currentChapter).get(currentPage).getPage_nr();
     }
 
-    public int getNumberOfChaptersInCurrentBook() {
-        return chapters.size();
-    }
-
-    public int getNumberOfPagesInCurrentChapter() {
-        return pages.get(currentChapter).size();
-    }
-
     public int getCurrentChapter() {
         return currentChapter;
     }
 
+    public int getNumberOfChaptersInCurrentBook() {
+        return chapters.size();
+    }
+
     public int getCurrentPage() {
         return currentPage;
+    }
+
+    public int getNumberOfPagesInCurrentChapter() {
+        return pages.get(currentChapter).size();
     }
 
     public int[] getIndicesOfCurrentSentence() {
@@ -256,11 +229,16 @@ public class ReadingService extends Service {
                 lang=Locale.US;
         }
         updateSentences();
+        updateTTS();
+        broadcastUpdate();
+    }
 
+    private void updateTTS() {
         if (ttsService.isLanguageAvailable(lang)==TextToSpeech.LANG_COUNTRY_AVAILABLE)
             ttsService.setLanguage(lang);
 
-        broadcast(true, true);
+        // ttsService.setSpeechRate(float bla); todo get from settings
+        //todo set voice?
     }
 
     private void updateSentences() {
@@ -285,7 +263,7 @@ public class ReadingService extends Service {
     }
 
     private void updateNotificationBar() {
-        notificationView = new RemoteViews(getPackageName(), R.layout.navigation_bar);
+        RemoteViews notificationView = new RemoteViews(getPackageName(), R.layout.navigation_bar);
 
         PendingIntent pendingIntentAction=null;
         if(playing) {
@@ -331,6 +309,10 @@ public class ReadingService extends Service {
         mNotificationManager.notify(1, mBuilder.build());
     }
 
+    private void showMessage(String message) {
+        Toast.makeText(ReadingService.this, message, Toast.LENGTH_SHORT).show();
+    }
+
 
     //--------------------------------------------------------------------------
     private final IBinder binder = new ReadingServiceBinder();
@@ -352,6 +334,7 @@ public class ReadingService extends Service {
                 if(status == TextToSpeech.SUCCESS) {
                     ttsService.setLanguage(Locale.US);
                     Log.d(ReadingService.class.getName(), "TTS initialized.");
+                    showMessage("TextToSpeech Loading Done."); //todo show loading to user
                 }
             }
         });
@@ -359,23 +342,33 @@ public class ReadingService extends Service {
         ttsService.setOnUtteranceProgressListener(new UtteranceProgressListener() {
             @Override
             public void onDone(String utteranceId) {
-                if (reading) {
+                Log.d(ReadingService.class.getName(), "Stopped reading: " + sentences.get(currentSentence));
+                if (currentSentence < sentences.size()-1) {
                     currentSentence++;
                     reading = false;
-                    if (currentSentence==sentences.size()-1) {
-                        broadcast(true, true);
-                    }
-                    Log.d(ReadingService.class.getName(), "Stopped reading: " + sentences.get(currentSentence));
+                } else if (currentSentence==sentences.size()-1
+                        && currentChapter==chapters.size()-1
+                        && currentPage==pages.get(currentChapter).size()-1) {
+                    Log.d(ReadingService.class.getName(), "Reached end of book.");
+                    stopReading();
+                    reading = false;
+                    broadcastUpdate();
+                } else {
+                    Log.d(ReadingService.class.getName(), "Reached end of chapter, skipping to the next.");
+                    next();
+                    reading = false;
+                    startReading();
                 }
             }
 
             @Override
-            public void onError(String utteranceId) {
-            }
+            public void onError(String utteranceId) {}
 
             @Override
             public void onStart(String utteranceId) {
                 Log.d(ReadingService.class.getName(), "Starting to read: " + sentences.get(currentSentence));
+                bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentChapter, currentPage, currentSentence));
+                broadcastUpdate();
             }
         });
     }
@@ -393,7 +386,7 @@ public class ReadingService extends Service {
                     stopReading();
                 }
             }
-            broadcast(true, true);
+            broadcastUpdate();
         }
         return START_STICKY;
     }
