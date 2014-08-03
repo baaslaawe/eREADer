@@ -10,6 +10,15 @@ public class Chapter {
     private Book book;
     private String heading;
     private int chapter_nr;
+    private String content;
+
+    public Chapter(long id, Book book, String heading, int chapter_nr, String content) {
+        this.id = id;
+        this.book = book;
+        this.heading = heading;
+        this.chapter_nr=chapter_nr;
+        this.content = content;
+    }
 
     public Chapter(long id, Book book, String heading, int chapter_nr) {
         this.id = id;
@@ -18,10 +27,11 @@ public class Chapter {
         this.chapter_nr=chapter_nr;
     }
 
-    public Chapter(Book book, String heading, int chapter_nr) {
+    public Chapter(Book book, String heading, int chapter_nr, String content) {
         this.book = book;
         this.heading = heading;
         this.chapter_nr=chapter_nr;
+        this.content = content;
     }
 
     public Book getBook() {
@@ -58,5 +68,13 @@ public class Chapter {
 
     public void setChapter_nr(int chapter_nr) {
         this.chapter_nr = chapter_nr;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

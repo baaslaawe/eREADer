@@ -16,15 +16,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.HashMap;
 import java.util.List;
 
 import at.ac.tuwien.ims.ereader.Entities.Book;
 import at.ac.tuwien.ims.ereader.Entities.Chapter;
 import at.ac.tuwien.ims.ereader.Entities.CurrentPosition;
-import at.ac.tuwien.ims.ereader.Entities.Page;
 import at.ac.tuwien.ims.ereader.Services.BookService;
 import at.ac.tuwien.ims.ereader.Services.ReadingService;
 
@@ -40,11 +36,13 @@ public class BookView extends Activity {
     private ImageButton volumeButton;
 
     private TextView content;
-    private TextView chap_page;
+    private TextView chap_txt;
 
     private Book book;
     private ReadingService readingService;
     private boolean serviceBound;
+
+    //todo let user be able to pick a sentence to read
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,31 +69,25 @@ public class BookView extends Activity {
 
         TextView title=(TextView)findViewById(R.id.bktitletxt);
         title.setText(book.getTitle());
-        chap_page=(TextView)findViewById(R.id.chap_page_txt);
+        chap_txt=(TextView)findViewById(R.id.chap_txt);
         content=(TextView)findViewById(R.id.book_text);
 
         int cha=getIntent().getExtras().getInt("chapter");
         String chapt;
-        int pagen;
         String cont;
         List<Chapter> chapters=bookService.getChaptersOfBook(book.getId());
-        HashMap<Integer, List<Page>> pages=bookService.getPagesOfChapters(chapters);
 
         if (cha == -1) {
             CurrentPosition c=bookService.getCurrentPosition(book.getId());
-            Page p=pages.get(c.getCurrentChapter()).get(c.getCurrentPage());
-            pagen=p.getPage_nr();
             chapt=chapters.get(c.getCurrentChapter()).getHeading();
-            cont=p.getContent();
+            cont=chapters.get(c.getCurrentChapter()).getContent();
         } else {
-            bookService.updateCurrentPosition(new CurrentPosition(book.getId(), cha, 0, 0));
-            Page p=pages.get(cha).get(0);
-            pagen=p.getPage_nr();
+            bookService.updateCurrentPosition(new CurrentPosition(book.getId(), cha, 0));
             chapt=chapters.get(cha).getHeading();
-            cont=p.getContent();
+            cont=chapters.get(cha).getContent();
         }
         content.setText(cont);
-        chap_page.setText(chapt + ", " + getString(R.string.page) + " " + pagen);
+        chap_txt.setText(chapt);
     }
 
     private View.OnClickListener btnListener = new View.OnClickListener() {
@@ -142,26 +134,24 @@ public class BookView extends Activity {
         });
     }
 
-    private void updateText() {
-        chap_page.setText(readingService.getCurrChapterHeading() + ", " + getString(R.string.page) + " " + readingService.getCurrentPageNumber());
+    private void updateChapter() {
+        chap_txt.setText(readingService.getCurrChapterHeading());
     }
 
     private void updateButtons() {
-        if (readingService.getCurrentChapter()==0 && readingService.getCurrentPage()==0) {
+        if (readingService.getCurrentChapter()==0) {
             fbButton.setAlpha(0.2f);
             fbButton.setEnabled(false);
         }
-        if (readingService.getCurrentChapter()==readingService.getNumberOfChaptersInCurrentBook()-1 &&
-                readingService.getCurrentPage()== readingService.getNumberOfPagesInCurrentChapter()-1) {
+        if (readingService.getCurrentChapter()==readingService.getNumberOfChaptersInCurrentBook()-1) {
             ffButton.setAlpha(0.2f);
             ffButton.setEnabled(false);
         }
-        if (readingService.getCurrentChapter()>0 || readingService.getCurrentPage()>0) {
+        if (readingService.getCurrentChapter()>0) {
             fbButton.setAlpha(1.f);
             fbButton.setEnabled(true);
         }
-        if (readingService.getCurrentChapter()<readingService.getNumberOfChaptersInCurrentBook()-1 ||
-                readingService.getCurrentPage() < readingService.getNumberOfPagesInCurrentChapter()-1) {
+        if (readingService.getCurrentChapter()<readingService.getNumberOfChaptersInCurrentBook()-1) {
             ffButton.setAlpha(1.f);
             ffButton.setEnabled(true);
         }
@@ -206,7 +196,7 @@ public class BookView extends Activity {
                 Bundle extra = intent.getExtras();
                 if (extra.getBoolean("update")) {
                     updateContent();
-                    updateText();
+                    updateChapter();
                     updateButtons();
                 }
             }

@@ -6,4 +6,5 @@ Author:
 Schuster Florian (e1025700)
 
 3rd-Party-Software and Libraries used:
---todo
+SLF4J (http://www.slf4j.org/download.html)
+epublib (http://www.siegmann.nl/epublib/)

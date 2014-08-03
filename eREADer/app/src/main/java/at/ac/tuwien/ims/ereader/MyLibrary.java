@@ -27,6 +27,7 @@ import java.util.TimerTask;
 
 import at.ac.tuwien.ims.ereader.Entities.Book;
 import at.ac.tuwien.ims.ereader.Services.BookService;
+import at.ac.tuwien.ims.ereader.Services.ServiceException;
 import at.ac.tuwien.ims.ereader.Util.SimpleFileDialog;
 
 public class MyLibrary extends Activity {
@@ -262,25 +263,32 @@ public class MyLibrary extends Activity {
                 blAdapter.updateBookList();
                 break;
             case R.id.manually:
-                //todo add
-                /*SimpleFileDialog foDialog=new SimpleFileDialog(MyLibrary.this, "FileOpen",
+                SimpleFileDialog foDialog=new SimpleFileDialog(MyLibrary.this, "FileOpen",
                         new SimpleFileDialog.SimpleFileDialogListener() {
                             @Override
                             public void onChosenDir(String chosenDir) {
-                                if (chosenDir.endsWith(".epub") || chosenDir.endsWith(".txt") || chosenDir.endsWith(".pdf") || chosenDir.endsWith(".html") || chosenDir.endsWith(".mobi"))
-                                    showMessage("picked correct file: "+chosenDir);
-                                else
-                                    showMessage("picked wrong file: "+chosenDir);
+                                //if (chosenDir.endsWith(".epub") || chosenDir.endsWith(".txt") || chosenDir.endsWith(".pdf") || chosenDir.endsWith(".html") || chosenDir.endsWith(".mobi")) {
+                                if (chosenDir.endsWith(".epub")) {
+                                    showMessage("picked correct file: " + chosenDir);
+                                    try {
+                                       bookService.addBookManually(chosenDir);
+                                    } catch(ServiceException s) {
+                                        showMessage(s.getMessage());
+                                    }
+                                } else
+                                    showMessage(getString(R.string.format_not_supported));
                             }
                         });
                 foDialog.Default_File_Name = "";
-                foDialog.chooseFile_or_Dir();*/
-                bookService.insertTestBooks();
+                foDialog.chooseFile_or_Dir();
+
+                //bookService.insertTestBooks();
                 blAdapter.updateBookList();
                 break;
             case R.id.download:
                 //todo download
                 showMessage("download pressed");
+                bookService.insertTestBooks();
                 blAdapter.updateBookList();
                 break;
         }

@@ -19,12 +19,14 @@
     <string name="download_book">Download books</string>
     <string name="path">Path</string>
     <string name="wasdeleted">was successfully deleted</string>
-    <string name="page">Page</string>
     <string name="reset">Reset Database and Settings</string>
     <string name="resetbtn">Reset Now</string>
     <string name="sure">Are you sure?</string>
     <string name="positive">Yes</string>
     <string name="negative">No</string>
     <string name="notification_bar_welcome">Now reading</string>
+    <string name="format_not_supported">Sorry, this format is not supported!</string>
+    <string name="ebook_loading_failed">Ups, something went wrong! Could not load file.</string>
+    <string name="words">Words</string>
 
 </resources>

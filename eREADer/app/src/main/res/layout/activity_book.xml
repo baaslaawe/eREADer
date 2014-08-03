@@ -135,7 +135,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:id="@+id/chap_page_txt"
+                    android:id="@+id/chap_txt"
                     android:gravity="top"
                     android:textColor="#ff263941" />
             </LinearLayout>

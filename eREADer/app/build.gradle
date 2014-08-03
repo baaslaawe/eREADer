@@ -24,4 +24,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     // You must install or update the Support Repository through the SDK manager to use this dependency.
     compile 'com.android.support:support-v4:19.+'
+    compile files('libs/epublib-core-latest.jar')
+    compile files('libs/slf4j-api-1.7.7.jar')
 }

@@ -47,7 +47,7 @@ public class BookChapters extends Activity {
         book=bookService.getBook(getIntent().getExtras().getInt("book_id"));
 
         ListView listview = (ListView)findViewById(R.id.chapterlist);
-        clAdapter = new CLAdapter(bookService.getChaptersOfBook(book.getId()));
+        clAdapter = new CLAdapter(bookService.getLightweightChaptersOfBook(book.getId()));
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -158,11 +158,9 @@ public class BookChapters extends Activity {
         private List<Chapter> visiblechapterlist;
 
         private class ItemHolder {
-            public TextView heading;
-            public TextView pages;
-            public ImageView marker;
-            public int minPage;
-            public int maxPage;
+            TextView heading;
+            TextView numberOfWords;
+            ImageView marker;
         }
 
         public CLAdapter(List<Chapter> chapterlist) {
@@ -175,7 +173,7 @@ public class BookChapters extends Activity {
         }
 
         public void updateChapterList(String s) {
-            chapterlist=bookService.getChaptersOfBook(book.getId());
+            chapterlist=bookService.getLightweightChaptersOfBook(book.getId());
 
             if (!s.isEmpty() && searchbarVisible) {
                 ArrayList<Chapter> temp = new ArrayList<Chapter>();
@@ -183,7 +181,7 @@ public class BookChapters extends Activity {
                     if (c.getHeading().toLowerCase().contains(s.toLowerCase()))
                         temp.add(c);
                     else if (s.matches("\\d+"))
-                        if (bookService.getMinPage(c) >= Integer.parseInt(s) && bookService.getMaxPage(c) <= Integer.parseInt(s))
+                        if (bookService.getNumberOfWords(c.getId()) >= Integer.parseInt(s))
                             temp.add(c);
                 }
                 visiblechapterlist = temp;
@@ -216,7 +214,7 @@ public class BookChapters extends Activity {
 
                 holder = new ItemHolder();
                 holder.heading = (TextView) convertView.findViewById(R.id.chapter_heading);
-                holder.pages = (TextView) convertView.findViewById(R.id.chapter_pages);
+                holder.numberOfWords = (TextView) convertView.findViewById(R.id.chapter_numberOfWords);
                 holder.marker = (ImageView)convertView.findViewById(R.id.currPosMarker);
                 convertView.setTag(holder);
             } else {
@@ -224,12 +222,7 @@ public class BookChapters extends Activity {
             }
 
             holder.heading.setText(visiblechapterlist.get(position).getHeading());
-            holder.minPage=bookService.getMinPage(visiblechapterlist.get(position));
-            holder.maxPage=bookService.getMaxPage(visiblechapterlist.get(position));
-            if(holder.maxPage == holder.minPage)
-                holder.pages.setText("Page "+holder.minPage);
-            else
-                holder.pages.setText("Page "+holder.minPage+" - Page "+holder.maxPage);
+            holder.numberOfWords.setText(bookService.getNumberOfWords(visiblechapterlist.get(position).getId()) + " " + getString(R.string.words));
 
             if (bookService.getCurrentPosition(book.getId()).getCurrentChapter()==position)
                 holder.marker.setVisibility(View.VISIBLE);

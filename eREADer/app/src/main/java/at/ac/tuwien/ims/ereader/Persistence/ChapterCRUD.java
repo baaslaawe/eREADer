@@ -25,6 +25,14 @@ public interface ChapterCRUD {
     public Chapter getChapter(long id);
 
     /**
+     * Returns all chapters without content from a book.
+     *
+     * @param book_id id of the book
+     * @return a list with chapters
+     */
+    public List<Chapter> getLightweightChapters(long book_id);
+
+    /**
      * Returns all chapters from a book.
      *
      * @param book_id id of the book

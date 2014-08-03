@@ -28,7 +28,6 @@ import at.ac.tuwien.ims.ereader.BookView;
 import at.ac.tuwien.ims.ereader.Entities.Book;
 import at.ac.tuwien.ims.ereader.Entities.Chapter;
 import at.ac.tuwien.ims.ereader.Entities.CurrentPosition;
-import at.ac.tuwien.ims.ereader.Entities.Page;
 import at.ac.tuwien.ims.ereader.R;
 
 /**
@@ -46,8 +45,6 @@ public class ReadingService extends Service {
     private Locale lang;
     private List<Chapter> chapters;
     private int currentChapter;
-    private HashMap<Integer, List<Page>> pages;
-    private int currentPage;
     private ArrayList<String> sentences;
     private int currentSentence;
 
@@ -72,6 +69,7 @@ public class ReadingService extends Service {
                 public void run() {
                     while (playing) {
                         synchronized (ttsService) {
+                            //todo read chapter headings
                             while (reading);
                             if(!playing)
                                 return;
@@ -80,6 +78,7 @@ public class ReadingService extends Service {
                             map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "UniqueID");
                             map.put(TextToSpeech.Engine.KEY_FEATURE_NETWORK_SYNTHESIS, "true");
                             ttsService.speak(sentences.get(currentSentence), TextToSpeech.QUEUE_FLUSH, map);
+
                             reading=true;
                         }
                     }
@@ -89,7 +88,7 @@ public class ReadingService extends Service {
         }
     }
 
-    public void stopReading() {
+    public void stopReading() { //todo show and play correct position after pause
         if (ttsService != null) {
             if (ttsService.isSpeaking())
                 ttsService.stop();
@@ -106,32 +105,19 @@ public class ReadingService extends Service {
     }
 
     public void next() {
-        if (currentChapter <= chapters.size()-1) {
+        if (currentChapter < chapters.size()-1) {
             stopReading();
-            if (currentPage < pages.get(currentChapter).size() - 1) {
-                currentPage++;
-                currentSentence=0;
-                updateSentences();
-                broadcastUpdate();
-            } else if(currentChapter < chapters.size()-1) {
-                currentChapter++;
-                currentPage=0;
-                currentSentence=0;
-                updateSentences();
-                broadcastUpdate();
-            }
+            currentChapter++;
+            currentSentence=0;
+            updateSentences();
+            broadcastUpdate();
         }
     }
 
     public void last() {
-        if (currentChapter >= 0) {
+        if (currentChapter > 0) {
             stopReading();
-            if (currentPage > 0) {
-                currentPage--;
-            } else if (currentChapter > 0) {
-                currentChapter--;
-                currentPage=pages.get(currentChapter).size()-1;
-            }
+            currentChapter--;
             currentSentence=0;
             updateSentences();
             broadcastUpdate();
@@ -150,24 +136,12 @@ public class ReadingService extends Service {
         return book.getTitle();
     }
 
-    public int getCurrentPageNumber() {
-        return pages.get(currentChapter).get(currentPage).getPage_nr();
-    }
-
     public int getCurrentChapter() {
         return currentChapter;
     }
 
     public int getNumberOfChaptersInCurrentBook() {
         return chapters.size();
-    }
-
-    public int getCurrentPage() {
-        return currentPage;
-    }
-
-    public int getNumberOfPagesInCurrentChapter() {
-        return pages.get(currentChapter).size();
     }
 
     public int[] getIndicesOfCurrentSentence() {
@@ -205,17 +179,15 @@ public class ReadingService extends Service {
     }
 
     public String getCurrentContent() {
-        return pages.get(currentChapter).get(currentPage).getContent();
+        return chapters.get(currentChapter).getContent();
     }
 
     public void updateBook(Book b) {
         this.book=b;
         chapters=bookService.getChaptersOfBook(book.getId());
-        pages=bookService.getPagesOfChapters(chapters);
 
         CurrentPosition c=bookService.getCurrentPosition(book.getId());
         currentChapter=c.getCurrentChapter();
-        currentPage=c.getCurrentPage();
         currentSentence=c.getCurrentSentence();
 
         switch (b.getLanguage()) {
@@ -280,7 +252,7 @@ public class ReadingService extends Service {
 
         notificationView.setOnClickPendingIntent(R.id.bar_btnPlay, pendingIntentAction);
         notificationView.setTextViewText(R.id.bar_title_book, getCurrentBookTitle());
-        notificationView.setTextViewText(R.id.bar_chapter_page, getCurrChapterHeading()+", "+getString(R.string.page)+ " "+getCurrentPageNumber());
+        notificationView.setTextViewText(R.id.bar_chapter_page, getCurrChapterHeading());
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
@@ -347,8 +319,7 @@ public class ReadingService extends Service {
                     currentSentence++;
                     reading = false;
                 } else if (currentSentence==sentences.size()-1
-                        && currentChapter==chapters.size()-1
-                        && currentPage==pages.get(currentChapter).size()-1) {
+                        && currentChapter==chapters.size()-1) {
                     Log.d(ReadingService.class.getName(), "Reached end of book.");
                     stopReading();
                     reading = false;
@@ -367,7 +338,7 @@ public class ReadingService extends Service {
             @Override
             public void onStart(String utteranceId) {
                 Log.d(ReadingService.class.getName(), "Starting to read: " + sentences.get(currentSentence));
-                bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentChapter, currentPage, currentSentence));
+                bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentChapter, currentSentence));
                 broadcastUpdate();
             }
         });
