@@ -2,7 +2,6 @@ package at.ac.tuwien.ims.ereader;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,6 +17,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.simonvt.menudrawer.MenuDrawer;
+import net.simonvt.menudrawer.Position;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -25,8 +27,6 @@ import java.util.TimerTask;
 
 import at.ac.tuwien.ims.ereader.Entities.Book;
 import at.ac.tuwien.ims.ereader.Services.BookService;
-import at.ac.tuwien.ims.ereader.Services.ServiceException;
-import at.ac.tuwien.ims.ereader.Util.SimpleFileDialog;
 
 public class MyLibraryActivity extends Activity {
     private ImageButton optButton;
@@ -65,25 +65,42 @@ public class MyLibraryActivity extends Activity {
 
         optButton=(ImageButton)findViewById(R.id.optnbtn_lib);
         optButton.setOnClickListener(btnListener);
-
         srchButton=(ImageButton)findViewById(R.id.searchbtn_lib);
         srchButton.setOnClickListener(btnListener);
-
         addButton=(ImageButton)findViewById(R.id.plusbtn);
         addButton.setOnClickListener(btnListener);
-
         searchbar=(EditText)findViewById(R.id.searchinput);
         searchbar.addTextChangedListener(textWatcher);
-        hideSearchBar();
+
         registerForContextMenu(listview);
+
+        mDrawer = MenuDrawer.attach(this, MenuDrawer.Type.BEHIND, Position.LEFT, MenuDrawer.MENU_DRAG_WINDOW);
+        mDrawer.setMenuView(R.layout.menu_scrollview);
+
+
+        hideSearchBar();
+    }
+    private MenuDrawer mDrawer;
+
+    @Override
+    public void onBackPressed() {
+        final int drawerState = mDrawer.getDrawerState();
+        if (drawerState == MenuDrawer.STATE_OPEN || drawerState == MenuDrawer.STATE_OPENING) {
+            mDrawer.closeMenu();
+            return;
+        }
+        super.onBackPressed();
     }
 
     private View.OnClickListener btnListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if (v==optButton) {
-                Intent myIntent = new Intent(MyLibraryActivity.this, SettingsActivity.class);
-                startActivity(myIntent);
+                if (!mDrawer.isMenuVisible()) {
+                    mDrawer.openMenu();
+                }
+                //Intent myIntent = new Intent(MyLibraryActivity.this, SettingsActivity.class);
+                //startActivity(myIntent);
             } else if (v==srchButton) {
                 if(!searchbarVisible)
                     showSearchBar();
@@ -93,6 +110,7 @@ public class MyLibraryActivity extends Activity {
                 Intent myIntent = new Intent(MyLibraryActivity.this, AddBookActivity.class);
                 startActivity(myIntent);
             }
+            //todo add buttons to menu: LOGO, library, settings
         }
     };
 

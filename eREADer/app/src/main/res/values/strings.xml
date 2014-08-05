@@ -33,6 +33,7 @@
     <string name="availhosts">Available Download Hosts</string>
     <string name="add">Add</string>
     <string name="click_questmark">Click the questionmark for further information!</string>
+    <string name="ttsDone_str">Loading text-to-speech engine!</string>
 
 
     <string name="gutenberg_name">Project Gutenberg</string>
@@ -41,5 +42,4 @@
     <string name="free_ebooks_howto">1. Download Book\n2. Add Book\n3. Read Book\nTODO</string>
     <string name="general_download_name">General Download Info</string>
     <string name="general_download_howto">1. Download Book\n2. Add Book\n3. Read Book\nTODO</string>
-
 </resources>

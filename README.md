@@ -6,5 +6,7 @@ Author:
 Schuster Florian (e1025700)
 
 3rd-Party-Software and Libraries used:
-SLF4J (http://www.slf4j.org/download.html)
-epublib (http://www.siegmann.nl/epublib/)
+-SLF4J (http://www.slf4j.org/download.html)
+-epublib (http://www.siegmann.nl/epublib/)
+-menudrawer (https://github.com/SimonVT/android-menudrawer)
+-supertoast (https://github.com/JohnPersano/SuperToasts)

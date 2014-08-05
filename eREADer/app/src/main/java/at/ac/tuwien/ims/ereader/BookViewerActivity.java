@@ -16,6 +16,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.github.johnpersano.supertoasts.SuperActivityToast;
+import com.github.johnpersano.supertoasts.SuperToast;
+
 import java.util.List;
 
 import at.ac.tuwien.ims.ereader.Entities.Book;
@@ -41,6 +45,8 @@ public class BookViewerActivity extends Activity {
     private Book book;
     private ReadingService readingService;
     private boolean serviceBound;
+
+    private SuperActivityToast ttsDoneToast;
 
     //todo let user be able to pick a sentence to read
     //todo scroll textview automatically on longer contents
@@ -87,9 +93,15 @@ public class BookViewerActivity extends Activity {
             chapt=chapters.get(cha).getHeading();
             cont=chapters.get(cha).getContent();
         }
-        //todo try with webview
+
         content.setText(cont);
         chap_txt.setText(chapt);
+
+        ttsDoneToast = new SuperActivityToast(BookViewerActivity.this, SuperToast.Type.PROGRESS);
+        ttsDoneToast.setText(getString(R.string.ttsDone_str));
+        ttsDoneToast.setIndeterminate(true);
+        ttsDoneToast.setProgressIndeterminate(true);
+        ttsDoneToast.show();
     }
 
     private View.OnClickListener btnListener = new View.OnClickListener() {
@@ -200,6 +212,8 @@ public class BookViewerActivity extends Activity {
                     updateContent();
                     updateChapter();
                     updateButtons();
+                } else if (extra.getBoolean("ttsDone")) {
+                    ttsDoneToast.dismiss();
                 }
             }
         }

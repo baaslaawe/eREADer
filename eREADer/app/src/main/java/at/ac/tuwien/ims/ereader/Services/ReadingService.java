@@ -18,6 +18,8 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import com.github.johnpersano.supertoasts.SuperToast;
+
 import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -101,6 +103,7 @@ public class ReadingService extends Service {
     private void broadcastUpdate() {
         Intent intent = new Intent(BROADCAST_ACTION);
         intent.putExtra("update", true);
+        intent.putExtra("ttsDone", false);
         sendBroadcast(intent);
     }
 
@@ -295,6 +298,7 @@ public class ReadingService extends Service {
         }
     }
 
+
     @Override
     public void onCreate (){
         super.onCreate();
@@ -306,7 +310,10 @@ public class ReadingService extends Service {
                 if(status == TextToSpeech.SUCCESS) {
                     ttsService.setLanguage(Locale.US);
                     Log.d(ReadingService.class.getName(), "TTS initialized.");
-                    showMessage("TextToSpeech Loading Done."); //todo show loading to user
+                    Intent intent = new Intent(BROADCAST_ACTION);
+                    intent.putExtra("ttsDone", true);
+                    intent.putExtra("update", false);
+                    sendBroadcast(intent);
                 }
             }
         });
