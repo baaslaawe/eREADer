@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MyLibrary"
+            android:name=".MyLibraryActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:theme="@style/FullscreenTheme" >
@@ -19,21 +19,28 @@
         </activity>
 
         <activity
-            android:name=".BookView"
+            android:name=".BookViewerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:theme="@style/FullscreenTheme" >
         </activity>
 
         <activity
-            android:name=".BookChapters"
+            android:name=".BookChaptersActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:theme="@style/FullscreenTheme" >
         </activity>
 
         <activity
-            android:name=".Settings"
+            android:name=".SettingsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/app_name"
+            android:theme="@style/FullscreenTheme" >
+        </activity>
+
+        <activity
+            android:name=".AddBookActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:theme="@style/FullscreenTheme" >

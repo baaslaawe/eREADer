@@ -25,7 +25,7 @@ import at.ac.tuwien.ims.ereader.Entities.Book;
 import at.ac.tuwien.ims.ereader.Entities.Chapter;
 import at.ac.tuwien.ims.ereader.Services.BookService;
 
-public class BookChapters extends Activity {
+public class BookChaptersActivity extends Activity {
     private ImageButton optButton;
     private ImageButton srchButton;
     private ImageButton playbtn;
@@ -52,7 +52,7 @@ public class BookChapters extends Activity {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                Intent myIntent = new Intent(BookChapters.this, BookView.class);
+                Intent myIntent = new Intent(BookChaptersActivity.this, BookViewerActivity.class);
                 Bundle b = new Bundle();
                 b.putInt("book_id", (int) book.getId());
                 b.putInt("chapter", position);
@@ -95,7 +95,7 @@ public class BookChapters extends Activity {
         @Override
         public void onClick(View v) {
             if (v==optButton) {
-                Intent myIntent = new Intent(BookChapters.this, Settings.class);
+                Intent myIntent = new Intent(BookChaptersActivity.this, SettingsActivity.class);
                 startActivity(myIntent);
             } else if (v==srchButton) {
                 if(!searchbarVisible)
@@ -103,7 +103,7 @@ public class BookChapters extends Activity {
                 else
                     hideSearchBar();
             } else if (v==playbtn) {
-                Intent myIntent = new Intent(BookChapters.this, BookView.class);
+                Intent myIntent = new Intent(BookChaptersActivity.this, BookViewerActivity.class);
                 Bundle b = new Bundle();
                 b.putInt("book_id", (int) book.getId());
                 b.putInt("chapter", -1);
@@ -235,6 +235,6 @@ public class BookChapters extends Activity {
     }
 
     private void showMessage(String message) {
-        Toast.makeText(BookChapters.this, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(BookChaptersActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 }

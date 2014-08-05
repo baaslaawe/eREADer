@@ -15,8 +15,8 @@
     <string name="eng">English</string>
     <string name="esp">Espanol</string>
     <string name="addbook">Add Book</string>
-    <string name="manually_book">Add book manually</string>
-    <string name="download_book">Download books</string>
+    <string name="manually_book">Add Book Manually</string>
+    <string name="download_book">Download Books</string>
     <string name="path">Path</string>
     <string name="wasdeleted">was successfully deleted</string>
     <string name="reset">Reset Database and Settings</string>
@@ -24,9 +24,22 @@
     <string name="sure">Are you sure?</string>
     <string name="positive">Yes</string>
     <string name="negative">No</string>
+    <string name="understood">Understood!</string>
     <string name="notification_bar_welcome">Now reading</string>
     <string name="format_not_supported">Sorry, this format is not supported!</string>
     <string name="ebook_loading_failed">Ups, something went wrong! Could not load file.</string>
     <string name="words">Words</string>
+    <string name="could_not_download">Sorry, could not download eBook!</string>
+    <string name="availhosts">Available Download Hosts</string>
+    <string name="add">Add</string>
+    <string name="click_questmark">Click the questionmark for further information!</string>
+
+
+    <string name="gutenberg_name">Project Gutenberg</string>
+    <string name="gutenberg_howto">1. Download Book\n2. Add Book\n3. Read Book\nTODO</string>
+    <string name="free_ebooks_name">Free eBooks</string>
+    <string name="free_ebooks_howto">1. Download Book\n2. Add Book\n3. Read Book\nTODO</string>
+    <string name="general_download_name">General Download Info</string>
+    <string name="general_download_howto">1. Download Book\n2. Add Book\n3. Read Book\nTODO</string>
 
 </resources>

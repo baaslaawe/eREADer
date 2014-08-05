@@ -5,24 +5,21 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import at.ac.tuwien.ims.ereader.Persistence.DatabaseHelper;
 
 /**
  * Created by Flo on 13.07.2014.
  */
-public class Settings extends Activity {
+public class SettingsActivity extends Activity {
     private ImageButton saveButton;
     private Button resetbtn;
     private Spinner spinner;
@@ -70,11 +67,11 @@ public class Settings extends Activity {
                 editor.putInt("language", item);
                 editor.apply();
 
-                //todo other settings
-
+                //todo folder for downloaded books
+                //todo voice rate and maybe different voices
                 finish();
             } else if (v==resetbtn) {
-                AlertDialog.Builder ab = new AlertDialog.Builder(Settings.this);
+                AlertDialog.Builder ab = new AlertDialog.Builder(SettingsActivity.this);
                 ab.setMessage(getString(R.string.sure)).setPositiveButton(getString(R.string.positive), dialogClickListener)
                         .setNegativeButton(getString(R.string.negative), dialogClickListener).show();
             }
@@ -91,7 +88,7 @@ public class Settings extends Activity {
                     editor.clear();
                     editor.apply();
                     db.resetDatabase();
-                    Intent myIntent = new Intent(Settings.this, MyLibrary.class);
+                    Intent myIntent = new Intent(SettingsActivity.this, MyLibraryActivity.class);
                     finish();
                     startActivity(myIntent);
                     break;

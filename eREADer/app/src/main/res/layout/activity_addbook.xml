@@ -9,7 +9,7 @@
     android:baselineAligned="false"
     android:gravity="top"
     android:weightSum="10"
-    tools:context=".SettingsActivity">
+    tools:context=".AddBookActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,9 +28,9 @@
 
             <ImageButton
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/savebtn_settings"
-                android:src="@drawable/tickbtn"
+                android:layout_height="wrap_content"
+                android:id="@+id/optnbtn_add"
+                android:src="@drawable/optbtn"
                 android:background="#00ffffff"
                 android:layout_marginLeft="10dp"
                 android:layout_gravity="left|center_vertical" />
@@ -66,7 +66,17 @@
                     android:orientation="vertical"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_weight="4"/>
+                    android:layout_weight="4">
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/libbtn_add"
+                    android:layout_gravity="bottom|right"
+                    android:background="#00ffffff"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/libbtn"/>
+            </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
@@ -108,7 +118,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/settings"
+                    android:text="@string/addbook"
                     android:layout_gravity="bottom"
                     android:textColor="#fffafafa" />
             </LinearLayout>
@@ -128,18 +138,18 @@
         android:background="#fffafafa"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1.5"
         android:orientation="vertical"
         android:baselineAligned="false"
-        android:weightSum="2"
+        android:weightSum="3"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginRight="10dp"
+        android:layout_weight="1.5">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.8"
             android:weightSum="3">
 
             <FrameLayout
@@ -152,8 +162,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/languages_settings"
-                    android:id="@+id/textView"
+                    android:text="@string/manually_book"
                     android:layout_gravity="left|center_vertical"
                     android:textColor="#fffafafa"
                     android:layout_marginLeft="20dp" />
@@ -165,13 +174,14 @@
                 android:layout_weight="1"
                 android:background="#ffe8e8e8">
 
-                <Spinner
+                <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/langSpinner"
+                    android:text="@string/add"
+                    android:id="@+id/add_button"
                     android:layout_gravity="center_horizontal|top"
-                    android:spinnerMode="dialog"
-                    android:textAlignment="center" />
+                    android:background="#ffd4d4d4"
+                    android:textColor="#ff263941" />
             </FrameLayout>
         </LinearLayout>
 
@@ -179,25 +189,50 @@
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
             android:weightSum="3">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:layout_weight="2"
-                android:background="#ff263941">
+                android:background="#ff283a42"
+                android:weightSum="4">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/reset"
-                    android:id="@+id/reset"
-                    android:layout_gravity="left|center_vertical"
-                    android:layout_marginLeft="20dp"
-                    android:textColor="#fffafafa" />
-            </FrameLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="2">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="@string/availhosts"
+                        android:layout_gravity="center_vertical|bottom"
+                        android:layout_marginLeft="20dp"
+                        android:textColor="#fffafafa" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="2">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/click_questmark"
+                        android:id="@+id/textView2"
+                        android:textColor="#ffd4d4d4"
+                        android:layout_marginLeft="20dp"
+                        android:layout_gravity="top" />
+                </LinearLayout>
+            </LinearLayout>
 
             <FrameLayout
                 android:layout_width="fill_parent"
@@ -205,15 +240,16 @@
                 android:layout_weight="1"
                 android:background="#ffe8e8e8">
 
-                <Button
+                <ListView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/resetbtn"
-                    android:id="@+id/resetbtn"
+                    android:id="@+id/downloadhosts_list"
                     android:layout_gravity="center_horizontal|top"
-                    android:background="#ffd4d4d4"
-                    android:textColor="#ff263941" />
+                    android:choiceMode="singleChoice"
+                    android:divider="#96243840"
+                    android:dividerHeight="1px" />
             </FrameLayout>
+
         </LinearLayout>
 
     </LinearLayout>

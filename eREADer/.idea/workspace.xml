@@ -28,14 +28,19 @@
       </config>
     </shared>
     <layouts>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_book.xml">
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_addbook.xml">
         <config>
           <theme>@style/AppTheme</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_book.xml">
+        <config>
+          <theme>@style/FullscreenTheme</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_book_chapters.xml">
         <config>
-          <theme>@style/AppTheme</theme>
+          <theme>@style/FullscreenTheme</theme>
         </config>
       </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_my_library.xml">
@@ -45,7 +50,7 @@
       </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml">
         <config>
-          <theme>@style/AppTheme</theme>
+          <theme>@style/FullscreenTheme</theme>
         </config>
       </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/booklist_item.xml">
@@ -65,26 +70,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="82d73246-6504-445f-971f-7a2e53265cb3" name="Default" comment="">
-      <change type="DELETED" beforePath="D:\Projekte\eREADer\eREADer\.idea\libraries\support_v4_19_1_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\Projekte\eREADer\eREADer\app\src\main\java\at\ac\tuwien\ims\ereader\Entities\Page.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\Projekte\eREADer\eREADer\app\src\main\java\at\ac\tuwien\ims\ereader\Persistence\PageCRUD.java" afterPath="" />
+      <change type="DELETED" beforePath="D:\Projekte\eREADer\eREADer\app\src\main\res\menu\library_context_add.xml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../timetable.ods" afterPath="$PROJECT_DIR$/../timetable.ods" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookChapters.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookChapters.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/BookService.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/BookService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookView.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Entities/Chapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Entities/Chapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Persistence/ChapterCRUD.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Persistence/ChapterCRUD.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Entities/CurrentPosition.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Entities/CurrentPosition.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Persistence/DatabaseHelper.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Persistence/DatabaseHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/MyLibrary.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/MyLibrary.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../README.md" afterPath="$PROJECT_DIR$/../README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/ReadingService.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/ReadingService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_book.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_book.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/chapterlist_item.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/chapterlist_item.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_book_chapters.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_book_chapters.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_my_library.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_my_library.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/xml/pref_headers.xml" afterPath="$PROJECT_DIR$/app/src/main/res/xml/pref_headers.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MOVED" beforePath="D:\Projekte\eREADer\eREADer\app\src\main\java\at\ac\tuwien\ims\ereader\BookChapters.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookChaptersActivity.java" />
+      <change type="MOVED" beforePath="D:\Projekte\eREADer\eREADer\app\src\main\java\at\ac\tuwien\ims\ereader\BookView.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookViewerActivity.java" />
+      <change type="MOVED" beforePath="D:\Projekte\eREADer\eREADer\app\src\main\java\at\ac\tuwien\ims\ereader\MyLibrary.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/MyLibraryActivity.java" />
+      <change type="MOVED" beforePath="D:\Projekte\eREADer\eREADer\app\src\main\java\at\ac\tuwien\ims\ereader\Settings.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/SettingsActivity.java" />
     </list>
     <ignored path="eREADer.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -107,51 +108,53 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MyLibrary.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/MyLibrary.java">
+      <file leaf-file-name="ReadingService.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/ReadingService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3413" max-vertical-offset="4301">
-              <caret line="289" column="48" selection-start-line="289" selection-start-column="48" selection-end-line="289" selection-end-column="48" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2478" max-vertical-offset="5542">
+              <caret line="212" column="25" selection-start-line="212" selection-start-column="25" selection-end-line="212" selection-end-column="25" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BookView.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookView.java">
+      <file leaf-file-name="MyLibraryActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/MyLibraryActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="3451">
-              <caret line="42" column="33" selection-start-line="42" selection-start-column="33" selection-end-line="42" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BookService.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/BookService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.4098737" vertical-offset="1186" max-vertical-offset="2805">
-              <caret line="167" column="5" selection-start-line="167" selection-start-column="5" selection-end-line="167" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="3302" max-vertical-offset="3893">
+              <caret line="230" column="37" selection-start-line="230" selection-start-column="37" selection-end-line="230" selection-end-column="37" />
               <folding>
-                <element signature="e#5852#5860#0" expanded="true" />
+                <element signature="e#1715#2192#0" expanded="true" />
+                <element signature="e#2181#2182#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ReadingService.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/ReadingService.java">
+      <file leaf-file-name="AddBookActivity.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/AddBookActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="372" max-vertical-offset="5678">
-              <caret line="308" column="90" selection-start-line="308" selection-start-column="90" selection-end-line="308" selection-end-column="90" />
+            <state vertical-scroll-proportion="0.28304094" vertical-offset="761" max-vertical-offset="3060">
+              <caret line="59" column="36" selection-start-line="59" selection-start-column="36" selection-end-line="59" selection-end-column="36" />
               <folding>
-                <element signature="e#2018#2881#0" expanded="true" />
-                <element signature="e#2865#2866#0" expanded="true" />
-                <element signature="e#3886#3887#0" expanded="true" />
-                <element signature="e#3939#3940#0" expanded="true" />
-                <element signature="e#5219#5220#0" expanded="true" />
-                <element signature="e#5283#5284#0" expanded="true" />
-                <element signature="e#8195#8239#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#1875#2750#0" expanded="true" />
+                <element signature="e#2324#2354#0" expanded="true" />
+                <element signature="e#2739#2740#0" expanded="true" />
+                <element signature="e#2904#2918#0" expanded="true" />
+                <element signature="e#2958#2992#0" expanded="true" />
+                <element signature="e#3021#3056#0" expanded="true" />
+                <element signature="e#3096#3132#0" expanded="true" />
+                <element signature="e#3164#3201#0" expanded="true" />
+                <element signature="e#3241#3282#0" expanded="true" />
+                <element signature="e#3288#3330#0" expanded="true" />
+                <element signature="e#5117#5784#0" expanded="true" />
+                <element signature="e#5524#5554#0" expanded="true" />
+                <element signature="e#5773#5774#0" expanded="true" />
+                <element signature="e#5841#7037#0" expanded="true" />
+                <element signature="e#6080#6570#0" expanded="true" />
+                <element signature="e#6543#6544#0" expanded="true" />
+                <element signature="e#7030#7031#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -843,15 +846,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/res/menu/actins.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/menu/actions.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/menu/library_context_menu.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Util/FragmentNoSearchbar.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/no_searchbar.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/searchbar.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Util/FragmentSearchbar.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_my_library.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/spinner_item.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/settings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_add_manually.xml" />
         <option value="$PROJECT_DIR$/settings.gradle" />
@@ -874,34 +868,42 @@
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Entities/Page.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Persistence/PersistenceException.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Persistence/CurrentPositionCRUD.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_book_chapters.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Entities/ServiceHelperObject.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/navigation_bar.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/ServiceException.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Entities/CurrentPosition.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/chapterlist_item.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Settings.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/MyLibrary.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_book.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/ReadingService.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookView.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Entities/Chapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Persistence/ChapterCRUD.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Persistence/DatabaseHelper.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/BookService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookChapters.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookView.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/MyLibrary.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Settings.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/DownloadView.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_book.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_book_chapters.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_my_library.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/DownloadActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Entities/DownloadHostInfo.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/MyLibraryActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Entities/DownloadHost.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/BookService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/downloadlist_item.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_addbook.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/AddBookActivity.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1056" />
+    <option name="x" value="47" />
+    <option name="width" value="1873" />
+    <option name="height" value="1040" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -945,7 +947,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -1078,36 +1079,6 @@
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="layout" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="eREADer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="eREADer" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="java" />
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -1147,40 +1118,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Services" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="eREADer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="eREADer" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ereader" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Persistence" />
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1256,6 +1193,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -1274,8 +1212,8 @@
     <property name="android.project.structure.last.selected" value="app" />
     <property name="android.project.structure.proportion" value="0.15" />
     <property name="FullScreen" value="false" />
-    <property name="UI_DESIGNER_EDITOR_MODE.PaletteToolWindowManager.WIDTH" value="544" />
-    <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager2.WIDTH" value="420" />
+    <property name="UI_DESIGNER_EDITOR_MODE.PaletteToolWindowManager.WIDTH" value="615" />
+    <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager2.WIDTH" value="370" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="FA2CCW109157" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
@@ -1329,6 +1267,19 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -1354,19 +1305,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -1430,7 +1368,7 @@
       <option name="DEPLOY" value="true" />
       <option name="ARTIFACT_NAME" value="" />
       <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="true" />
       <option name="PREFERRED_AVD" value="" />
       <option name="USE_COMMAND_LINE" value="true" />
       <option name="COMMAND_LINE" value="" />
@@ -1474,34 +1412,35 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="47" y="0" width="1873" height="1040" extended-state="0" />
     <editor active="true" />
     <layout>
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" x="92" y="92" width="1736" height="856" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32925472" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31130064" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32925472" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36707452" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3337041" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3114572" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3826474" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31368187" sideWeight="0.4997118" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.42491657" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.42468855" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19402985" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3826474" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23110867" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38165346" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31130064" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32814237" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -1525,143 +1464,10 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/BookService.java</url>
-          <line>126</line>
-          <properties />
-          <option name="timeStamp" value="61" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="62" />
+      <option name="time" value="80" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$APPLICATION_HOME_DIR$/sdk/sources/android-19/android/app/LoadedApk.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="692" max-vertical-offset="18156">
-          <caret line="102" column="0" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/sdk/sources/android-19/android/app/ContextImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="6574" max-vertical-offset="34714">
-          <caret line="540" column="0" selection-start-line="540" selection-start-column="0" selection-end-line="540" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/sdk/sources/android-19/android/os/Bundle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="386" max-vertical-offset="29427">
-          <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/sdk/sources/android-19/android/app/ActivityThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334" vertical-offset="32057" max-vertical-offset="82569">
-          <caret line="2058" column="0" selection-start-line="2058" selection-start-column="0" selection-end-line="2058" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/sdk/sources/android-19/java/util/Locale.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33295062" vertical-offset="3943" max-vertical-offset="10574">
-          <caret line="269" column="12" selection-start-line="269" selection-start-column="12" selection-end-line="269" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/sdk/sources/android-19/android/os/Binder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33295062" vertical-offset="67" max-vertical-offset="8058">
-          <caret line="43" column="13" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/sdk/sources/android-19/android/app/NotificationManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33295062" vertical-offset="1104" max-vertical-offset="3485">
-          <caret line="106" column="16" selection-start-line="106" selection-start-column="16" selection-end-line="106" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/sdk/sources/android-19/android/content/ContextWrapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33295062" vertical-offset="6204" max-vertical-offset="8942">
-          <caret line="527" column="16" selection-start-line="527" selection-start-column="16" selection-end-line="527" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_book_chapters.xml">
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1453" max-vertical-offset="3417">
-          <caret line="102" column="12" selection-start-line="102" selection-start-column="12" selection-end-line="102" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/sdk/sources/android-19/android/app/Service.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9770379" vertical-offset="4759" max-vertical-offset="11645">
-          <caret line="360" column="49" selection-start-line="360" selection-start-column="49" selection-end-line="360" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/sdk/sources/android-19/android/text/Spanned.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5086108" vertical-offset="1121" max-vertical-offset="3230">
-          <caret line="106" column="28" selection-start-line="106" selection-start-column="28" selection-end-line="106" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/sdk/sources/android-19/android/content/Intent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33295062" vertical-offset="90813" max-vertical-offset="122298">
-          <caret line="5456" column="18" selection-start-line="5456" selection-start-column="18" selection-end-line="5456" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0-sources.jar!/android/support/v4/app/NotificationCompat.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="9043" max-vertical-offset="13940">
-          <caret line="575" column="23" selection-start-line="575" selection-start-column="23" selection-end-line="575" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build/generated/source/r/debug/at/ac/tuwien/ims/ereader/R.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.34333733" vertical-offset="1499" max-vertical-offset="3485">
-          <caret line="110" column="30" selection-start-line="110" selection-start-column="30" selection-end-line="110" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/sdk/sources/android-19/android/widget/RemoteViews.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33295062" vertical-offset="37297" max-vertical-offset="41089">
-          <caret line="2327" column="60" selection-start-line="2327" selection-start-column="60" selection-end-line="2327" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.858783" vertical-offset="0" max-vertical-offset="1003">
-          <caret line="44" column="27" selection-start-line="44" selection-start-column="27" selection-end-line="44" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/sdk/sources/android-19/android/widget/BaseAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3327645" vertical-offset="9" max-vertical-offset="986">
-          <caret line="29" column="22" selection-start-line="29" selection-start-column="22" selection-end-line="29" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/sdk/sources/android-19/android/text/Editable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.1467576" vertical-offset="1428" max-vertical-offset="2244">
@@ -1718,13 +1524,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/app/libs/epublib-core-latest.jar!/nl/siegmann/epublib/domain/Resource.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.100472815" vertical-offset="0" max-vertical-offset="1326">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/sdk/sources/android-19/java/io/FileInputStream.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="2.2511313" vertical-offset="331" max-vertical-offset="2941">
@@ -1746,20 +1545,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/sdk/sources/android-19/com/android/internal/os/ZygoteInit.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="13073">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/app/libs/epublib-core-latest.jar!/nl/siegmann/epublib/domain/Book.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3539604" vertical-offset="265" max-vertical-offset="1207">
-          <caret line="25" column="47" selection-start-line="25" selection-start-column="47" selection-end-line="25" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/app/libs/epublib-core-latest.jar!/nl/siegmann/epublib/domain/Metadata.class">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5971223" vertical-offset="601" max-vertical-offset="1751">
@@ -1771,15 +1556,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.07888631" vertical-offset="51" max-vertical-offset="527">
           <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/app/libs/epublib-core-latest.jar!/nl/siegmann/epublib/domain/ResourceReference.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.42117116" vertical-offset="0" max-vertical-offset="444">
-          <caret line="12" column="47" selection-start-line="12" selection-start-column="47" selection-end-line="12" selection-end-column="47" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1787,7 +1563,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.13662457" vertical-offset="0" max-vertical-offset="871">
           <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1795,7 +1570,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.13662457" vertical-offset="0" max-vertical-offset="871">
           <caret line="7" column="30" selection-start-line="7" selection-start-column="30" selection-end-line="7" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1810,41 +1584,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_book.xml">
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="601" max-vertical-offset="4777">
-          <caret line="65" column="43" selection-start-line="65" selection-start-column="37" selection-end-line="65" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3903559" vertical-offset="0" max-vertical-offset="871">
-          <caret line="20" column="63" selection-start-line="20" selection-start-column="63" selection-end-line="20" selection-end-column="63" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/navigation_bar.xml">
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1156">
-          <caret line="15" column="8" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Persistence/CurrentPositionCRUD.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.13662457" vertical-offset="0" max-vertical-offset="871">
           <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1852,15 +1595,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.13662457" vertical-offset="0" max-vertical-offset="871">
           <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Settings.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.66819745" vertical-offset="591" max-vertical-offset="1479">
-          <caret line="91" column="35" selection-start-line="91" selection-start-column="35" selection-end-line="91" selection-end-column="35" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1868,7 +1602,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.35246843" vertical-offset="84" max-vertical-offset="1088">
           <caret line="23" column="21" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1876,7 +1609,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.58553386" vertical-offset="0" max-vertical-offset="901">
           <caret line="32" column="47" selection-start-line="32" selection-start-column="25" selection-end-line="32" selection-end-column="47" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1884,58 +1616,298 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.37428242" vertical-offset="3754" max-vertical-offset="5780">
           <caret line="253" column="55" selection-start-line="253" selection-start-column="55" selection-end-line="253" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/app/libs/epublib-core-latest.jar!/nl/siegmann/epublib/domain/Book.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6830732" vertical-offset="349" max-vertical-offset="1207">
+          <caret line="55" column="63" selection-start-line="55" selection-start-column="63" selection-end-line="55" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/app/libs/epublib-core-latest.jar!/nl/siegmann/epublib/domain/TableOfContents.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.34798536" vertical-offset="48" max-vertical-offset="867">
+          <caret line="15" column="65" selection-start-line="15" selection-start-column="53" selection-end-line="15" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/sdk/sources/android-19/java/io/BufferedReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33273056" vertical-offset="5817" max-vertical-offset="8279">
+          <caret line="374" column="18" selection-start-line="374" selection-start-column="18" selection-end-line="374" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/sdk/sources/android-19/java/lang/String.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.24050634" vertical-offset="10696" max-vertical-offset="33728">
+          <caret line="673" column="49" selection-start-line="673" selection-start-column="49" selection-end-line="673" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/app/libs/epublib-core-latest.jar!/nl/siegmann/epublib/domain/ResourceReference.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.53276354" vertical-offset="0" max-vertical-offset="374">
+          <caret line="12" column="47" selection-start-line="12" selection-start-column="47" selection-end-line="12" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/app/libs/epublib-core-latest.jar!/nl/siegmann/epublib/domain/Resource.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.35612535" vertical-offset="436" max-vertical-offset="1326">
+          <caret line="34" column="31" selection-start-line="34" selection-start-column="31" selection-end-line="34" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/sdk/sources/android-19/android/text/Html.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.39323843" vertical-offset="1003" max-vertical-offset="13583">
+          <caret line="124" column="13" selection-start-line="124" selection-start-column="13" selection-end-line="124" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/org/apache/http/client/entity/UrlEncodedFormEntity.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.15614237" vertical-offset="0" max-vertical-offset="871">
+          <caret line="9" column="11" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="11" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/sdk/sources/android-19/com/android/internal/os/ZygoteInit.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="13073">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#27389#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/ReadingService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="372" max-vertical-offset="5678">
-          <caret line="308" column="90" selection-start-line="308" selection-start-column="90" selection-end-line="308" selection-end-column="90" />
-          <folding>
-            <element signature="e#2018#2881#0" expanded="true" />
-            <element signature="e#2865#2866#0" expanded="true" />
-            <element signature="e#3886#3887#0" expanded="true" />
-            <element signature="e#3939#3940#0" expanded="true" />
-            <element signature="e#5219#5220#0" expanded="true" />
-            <element signature="e#5283#5284#0" expanded="true" />
-            <element signature="e#8195#8239#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookChapters.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6245695" vertical-offset="0" max-vertical-offset="3451">
-          <caret line="57" column="40" selection-start-line="57" selection-start-column="40" selection-end-line="57" selection-end-column="40" />
-          <folding>
-            <element signature="e#8086#8111#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/MyLibrary.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3413" max-vertical-offset="4301">
-          <caret line="289" column="48" selection-start-line="289" selection-start-column="48" selection-end-line="289" selection-end-column="48" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="2478" max-vertical-offset="5542">
+          <caret line="212" column="25" selection-start-line="212" selection-start-column="25" selection-end-line="212" selection-end-column="25" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookView.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_book_chapters.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1453" max-vertical-offset="3417">
+          <caret line="102" column="12" selection-start-line="102" selection-start-column="12" selection-end-line="102" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookChaptersActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="3451">
-          <caret line="42" column="33" selection-start-line="42" selection-start-column="33" selection-end-line="42" selection-end-column="33" />
+        <state vertical-scroll-proportion="0.078071184" vertical-offset="0" max-vertical-offset="3451">
+          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3842">
+          <caret line="26" column="44" selection-start-line="0" selection-start-column="0" selection-end-line="220" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_book.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.518518" vertical-offset="773" max-vertical-offset="4148">
+          <caret line="59" column="51" selection-start-line="59" selection-start-column="51" selection-end-line="59" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/booklist_item.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6042654" vertical-offset="0" max-vertical-offset="1360">
+          <caret line="30" column="41" selection-start-line="0" selection-start-column="0" selection-end-line="74" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/navigation_bar.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="1224">
+          <caret line="15" column="8" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookViewerActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1122" max-vertical-offset="3485">
+          <caret line="98" column="16" selection-start-line="98" selection-start-column="16" selection-end-line="99" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Entities/DownloadHost.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.23421355" vertical-offset="0" max-vertical-offset="871">
+          <caret line="12" column="43" selection-start-line="12" selection-start-column="43" selection-end-line="12" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/library_context_menu.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="871">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/BookService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.4098737" vertical-offset="1186" max-vertical-offset="2805">
-          <caret line="167" column="5" selection-start-line="167" selection-start-column="5" selection-end-line="167" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.27324915" vertical-offset="2040" max-vertical-offset="3128">
+          <caret line="168" column="5" selection-start-line="168" selection-start-column="5" selection-end-line="168" selection-end-column="5" />
           <folding>
-            <element signature="e#5852#5860#0" expanded="true" />
+            <element signature="e#1685#1727#0" expanded="true" />
+            <element signature="e#1758#1800#0" expanded="true" />
+            <element signature="e#1829#1869#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3824131" vertical-offset="561" max-vertical-offset="1122">
+          <caret line="44" column="39" selection-start-line="44" selection-start-column="39" selection-end-line="44" selection-end-column="39" />
+          <folding>
+            <element signature="e#262#280#0" expanded="true" />
+            <element signature="e#487#505#0" expanded="true" />
+            <element signature="e#948#966#0" expanded="true" />
+            <element signature="e#1208#1226#0" expanded="true" />
+            <element signature="e#1464#1482#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_my_library.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2573" max-vertical-offset="3417">
+          <caret line="178" column="28" selection-start-line="178" selection-start-column="28" selection-end-line="178" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/downloadlist_item.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1377">
+          <caret line="2" column="0" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/sdk/sources/android-19/android/app/AlertDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33295062" vertical-offset="4895" max-vertical-offset="15419">
+          <caret line="358" column="15" selection-start-line="358" selection-start-column="15" selection-end-line="358" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_addbook.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3024911" vertical-offset="2669" max-vertical-offset="4454">
+          <caret line="167" column="52" selection-start-line="167" selection-start-column="52" selection-end-line="167" selection-end-column="52" />
+          <folding>
+            <element signature="e#5994#6017#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/MyLibraryActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2778" max-vertical-offset="3893">
+          <caret line="230" column="37" selection-start-line="230" selection-start-column="37" selection-end-line="230" selection-end-column="37" />
+          <folding>
+            <element signature="e#1715#2192#0" expanded="true" />
+            <element signature="e#2181#2182#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/SettingsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.54805726" vertical-offset="735" max-vertical-offset="1479">
+          <caret line="75" column="100" selection-start-line="75" selection-start-column="93" selection-end-line="75" selection-end-column="100" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings_activity_settings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1105">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8152047" vertical-offset="0" max-vertical-offset="867">
+          <caret line="41" column="62" selection-start-line="41" selection-start-column="62" selection-end-line="41" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/AddBookActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.28304094" vertical-offset="761" max-vertical-offset="3060">
+          <caret line="59" column="36" selection-start-line="59" selection-start-column="36" selection-end-line="59" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1875#2750#0" expanded="true" />
+            <element signature="e#2324#2354#0" expanded="true" />
+            <element signature="e#2739#2740#0" expanded="true" />
+            <element signature="e#2904#2918#0" expanded="true" />
+            <element signature="e#2958#2992#0" expanded="true" />
+            <element signature="e#3021#3056#0" expanded="true" />
+            <element signature="e#3096#3132#0" expanded="true" />
+            <element signature="e#3164#3201#0" expanded="true" />
+            <element signature="e#3241#3282#0" expanded="true" />
+            <element signature="e#3288#3330#0" expanded="true" />
+            <element signature="e#5117#5784#0" expanded="true" />
+            <element signature="e#5524#5554#0" expanded="true" />
+            <element signature="e#5773#5774#0" expanded="true" />
+            <element signature="e#5841#7037#0" expanded="true" />
+            <element signature="e#6080#6570#0" expanded="true" />
+            <element signature="e#6543#6544#0" expanded="true" />
+            <element signature="e#7030#7031#0" expanded="true" />
           </folding>
         </state>
       </provider>

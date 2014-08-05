@@ -27,7 +27,7 @@ import at.ac.tuwien.ims.ereader.Services.ReadingService;
 /**
  * Created by Flo on 09.07.2014.
  */
-public class BookView extends Activity {
+public class BookViewerActivity extends Activity {
     private ImageButton optButton;
     private ImageButton ffButton;
     private ImageButton fbButton;
@@ -43,6 +43,7 @@ public class BookView extends Activity {
     private boolean serviceBound;
 
     //todo let user be able to pick a sentence to read
+    //todo scroll textview automatically on longer contents
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +87,7 @@ public class BookView extends Activity {
             chapt=chapters.get(cha).getHeading();
             cont=chapters.get(cha).getContent();
         }
+        //todo try with webview
         content.setText(cont);
         chap_txt.setText(chapt);
     }
@@ -94,7 +96,7 @@ public class BookView extends Activity {
         @Override
         public void onClick(View v) {
             if (v==optButton) {
-                Intent myIntent = new Intent(BookView.this, Settings.class);
+                Intent myIntent = new Intent(BookViewerActivity.this, SettingsActivity.class);
                 startActivity(myIntent);
             } else if (v==playButton) {
                 if (readingService.getPlaying()) {
@@ -107,7 +109,7 @@ public class BookView extends Activity {
             } else if(v==fbButton) {
                 readingService.last();
             } else if (v==libbtn) {
-                Intent myIntent = new Intent(BookView.this, MyLibrary.class);
+                Intent myIntent = new Intent(BookViewerActivity.this, MyLibraryActivity.class);
                 startActivity(myIntent);
             } else if (v== volumeButton) {
                 if (readingService.getMuted()) {
@@ -174,13 +176,13 @@ public class BookView extends Activity {
 
     ServiceConnection mConnection = new ServiceConnection() {
         public void onServiceDisconnected(ComponentName name) {
-            Log.d(BookView.class.getName(), "Service is disconnected");
+            Log.d(BookViewerActivity.class.getName(), "Service is disconnected");
             serviceBound = false;
             readingService = null;
         }
 
         public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.d(BookView.class.getName(), "Service is connected");
+            Log.d(BookViewerActivity.class.getName(), "Service is connected");
             serviceBound = true;
             ReadingService.ReadingServiceBinder mLocalBinder = (ReadingService.ReadingServiceBinder)service;
             readingService = mLocalBinder.getService();

@@ -3,15 +3,15 @@
     <!-- These settings headers are only used on tablets. -->
 
     <header
-        android:fragment="at.ac.tuwien.ims.ereader.Settings$GeneralPreferenceFragment"
+        android:fragment="at.ac.tuwien.ims.ereader.SettingsActivity$GeneralPreferenceFragment"
         android:title="@string/pref_header_general" />
 
     <header
-        android:fragment="at.ac.tuwien.ims.ereader.Settings$NotificationPreferenceFragment"
+        android:fragment="at.ac.tuwien.ims.ereader.SettingsActivity$NotificationPreferenceFragment"
         android:title="@string/pref_header_notifications" />
 
     <header
-        android:fragment="at.ac.tuwien.ims.ereader.Settings$DataSyncPreferenceFragment"
+        android:fragment="at.ac.tuwien.ims.ereader.SettingsActivity$DataSyncPreferenceFragment"
         android:title="@string/pref_header_data_sync" />
 
 </preference-headers>

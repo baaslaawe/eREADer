@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import at.ac.tuwien.ims.ereader.BookView;
+import at.ac.tuwien.ims.ereader.BookViewerActivity;
 import at.ac.tuwien.ims.ereader.Entities.Book;
 import at.ac.tuwien.ims.ereader.Entities.Chapter;
 import at.ac.tuwien.ims.ereader.Entities.CurrentPosition;
@@ -260,14 +260,14 @@ public class ReadingService extends Service {
                         .setTicker(getString(R.string.notification_bar_welcome)+ ": "+getCurrentBookTitle())
                         .setContent(notificationView);
 
-        Intent resultIntent = new Intent(this, BookView.class);
+        Intent resultIntent = new Intent(this, BookViewerActivity.class);
         Bundle b = new Bundle();
         b.putInt("book_id", (int) book.getId());
         b.putInt("chapter", currentChapter);
         resultIntent.putExtras(b);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(BookView.class);
+        stackBuilder.addParentStack(BookViewerActivity.class);
         stackBuilder.addNextIntent(resultIntent);
 
         PendingIntent resultPendingIntent =

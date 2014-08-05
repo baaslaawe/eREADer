@@ -1,10 +1,8 @@
 package at.ac.tuwien.ims.ereader;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -30,7 +28,7 @@ import at.ac.tuwien.ims.ereader.Services.BookService;
 import at.ac.tuwien.ims.ereader.Services.ServiceException;
 import at.ac.tuwien.ims.ereader.Util.SimpleFileDialog;
 
-public class MyLibrary extends Activity {
+public class MyLibraryActivity extends Activity {
     private ImageButton optButton;
     private ImageButton srchButton;
     private ImageButton addButton;
@@ -42,6 +40,7 @@ public class MyLibrary extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //todo autoupdate library with ebooks in "eREADer eBooks" folder
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_library);
 
@@ -55,7 +54,7 @@ public class MyLibrary extends Activity {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3) {
-                Intent myIntent = new Intent(MyLibrary.this, BookChapters.class);
+                Intent myIntent = new Intent(MyLibraryActivity.this, BookChaptersActivity.class);
                 Bundle b = new Bundle();
                 b.putInt("book_id", (int)blAdapter.getItem(position).getId());
                 myIntent.putExtras(b);
@@ -76,7 +75,6 @@ public class MyLibrary extends Activity {
         searchbar=(EditText)findViewById(R.id.searchinput);
         searchbar.addTextChangedListener(textWatcher);
         hideSearchBar();
-        registerForContextMenu(addButton);
         registerForContextMenu(listview);
     }
 
@@ -84,7 +82,7 @@ public class MyLibrary extends Activity {
         @Override
         public void onClick(View v) {
             if (v==optButton) {
-                Intent myIntent = new Intent(MyLibrary.this, Settings.class);
+                Intent myIntent = new Intent(MyLibraryActivity.this, SettingsActivity.class);
                 startActivity(myIntent);
             } else if (v==srchButton) {
                 if(!searchbarVisible)
@@ -92,7 +90,8 @@ public class MyLibrary extends Activity {
                 else
                     hideSearchBar();
             } else if (v==addButton) {
-                openContextMenu(v);
+                Intent myIntent = new Intent(MyLibraryActivity.this, AddBookActivity.class);
+                startActivity(myIntent);
             }
         }
     };
@@ -240,8 +239,6 @@ public class MyLibrary extends Activity {
         super.onCreateContextMenu(menu, v, menuInfo);
         if(v.getId() == R.id.booklist)
             getMenuInflater().inflate(R.menu.library_context_menu, menu);
-        else if(v.getId() == R.id.plusbtn)
-            getMenuInflater().inflate(R.menu.library_context_add, menu);
     }
 
     @Override
@@ -250,7 +247,7 @@ public class MyLibrary extends Activity {
 
         switch(item.getItemId()){
             case R.id.play:
-                Intent myIntent = new Intent(MyLibrary.this, BookView.class);
+                Intent myIntent = new Intent(MyLibraryActivity.this, BookViewerActivity.class);
                 Bundle b = new Bundle();
                 b.putInt("book_id", (int)blAdapter.getItem(info.position).getId());
                 b.putInt("chapter", -1);
@@ -262,40 +259,11 @@ public class MyLibrary extends Activity {
                 showMessage(blAdapter.getItem(info.position).getTitle() + " " + getString(R.string.wasdeleted));
                 blAdapter.updateBookList();
                 break;
-            case R.id.manually:
-                SimpleFileDialog foDialog=new SimpleFileDialog(MyLibrary.this, "FileOpen",
-                        new SimpleFileDialog.SimpleFileDialogListener() {
-                            @Override
-                            public void onChosenDir(String chosenDir) {
-                                //if (chosenDir.endsWith(".epub") || chosenDir.endsWith(".txt") || chosenDir.endsWith(".pdf") || chosenDir.endsWith(".html") || chosenDir.endsWith(".mobi")) {
-                                if (chosenDir.endsWith(".epub")) {
-                                    showMessage("picked correct file: " + chosenDir);
-                                    try {
-                                       bookService.addBookManually(chosenDir);
-                                    } catch(ServiceException s) {
-                                        showMessage(s.getMessage());
-                                    }
-                                } else
-                                    showMessage(getString(R.string.format_not_supported));
-                            }
-                        });
-                foDialog.Default_File_Name = "";
-                foDialog.chooseFile_or_Dir();
-
-                //bookService.insertTestBooks();
-                blAdapter.updateBookList();
-                break;
-            case R.id.download:
-                //todo download
-                showMessage("download pressed");
-                bookService.insertTestBooks();
-                blAdapter.updateBookList();
-                break;
         }
         return super.onContextItemSelected(item);
     }
 
     private void showMessage(String message) {
-        Toast.makeText(MyLibrary.this, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(MyLibraryActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 }
