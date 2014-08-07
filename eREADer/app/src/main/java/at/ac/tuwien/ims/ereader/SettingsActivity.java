@@ -5,17 +5,21 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import net.simonvt.menudrawer.MenuDrawer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import at.ac.tuwien.ims.ereader.Persistence.DatabaseHelper;
 import at.ac.tuwien.ims.ereader.Util.SidebarMenu;
@@ -27,9 +31,11 @@ public class SettingsActivity extends Activity {
     private ImageButton saveButton;
     private ImageButton menuBtn;
     private Button resetbtn;
-    private Spinner spinner;
     private DatabaseHelper db;
     private SidebarMenu sbMenu;
+    private Spinner fonttype;
+    private Spinner fontsize;
+    private TextView testtext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,46 +47,67 @@ public class SettingsActivity extends Activity {
 
         saveButton=(ImageButton)findViewById(R.id.savebtn_settings);
         saveButton.setOnClickListener(btnListener);
-
         resetbtn=(Button)findViewById(R.id.resetbtn);
         resetbtn.setOnClickListener(btnListener);
-
         menuBtn=(ImageButton)findViewById(R.id.optnbtn_settings);
         menuBtn.setOnClickListener(btnListener);
 
-        ArrayList<String> spinnerArray=new ArrayList<String>();
-        spinnerArray.add(getString(R.string.ger));
-        spinnerArray.add(getString(R.string.eng));
-        spinnerArray.add(getString(R.string.esp));
-
-        spinner = (Spinner) findViewById(R.id.langSpinner);
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this,
-                R.layout.spinner_item,
-                spinnerArray);
-        spinner.setAdapter(spinnerArrayAdapter);
-
-        SharedPreferences pref = getSharedPreferences("settings", 0);
-        int savedLang=pref.getInt("language", 1);
-        spinner.setSelection(savedLang, false);
-
-
         sbMenu=new SidebarMenu(this, false, true, false);
+
+        testtext=(TextView) findViewById(R.id.test_sentence);
+        int sizenow=(int)testtext.getTextSize();
+        Integer[] array1;
+        if (sizenow>6)
+            array1=new Integer[]{sizenow-6, sizenow-4,sizenow-2,sizenow,sizenow+2,sizenow+4, sizenow+6};
+        else
+            array1=new Integer[]{sizenow,sizenow+2,sizenow+4, sizenow+6};
+
+        SharedPreferences settings = getSharedPreferences("settings", 0);
+
+        fontsize=(Spinner) findViewById(R.id.font_size);
+        fontsize.setAdapter(new ArrayAdapter(this, android.R.layout.simple_spinner_item, array1));
+        Integer fonts=settings.getInt("font_size", sizenow);
+        fontsize.setSelection(Arrays.asList(array1).indexOf(fonts));
+        fontsize.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                testtext.setTextSize((Integer)fontsize.getItemAtPosition(position));
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {}
+        });
+
+        fonttype=(Spinner) findViewById(R.id.font_type);
+        String[] array2={"Arial","Times New Roman","Standard"};
+        fonttype.setAdapter(new ArrayAdapter(this, android.R.layout.simple_spinner_item, array2));
+        String fontt=settings.getString("font_type", "Times New Roman");
+        fonttype.setSelection(Arrays.asList(array2).indexOf(fontt));
+        fonttype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                //Typeface face = Typeface.createFromAsset(getAssets(), "font/Cooper.otf"); //todo which typefaces?
+                //testtext.setTypeface();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {}
+        });
+
+        testtext.setTextSize(fonts);
+        //Typeface face = Typeface.createFromAsset(getAssets(), "font/Cooper.otf");
+        //testtext.setTypeface();
     }
 
     private View.OnClickListener btnListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if (v==saveButton) {
-                SharedPreferences pref = getSharedPreferences("settings", 0);
-                SharedPreferences.Editor editor = pref.edit();
+                SharedPreferences settings = getSharedPreferences("settings", 0);
+                SharedPreferences.Editor editor = settings.edit();
 
-                //language todo do we need this? ->no
-                int item=spinner.getSelectedItemPosition();
-                editor.putInt("language", item);
+                //todo other settings?
+                editor.putInt("font_size", (Integer)fontsize.getSelectedItem());
+                editor.putString("font_type", (String)fonttype.getSelectedItem());
                 editor.apply();
-
-                //todo folder for downloaded books
-                //todo voice rate and maybe different voices
                 showMessage(getString(R.string.settings_saved));
             } else if (v==resetbtn) {
                 AlertDialog.Builder ab = new AlertDialog.Builder(SettingsActivity.this);

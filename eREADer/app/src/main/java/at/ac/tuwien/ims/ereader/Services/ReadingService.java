@@ -195,13 +195,13 @@ public class ReadingService extends Service {
 
         switch (b.getLanguage()) {
             case DE:
-                lang=Locale.GERMAN; //todo why u no work
+                lang=new Locale("de", "DE");
                 break;
             case ES:
                 lang=new Locale("es", "ES");
                 break;
             default:
-                lang=Locale.US;
+                lang=new Locale("en", "US");
         }
         updateSentences();
         updateTTS();

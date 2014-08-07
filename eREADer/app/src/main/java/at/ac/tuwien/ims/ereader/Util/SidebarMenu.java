@@ -104,7 +104,7 @@ public class SidebarMenu {
             if(sidebarItems.get(position).isActive())
                 holder.bg.setBackgroundColor(Color.parseColor("#FFD4D4D4"));
             else
-                holder.bg.setBackgroundColor(Color.parseColor("#ffe8e8e8"));
+                holder.bg.setBackgroundColor(Color.parseColor("#fffafafa"));
             return convertView;
         }
     }

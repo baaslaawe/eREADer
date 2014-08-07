@@ -41,7 +41,6 @@ public class MyLibraryActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //todo autoupdate library with ebooks in "eREADer eBooks" folder
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_library);
 

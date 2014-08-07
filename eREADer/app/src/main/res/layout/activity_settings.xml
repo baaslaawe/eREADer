@@ -76,9 +76,7 @@
                         android:layout_marginRight="10dp" />
                 </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
-
     </LinearLayout>
 
     <LinearLayout
@@ -132,99 +130,186 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:background="#fffafafa"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/scrollView"
         android:layout_weight="1.5"
-        android:orientation="vertical"
-        android:baselineAligned="false"
-        android:weightSum="2"
+        android:background="#ffe8e8e8"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp">
 
         <LinearLayout
+            android:background="#fffafafa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
             android:weightSum="3">
 
-            <FrameLayout
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:background="#ff263941">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/languages_settings"
-                    android:id="@+id/textView"
-                    android:layout_gravity="left|center_vertical"
-                    android:textColor="#fffafafa"
-                    android:layout_marginLeft="20dp" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="150dp"
                 android:layout_weight="1"
-                android:background="#ffe8e8e8">
+                android:weightSum="3"
+                android:id="@+id/linearLayout2">
 
-                <Spinner
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/langSpinner"
-                    android:layout_gravity="center_horizontal|top"
-                    android:spinnerMode="dialog"
-                    android:textAlignment="center" />
-            </FrameLayout>
-        </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:background="#ff263941" >
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:weightSum="3">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="@string/font_settings"
+                        android:id="@+id/textView"
+                        android:layout_gravity="left|center_vertical"
+                        android:layout_marginLeft="20dp"
+                        android:textColor="#fffafafa" />
+                </FrameLayout>
 
-            <FrameLayout
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:background="#ffe8e8e8"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:weightSum="5">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4">
+
+                            <Spinner
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:id="@+id/font_size"
+                                android:layout_gravity="left|top"
+                                android:spinnerMode="dropdown"
+                                android:textColor="#243840" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <Spinner
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:id="@+id/font_type"
+                                android:layout_gravity="center_horizontal|top"
+                                android:spinnerMode="dropdown"
+                                android:textColor="#243840" />
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/test"
+                            android:id="@+id/test_sentence"
+                            android:layout_gravity="center"
+                            android:textColor="#ff263941"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+                    </FrameLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:background="#ff263941">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/reset"
-                    android:id="@+id/reset"
-                    android:layout_gravity="left|center_vertical"
-                    android:layout_marginLeft="20dp"
-                    android:textColor="#fffafafa" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="150dp"
                 android:layout_weight="1"
-                android:id="@+id/lel2"
-                android:background="#ffe8e8e8">
+                android:id="@+id/linearLayout3" >
 
-                <Button
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/resetbtn"
-                    android:id="@+id/resetbtn"
-                    android:layout_gravity="center_horizontal|top"
-                    android:textColor="#ff263941"
-                    android:background="#ffd4d4d4" />
-            </FrameLayout>
-        </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:background="#ff263941" >
 
-    </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="todo"
+                        android:id="@+id/textView2"
+                        android:layout_gravity="left|center_vertical"
+                        android:layout_marginLeft="20dp"
+                        android:textColor="#fffafafa" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/frameLayout2"
+                    android:background="#ffe8e8e8" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_weight="1"
+                android:weightSum="3">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:background="#ff263941">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="@string/reset"
+                        android:id="@+id/reset"
+                        android:layout_gravity="left|center_vertical"
+                        android:layout_marginLeft="20dp"
+                        android:textColor="#fffafafa" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/lel2"
+                    android:background="#ffe8e8e8">
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/resetbtn"
+                        android:id="@+id/resetbtn"
+                        android:layout_gravity="center_horizontal|top"
+                        android:textColor="#ff263941"
+                        android:background="#ffd4d4d4" />
+                </FrameLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

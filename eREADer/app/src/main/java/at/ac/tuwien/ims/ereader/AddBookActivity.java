@@ -59,6 +59,7 @@ public class AddBookActivity extends Activity {
             public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3) {
                 String uri=dhAdapter.getItem(position).getURL();
                 if (uri.isEmpty()) {
+                    bookService.insertTestBooks();
                     AlertDialog.Builder ab = new AlertDialog.Builder(AddBookActivity.this);
                     ab.setMessage(dhAdapter.getItem(position).getHow_to_string()).setNeutralButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
                         @Override
