@@ -3,13 +3,13 @@
     android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/FullscreenTheme"
-    android:background="#ff000000"
+    android:background="#fffafafa"
     android:id="@+id/bg"
     android:orientation="vertical"
     android:baselineAligned="false"
     android:gravity="top"
     android:weightSum="10"
-    tools:context=".MyLibraryActivity">
+    tools:context=".HelpActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,11 +25,10 @@
             android:layout_weight="3"
             android:orientation="vertical"
             android:id="@+id/linearLayout" >
-
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/optnbtn_lib"
+                android:id="@+id/optnbtn_help"
                 android:src="@drawable/optbtn"
                 android:background="#00ffffff"
                 android:layout_gravity="left|center_vertical" />
@@ -45,41 +44,24 @@
             android:weightSum="5">
 
             <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
+                android:background="#243840"
+                android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:id="@+id/layoutToReplace">
+                android:orientation="horizontal"
+                android:baselineAligned="false"
+                android:weightSum="5">
 
-                <EditText
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/searchinput"
-                    android:layout_gravity="center_horizontal|right"
-                    android:textColor="#fffafafa"
-                    android:inputType="text"
-                    android:singleLine="true"
-                    android:textStyle="italic"
-                    android:typeface="normal"
-                    android:background="@drawable/searchbar" />
-
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/layoutToReplace">
                 </LinearLayout>
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="4">
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/searchbtn_lib"
-                    android:src="@drawable/searchbtn"
-                    android:layout_gravity="bottom|right"
-                    android:background="#00ffffff"
-                    android:layout_marginRight="10dp" />
             </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
@@ -89,27 +71,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="4"
-        android:weightSum="4"
+        android:weightSum="6"
         android:baselineAligned="false">
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="3"
+            android:layout_weight="5"
             android:id="@+id/roundbtnbg"
             android:background="@drawable/gro">
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/plusbtn"
-                android:src="@drawable/plusbtn"
-                android:background="#00ffffff"
-                android:contentDescription=""
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginRight="1dp" />
         </RelativeLayout>
 
         <LinearLayout
@@ -130,8 +101,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/library"
-                    android:id="@+id/mlibtxt"
+                    android:text="@string/help"
                     android:layout_gravity="bottom"
                     android:textColor="#fffafafa" />
             </LinearLayout>
@@ -143,53 +113,54 @@
                 android:layout_weight="1"
                 android:background="#fffafafa">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="@string/books"
-                    android:id="@+id/booktxt"
-                    android:gravity="top"
-                    android:textColor="#fffafafa" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:background="#99a1a6"
+        android:background="#fffafafa"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1.5"
         android:orientation="vertical"
-        android:baselineAligned="false">
+        android:baselineAligned="false"
+        android:weightSum="2"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/botlist"
-            android:baselineAligned="false"
-            android:background="#fafafa"
-            android:layout_marginTop="1px">
+            android:layout_weight="1"
+            android:weightSum="3">
 
-            <ListView
-                android:layout_width="0dp"
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="#ff263941">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="TODO"
+                    android:id="@+id/textView"
+                    android:layout_gravity="left|center_vertical"
+                    android:textColor="#fffafafa"
+                    android:layout_marginLeft="20dp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:id="@+id/booklist"
-                android:layout_gravity="bottom"
                 android:layout_weight="1"
-                android:choiceMode="singleChoice"
-                android:divider="#96243840"
-                android:dividerHeight="1px"
-                android:clickable="true"
-                android:drawSelectorOnTop="false"
-                android:fastScrollAlwaysVisible="false"
-                android:fastScrollEnabled="true"
-                android:footerDividersEnabled="true"
-                android:headerDividersEnabled="true"
-                android:listSelector="#00ffffff" />
+                android:background="#ffe8e8e8">
 
+            </FrameLayout>
         </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

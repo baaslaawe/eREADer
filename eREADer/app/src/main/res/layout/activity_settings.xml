@@ -25,14 +25,12 @@
             android:layout_weight="3"
             android:orientation="vertical"
             android:id="@+id/linearLayout" >
-
             <ImageButton
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/savebtn_settings"
-                android:src="@drawable/tickbtn"
+                android:layout_height="wrap_content"
+                android:id="@+id/optnbtn_settings"
+                android:src="@drawable/optbtn"
                 android:background="#00ffffff"
-                android:layout_marginLeft="10dp"
                 android:layout_gravity="left|center_vertical" />
         </LinearLayout>
 
@@ -66,7 +64,17 @@
                     android:orientation="vertical"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_weight="4"/>
+                    android:layout_weight="4">
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/savebtn_settings"
+                        android:src="@drawable/savebtn"
+                        android:background="#00ffffff"
+                        android:layout_gravity="center_vertical|right"
+                        android:layout_marginRight="10dp" />
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
@@ -203,6 +211,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
+                android:id="@+id/lel2"
                 android:background="#ffe8e8e8">
 
                 <Button
@@ -211,8 +220,8 @@
                     android:text="@string/resetbtn"
                     android:id="@+id/resetbtn"
                     android:layout_gravity="center_horizontal|top"
-                    android:background="#ffd4d4d4"
-                    android:textColor="#ff263941" />
+                    android:textColor="#ff263941"
+                    android:background="#ffd4d4d4" />
             </FrameLayout>
         </LinearLayout>
 

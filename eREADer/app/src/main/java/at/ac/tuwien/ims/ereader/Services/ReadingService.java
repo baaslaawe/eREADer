@@ -18,6 +18,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import com.github.johnpersano.supertoasts.SuperActivityToast;
 import com.github.johnpersano.supertoasts.SuperToast;
 
 import java.text.BreakIterator;
@@ -103,7 +104,6 @@ public class ReadingService extends Service {
     private void broadcastUpdate() {
         Intent intent = new Intent(BROADCAST_ACTION);
         intent.putExtra("update", true);
-        intent.putExtra("ttsDone", false);
         sendBroadcast(intent);
     }
 
@@ -284,11 +284,6 @@ public class ReadingService extends Service {
         mNotificationManager.notify(1, mBuilder.build());
     }
 
-    private void showMessage(String message) {
-        Toast.makeText(ReadingService.this, message, Toast.LENGTH_SHORT).show();
-    }
-
-
     //--------------------------------------------------------------------------
     private final IBinder binder = new ReadingServiceBinder();
 
@@ -304,6 +299,10 @@ public class ReadingService extends Service {
         super.onCreate();
         bookService=new BookService(this);
 
+        Intent intent = new Intent(BROADCAST_ACTION);
+        intent.putExtra("ttsStart", true);
+        sendBroadcast(intent);
+
         ttsService=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -312,7 +311,6 @@ public class ReadingService extends Service {
                     Log.d(ReadingService.class.getName(), "TTS initialized.");
                     Intent intent = new Intent(BROADCAST_ACTION);
                     intent.putExtra("ttsDone", true);
-                    intent.putExtra("update", false);
                     sendBroadcast(intent);
                 }
             }

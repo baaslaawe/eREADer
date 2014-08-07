@@ -32,7 +32,6 @@
                 android:id="@+id/optnbtn_add"
                 android:src="@drawable/optbtn"
                 android:background="#00ffffff"
-                android:layout_marginLeft="10dp"
                 android:layout_gravity="left|center_vertical" />
         </LinearLayout>
 
@@ -61,21 +60,6 @@
                     android:layout_weight="1"
                     android:id="@+id/layoutToReplace">
                 </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="4">
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/libbtn_add"
-                    android:layout_gravity="bottom|right"
-                    android:background="#00ffffff"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/libbtn"/>
-            </LinearLayout>
 
             </LinearLayout>
 
@@ -172,7 +156,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:background="#ffe8e8e8">
+                android:background="#ffe8e8e8"
+                android:id="@+id/lel2">
 
                 <Button
                     android:layout_width="match_parent"
@@ -180,8 +165,8 @@
                     android:text="@string/add"
                     android:id="@+id/add_button"
                     android:layout_gravity="center_horizontal|top"
-                    android:background="#ffd4d4d4"
-                    android:textColor="#ff263941" />
+                    android:textColor="#ff263941"
+                    android:background="#ffd4d4d4" />
             </FrameLayout>
         </LinearLayout>
 

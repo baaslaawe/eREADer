@@ -20,6 +20,9 @@ import android.widget.TextView;
 import com.github.johnpersano.supertoasts.SuperActivityToast;
 import com.github.johnpersano.supertoasts.SuperToast;
 
+import net.simonvt.menudrawer.MenuDrawer;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import at.ac.tuwien.ims.ereader.Entities.Book;
@@ -27,6 +30,7 @@ import at.ac.tuwien.ims.ereader.Entities.Chapter;
 import at.ac.tuwien.ims.ereader.Entities.CurrentPosition;
 import at.ac.tuwien.ims.ereader.Services.BookService;
 import at.ac.tuwien.ims.ereader.Services.ReadingService;
+import at.ac.tuwien.ims.ereader.Util.SidebarMenu;
 
 /**
  * Created by Flo on 09.07.2014.
@@ -36,7 +40,6 @@ public class BookViewerActivity extends Activity {
     private ImageButton ffButton;
     private ImageButton fbButton;
     private ImageButton playButton;
-    private ImageButton libbtn;
     private ImageButton volumeButton;
 
     private TextView content;
@@ -47,6 +50,7 @@ public class BookViewerActivity extends Activity {
     private boolean serviceBound;
 
     private SuperActivityToast ttsDoneToast;
+    private SidebarMenu sbMenu;
 
     //todo let user be able to pick a sentence to read
     //todo scroll textview automatically on longer contents
@@ -69,8 +73,6 @@ public class BookViewerActivity extends Activity {
         ffButton.setOnClickListener(btnListener);
         fbButton=(ImageButton)findViewById(R.id.fbbtn);
         fbButton.setOnClickListener(btnListener);
-        libbtn=(ImageButton)findViewById(R.id.libbtn);
-        libbtn.setOnClickListener(btnListener);
         volumeButton =(ImageButton)findViewById(R.id.volume_btn);
         volumeButton.setOnClickListener(btnListener);
 
@@ -96,20 +98,27 @@ public class BookViewerActivity extends Activity {
 
         content.setText(cont);
         chap_txt.setText(chapt);
+        sbMenu=new SidebarMenu(this, false, false, false);
+    }
 
-        ttsDoneToast = new SuperActivityToast(BookViewerActivity.this, SuperToast.Type.PROGRESS);
-        ttsDoneToast.setText(getString(R.string.ttsDone_str));
-        ttsDoneToast.setIndeterminate(true);
-        ttsDoneToast.setProgressIndeterminate(true);
-        ttsDoneToast.show();
+    @Override
+    public void onBackPressed() {
+        final int drawerState = sbMenu.getMenuDrawer().getDrawerState();
+        if (drawerState == MenuDrawer.STATE_OPEN || drawerState == MenuDrawer.STATE_OPENING) {
+            sbMenu.getMenuDrawer().closeMenu();
+            return;
+        }
+        super.onBackPressed();
     }
 
     private View.OnClickListener btnListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if (v==optButton) {
-                Intent myIntent = new Intent(BookViewerActivity.this, SettingsActivity.class);
-                startActivity(myIntent);
+                if(sbMenu.getMenuDrawer().isMenuVisible())
+                    sbMenu.getMenuDrawer().closeMenu();
+                else
+                    sbMenu.getMenuDrawer().openMenu();
             } else if (v==playButton) {
                 if (readingService.getPlaying()) {
                     readingService.stopReading();
@@ -120,9 +129,6 @@ public class BookViewerActivity extends Activity {
                 readingService.next();
             } else if(v==fbButton) {
                 readingService.last();
-            } else if (v==libbtn) {
-                Intent myIntent = new Intent(BookViewerActivity.this, MyLibraryActivity.class);
-                startActivity(myIntent);
             } else if (v== volumeButton) {
                 if (readingService.getMuted()) {
                     readingService.setMuted(false);
@@ -212,9 +218,19 @@ public class BookViewerActivity extends Activity {
                     updateContent();
                     updateChapter();
                     updateButtons();
+                }
+
+                if(extra.getBoolean("ttsStart")) {
+                    ttsDoneToast = new SuperActivityToast(BookViewerActivity.this, SuperToast.Type.PROGRESS);
+                    ttsDoneToast.setText(getString(R.string.ttsDone_str));
+                    ttsDoneToast.setIndeterminate(true);
+                    ttsDoneToast.setProgressIndeterminate(true);
+                    ttsDoneToast.show();
                 } else if (extra.getBoolean("ttsDone")) {
                     ttsDoneToast.dismiss();
                 }
+
+
             }
         }
     };

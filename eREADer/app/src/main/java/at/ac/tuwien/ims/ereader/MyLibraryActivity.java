@@ -18,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.simonvt.menudrawer.MenuDrawer;
-import net.simonvt.menudrawer.Position;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +26,7 @@ import java.util.TimerTask;
 
 import at.ac.tuwien.ims.ereader.Entities.Book;
 import at.ac.tuwien.ims.ereader.Services.BookService;
+import at.ac.tuwien.ims.ereader.Util.SidebarMenu;
 
 public class MyLibraryActivity extends Activity {
     private ImageButton optButton;
@@ -37,6 +37,7 @@ public class MyLibraryActivity extends Activity {
     private EditText searchbar;
 
     private BookService bookService;
+    private SidebarMenu sbMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,21 +73,17 @@ public class MyLibraryActivity extends Activity {
         searchbar=(EditText)findViewById(R.id.searchinput);
         searchbar.addTextChangedListener(textWatcher);
 
+        sbMenu=new SidebarMenu(this, true, false, false);
+
         registerForContextMenu(listview);
-
-        mDrawer = MenuDrawer.attach(this, MenuDrawer.Type.BEHIND, Position.LEFT, MenuDrawer.MENU_DRAG_WINDOW);
-        mDrawer.setMenuView(R.layout.menu_scrollview);
-
-
         hideSearchBar();
     }
-    private MenuDrawer mDrawer;
 
     @Override
     public void onBackPressed() {
-        final int drawerState = mDrawer.getDrawerState();
+        final int drawerState = sbMenu.getMenuDrawer().getDrawerState();
         if (drawerState == MenuDrawer.STATE_OPEN || drawerState == MenuDrawer.STATE_OPENING) {
-            mDrawer.closeMenu();
+            sbMenu.getMenuDrawer().closeMenu();
             return;
         }
         super.onBackPressed();
@@ -96,11 +93,10 @@ public class MyLibraryActivity extends Activity {
         @Override
         public void onClick(View v) {
             if (v==optButton) {
-                if (!mDrawer.isMenuVisible()) {
-                    mDrawer.openMenu();
-                }
-                //Intent myIntent = new Intent(MyLibraryActivity.this, SettingsActivity.class);
-                //startActivity(myIntent);
+                if(sbMenu.getMenuDrawer().isMenuVisible())
+                    sbMenu.getMenuDrawer().closeMenu();
+                else
+                    sbMenu.getMenuDrawer().openMenu();
             } else if (v==srchButton) {
                 if(!searchbarVisible)
                     showSearchBar();
@@ -110,7 +106,6 @@ public class MyLibraryActivity extends Activity {
                 Intent myIntent = new Intent(MyLibraryActivity.this, AddBookActivity.class);
                 startActivity(myIntent);
             }
-            //todo add buttons to menu: LOGO, library, settings
         }
     };
 

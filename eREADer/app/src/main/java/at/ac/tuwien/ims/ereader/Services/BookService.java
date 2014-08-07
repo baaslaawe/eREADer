@@ -112,7 +112,7 @@ public class BookService {
             nl.siegmann.epublib.domain.Book b2=new EpubReader().readEpub(new FileInputStream("/storage/emulated/0/.1ebooks/the sailor.epub"));
             nl.siegmann.epublib.domain.Book b3=new EpubReader().readEpub(new FileInputStream("/storage/emulated/0/.1ebooks/the magic curtain.epub"));
 
-            /*String author="";
+            String author="";
             for (int i=0; i<b.getMetadata().getAuthors().size(); i++) {
                 author += b.getMetadata().getAuthors().get(i).getFirstname() + " " + b.getMetadata().getAuthors().get(i).getLastname();
                 if (b.getMetadata().getAuthors().size() > 1)
@@ -132,7 +132,7 @@ public class BookService {
             } else
                 throw new ServiceException(ebook_loading_failed);
 
-            Book bookToSave= new Book(b.getMetadata().getFirstTitle(), author, lang);*/
+            Book bookToSave= new Book(b.getMetadata().getFirstTitle(), author, lang);
 
             BufferedReader reader;
             StringBuilder noHTMLString=new StringBuilder();

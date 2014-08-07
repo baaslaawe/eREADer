@@ -17,12 +17,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.simonvt.menudrawer.MenuDrawer;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import at.ac.tuwien.ims.ereader.Entities.DownloadHost;
 import at.ac.tuwien.ims.ereader.Services.BookService;
 import at.ac.tuwien.ims.ereader.Services.ServiceException;
+import at.ac.tuwien.ims.ereader.Util.SidebarMenu;
 import at.ac.tuwien.ims.ereader.Util.SimpleFileDialog;
 
 /**
@@ -31,9 +34,9 @@ import at.ac.tuwien.ims.ereader.Util.SimpleFileDialog;
 public class AddBookActivity extends Activity {
     private Button add_button;
     private ImageButton optButton;
-    private ImageButton libbtn;
     private BookService bookService;
     private DHAdapter dhAdapter;
+    private SidebarMenu sbMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +51,6 @@ public class AddBookActivity extends Activity {
         add_button.setOnClickListener(btnListener);
         optButton=(ImageButton)findViewById(R.id.optnbtn_add);
         optButton.setOnClickListener(btnListener);
-        libbtn=(ImageButton)findViewById(R.id.libbtn_add);
-        libbtn.setOnClickListener(btnListener);
 
         ListView listview = (ListView)findViewById(R.id.downloadhosts_list);
         dhAdapter = new DHAdapter(listview, getDownloadHosts());
@@ -70,6 +71,18 @@ public class AddBookActivity extends Activity {
             }
         });
         listview.setAdapter(dhAdapter);
+
+        sbMenu=new SidebarMenu(this, false, false, false);
+    }
+
+    @Override
+    public void onBackPressed() {
+        final int drawerState = sbMenu.getMenuDrawer().getDrawerState();
+        if (drawerState == MenuDrawer.STATE_OPEN || drawerState == MenuDrawer.STATE_OPENING) {
+            sbMenu.getMenuDrawer().closeMenu();
+            return;
+        }
+        super.onBackPressed();
     }
 
     private List<DownloadHost> getDownloadHosts() {
@@ -165,12 +178,11 @@ public class AddBookActivity extends Activity {
                         });
                 foDialog.Default_File_Name = "";
                 foDialog.chooseFile_or_Dir();
-            } else if(v==libbtn) {
-                Intent myIntent = new Intent(AddBookActivity.this, MyLibraryActivity.class);
-                startActivity(myIntent);
             } else if(v==optButton) {
-                Intent myIntent = new Intent(AddBookActivity.this, SettingsActivity.class);
-                startActivity(myIntent);
+                if(sbMenu.getMenuDrawer().isMenuVisible())
+                    sbMenu.getMenuDrawer().closeMenu();
+                else
+                    sbMenu.getMenuDrawer().openMenu();
             }
         }
     };

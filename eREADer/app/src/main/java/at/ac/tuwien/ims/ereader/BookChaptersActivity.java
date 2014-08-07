@@ -16,6 +16,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.simonvt.menudrawer.MenuDrawer;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -24,6 +26,7 @@ import java.util.TimerTask;
 import at.ac.tuwien.ims.ereader.Entities.Book;
 import at.ac.tuwien.ims.ereader.Entities.Chapter;
 import at.ac.tuwien.ims.ereader.Services.BookService;
+import at.ac.tuwien.ims.ereader.Util.SidebarMenu;
 
 public class BookChaptersActivity extends Activity {
     private ImageButton optButton;
@@ -32,6 +35,7 @@ public class BookChaptersActivity extends Activity {
     private CLAdapter clAdapter;
     private boolean searchbarVisible;
     private EditText searchbar;
+    private SidebarMenu sbMenu;
 
     private Book book;
     private BookService bookService;
@@ -89,14 +93,28 @@ public class BookChaptersActivity extends Activity {
         author_lang.setText(book.getAuthor() + ", " + lang);
         hideSearchBar();
         clAdapter.updateChapterList();
+
+        sbMenu=new SidebarMenu(this, false, false, false);
+    }
+
+    @Override
+    public void onBackPressed() {
+        final int drawerState = sbMenu.getMenuDrawer().getDrawerState();
+        if (drawerState == MenuDrawer.STATE_OPEN || drawerState == MenuDrawer.STATE_OPENING) {
+            sbMenu.getMenuDrawer().closeMenu();
+            return;
+        }
+        super.onBackPressed();
     }
 
     private View.OnClickListener btnListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if (v==optButton) {
-                Intent myIntent = new Intent(BookChaptersActivity.this, SettingsActivity.class);
-                startActivity(myIntent);
+                if(sbMenu.getMenuDrawer().isMenuVisible())
+                    sbMenu.getMenuDrawer().closeMenu();
+                else
+                    sbMenu.getMenuDrawer().openMenu();
             } else if (v==srchButton) {
                 if(!searchbarVisible)
                     showSearchBar();

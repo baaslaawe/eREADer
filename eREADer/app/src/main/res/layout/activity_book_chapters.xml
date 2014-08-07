@@ -32,7 +32,6 @@
                 android:id="@+id/optnbtn_chapter"
                 android:src="@drawable/optbtn"
                 android:background="#00ffffff"
-                android:layout_marginLeft="10dp"
                 android:layout_gravity="left|center_vertical" />
         </LinearLayout>
 
