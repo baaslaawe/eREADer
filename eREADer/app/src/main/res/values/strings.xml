@@ -38,6 +38,12 @@
     <string name="settings_saved">Your settings have been saved!</string>
     <string name="font_settings">Font Settings</string>
     <string name="test">This is a test.</string>
+    <string name="small">Small</string>
+    <string name="medium">Medium</string>
+    <string name="large">Large</string>
+    <string name="standard">Standard</string>
+    <string name="geosans">Geosans Light</string>
+    <string name="libertine">Linux Libertine</string>
 
     <string name="gutenberg_name">Project Gutenberg</string>
     <string name="gutenberg_howto">1. Download Book\n2. Add Book\n3. Read Book\nTODO</string>

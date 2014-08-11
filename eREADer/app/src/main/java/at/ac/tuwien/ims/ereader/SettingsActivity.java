@@ -20,9 +20,11 @@ import net.simonvt.menudrawer.MenuDrawer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import at.ac.tuwien.ims.ereader.Persistence.DatabaseHelper;
 import at.ac.tuwien.ims.ereader.Util.SidebarMenu;
+import at.ac.tuwien.ims.ereader.Util.StaticHelper;
 
 /**
  * Created by Flo on 13.07.2014.
@@ -36,6 +38,10 @@ public class SettingsActivity extends Activity {
     private Spinner fonttype;
     private Spinner fontsize;
     private TextView testtext;
+
+    private Typeface face0;
+    private Typeface face1;
+    private Typeface face2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,18 +61,19 @@ public class SettingsActivity extends Activity {
         sbMenu=new SidebarMenu(this, false, true, false);
 
         testtext=(TextView) findViewById(R.id.test_sentence);
-        int sizenow=(int)testtext.getTextSize();
+        int standardTextSize=(int)testtext.getTextSize();
+
         Integer[] array1;
-        if (sizenow>6)
-            array1=new Integer[]{sizenow-6, sizenow-4,sizenow-2,sizenow,sizenow+2,sizenow+4, sizenow+6};
+        if (standardTextSize>7)
+            array1=new Integer[]{standardTextSize-5, standardTextSize, standardTextSize+5};
         else
-            array1=new Integer[]{sizenow,sizenow+2,sizenow+4, sizenow+6};
+            array1=new Integer[]{standardTextSize, standardTextSize+5};
 
         SharedPreferences settings = getSharedPreferences("settings", 0);
 
         fontsize=(Spinner) findViewById(R.id.font_size);
         fontsize.setAdapter(new ArrayAdapter(this, android.R.layout.simple_spinner_item, array1));
-        Integer fonts=settings.getInt("font_size", sizenow);
+        Integer fonts=settings.getInt("font_size", standardTextSize);
         fontsize.setSelection(Arrays.asList(array1).indexOf(fonts));
         fontsize.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -78,23 +85,37 @@ public class SettingsActivity extends Activity {
         });
 
         fonttype=(Spinner) findViewById(R.id.font_type);
-        String[] array2={"Arial","Times New Roman","Standard"};
+        face0 = testtext.getTypeface();
+        face1 = Typeface.createFromAsset(getAssets(), "fonts/GeosansLight.ttf");
+        face2 = Typeface.createFromAsset(getAssets(), "fonts/LinLibertine_R.ttf");
+        String[] array2={getString(R.string.standard), getString(R.string.geosans), getString(R.string.libertine)};
+
         fonttype.setAdapter(new ArrayAdapter(this, android.R.layout.simple_spinner_item, array2));
-        String fontt=settings.getString("font_type", "Times New Roman");
-        fonttype.setSelection(Arrays.asList(array2).indexOf(fontt));
+        long fontt=settings.getLong("font_type", 0);
+        fonttype.setSelection((int) fontt);
         fonttype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                //Typeface face = Typeface.createFromAsset(getAssets(), "font/Cooper.otf"); //todo which typefaces?
-                //testtext.setTypeface();
+                if (id==StaticHelper.typeface_1) {
+                    testtext.setTypeface(face1);
+                } else if (id==StaticHelper.typeface_2) {
+                    testtext.setTypeface(face2);
+                } else {
+                    testtext.setTypeface(face0);
+                }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {}
         });
 
         testtext.setTextSize(fonts);
-        //Typeface face = Typeface.createFromAsset(getAssets(), "font/Cooper.otf");
-        //testtext.setTypeface();
+        if (fontt==StaticHelper.typeface_1) {
+            testtext.setTypeface(face1);
+        } else if (fontt==StaticHelper.typeface_2) {
+            testtext.setTypeface(face2);
+        } else {
+            testtext.setTypeface(face0);
+        }
     }
 
     private View.OnClickListener btnListener = new View.OnClickListener() {
@@ -106,7 +127,7 @@ public class SettingsActivity extends Activity {
 
                 //todo other settings?
                 editor.putInt("font_size", (Integer)fontsize.getSelectedItem());
-                editor.putString("font_type", (String)fonttype.getSelectedItem());
+                editor.putLong("font_type", fonttype.getSelectedItemId());
                 editor.apply();
                 showMessage(getString(R.string.settings_saved));
             } else if (v==resetbtn) {

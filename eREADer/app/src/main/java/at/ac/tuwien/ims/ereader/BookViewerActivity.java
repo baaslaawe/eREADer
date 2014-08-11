@@ -7,7 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.text.Spannable;
@@ -22,7 +24,6 @@ import com.github.johnpersano.supertoasts.SuperToast;
 
 import net.simonvt.menudrawer.MenuDrawer;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import at.ac.tuwien.ims.ereader.Entities.Book;
@@ -31,6 +32,7 @@ import at.ac.tuwien.ims.ereader.Entities.CurrentPosition;
 import at.ac.tuwien.ims.ereader.Services.BookService;
 import at.ac.tuwien.ims.ereader.Services.ReadingService;
 import at.ac.tuwien.ims.ereader.Util.SidebarMenu;
+import at.ac.tuwien.ims.ereader.Util.StaticHelper;
 
 /**
  * Created by Flo on 09.07.2014.
@@ -51,6 +53,11 @@ public class BookViewerActivity extends Activity {
 
     private SuperActivityToast ttsDoneToast;
     private SidebarMenu sbMenu;
+
+    private Typeface face0;
+    private Typeface face1;
+    private Typeface face2;
+    private int standardTextSize;
 
     //todo let user be able to pick a sentence to read
     //todo scroll textview automatically on longer contents
@@ -99,6 +106,12 @@ public class BookViewerActivity extends Activity {
         content.setText(cont);
         chap_txt.setText(chapt);
         sbMenu=new SidebarMenu(this, false, false, false);
+
+        face0 = content.getTypeface();
+        face1 = Typeface.createFromAsset(getAssets(), "fonts/GeosansLight.ttf");
+        face2 = Typeface.createFromAsset(getAssets(), "fonts/LinLibertine_R.ttf");
+        standardTextSize =(int)content.getTextSize();
+        updateTextSettings();
     }
 
     @Override
@@ -152,6 +165,25 @@ public class BookViewerActivity extends Activity {
                 content.setText(spanText);
             }
         });
+
+        updateTextSettings();
+    }
+
+    private void updateTextSettings() {
+        SharedPreferences settings = getSharedPreferences("settings", 0);
+
+        int fonts=settings.getInt("font_size", standardTextSize);
+        if (standardTextSize != fonts)
+            content.setTextSize(fonts);
+
+        long id=settings.getLong("font_type", StaticHelper.typeface_0);
+        if (id==StaticHelper.typeface_1) {
+            content.setTypeface(face1);
+        } else if (id==StaticHelper.typeface_2) {
+            content.setTypeface(face2);
+        } else {
+            content.setTypeface(face0);
+        }
     }
 
     private void updateChapter() {
