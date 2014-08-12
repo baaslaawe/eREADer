@@ -18,9 +18,7 @@ import android.widget.Toast;
 
 import net.simonvt.menudrawer.MenuDrawer;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 import at.ac.tuwien.ims.ereader.Persistence.DatabaseHelper;
 import at.ac.tuwien.ims.ereader.Util.SidebarMenu;
@@ -43,6 +41,10 @@ public class SettingsActivity extends Activity {
     private Typeface face1;
     private Typeface face2;
 
+    private int size_small;
+    private int size_medium;
+    private int size_large;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,22 +65,34 @@ public class SettingsActivity extends Activity {
         testtext=(TextView) findViewById(R.id.test_sentence);
         int standardTextSize=(int)testtext.getTextSize();
 
-        Integer[] array1;
-        if (standardTextSize>7)
-            array1=new Integer[]{standardTextSize-5, standardTextSize, standardTextSize+5};
-        else
-            array1=new Integer[]{standardTextSize, standardTextSize+5};
-
         SharedPreferences settings = getSharedPreferences("settings", 0);
 
         fontsize=(Spinner) findViewById(R.id.font_size);
-        fontsize.setAdapter(new ArrayAdapter(this, android.R.layout.simple_spinner_item, array1));
-        Integer fonts=settings.getInt("font_size", standardTextSize);
-        fontsize.setSelection(Arrays.asList(array1).indexOf(fonts));
+        String[] array1;
+        if (standardTextSize>StaticHelper.typesize_range) {
+            size_small = standardTextSize - StaticHelper.typesize_range;
+            size_medium = standardTextSize;
+            size_large = standardTextSize + StaticHelper.typesize_range;
+        } else {
+            size_small = standardTextSize;
+            size_medium = standardTextSize;
+            size_large = standardTextSize + StaticHelper.typesize_range;
+        }
+        array1 = new String[]{getString(R.string.small), getString(R.string.medium), getString(R.string.large)};
+
+        fontsize.setAdapter(new ArrayAdapter(this, R.layout.spinner_item, array1));
+        long fonts=settings.getLong("font_size", 1);
+        fontsize.setSelection((int)fonts);
         fontsize.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                testtext.setTextSize((Integer)fontsize.getItemAtPosition(position));
+                if (id==StaticHelper.typesize_small) {
+                    testtext.setTextSize(size_small);
+                } else if (id==StaticHelper.typesize_large) {
+                    testtext.setTextSize(size_large);
+                } else {
+                    testtext.setTextSize(size_medium);
+                }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {}
@@ -90,15 +104,15 @@ public class SettingsActivity extends Activity {
         face2 = Typeface.createFromAsset(getAssets(), "fonts/LinLibertine_R.ttf");
         String[] array2={getString(R.string.standard), getString(R.string.geosans), getString(R.string.libertine)};
 
-        fonttype.setAdapter(new ArrayAdapter(this, android.R.layout.simple_spinner_item, array2));
+        fonttype.setAdapter(new ArrayAdapter(this, R.layout.spinner_item, array2));
         long fontt=settings.getLong("font_type", 0);
         fonttype.setSelection((int) fontt);
         fonttype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                if (id==StaticHelper.typeface_1) {
+                if (id==StaticHelper.typeface_GeoSans) {
                     testtext.setTypeface(face1);
-                } else if (id==StaticHelper.typeface_2) {
+                } else if (id==StaticHelper.typeface_Libertine) {
                     testtext.setTypeface(face2);
                 } else {
                     testtext.setTypeface(face0);
@@ -108,10 +122,17 @@ public class SettingsActivity extends Activity {
             public void onNothingSelected(AdapterView<?> parentView) {}
         });
 
-        testtext.setTextSize(fonts);
-        if (fontt==StaticHelper.typeface_1) {
+        if (fonts==StaticHelper.typesize_small) {
+            testtext.setTextSize(size_small);
+        } else if (fonts==StaticHelper.typesize_large) {
+            testtext.setTextSize(size_large);
+        } else {
+            testtext.setTextSize(size_medium);
+        }
+
+        if (fontt==StaticHelper.typeface_GeoSans) {
             testtext.setTypeface(face1);
-        } else if (fontt==StaticHelper.typeface_2) {
+        } else if (fontt==StaticHelper.typeface_Libertine) {
             testtext.setTypeface(face2);
         } else {
             testtext.setTypeface(face0);
@@ -124,9 +145,7 @@ public class SettingsActivity extends Activity {
             if (v==saveButton) {
                 SharedPreferences settings = getSharedPreferences("settings", 0);
                 SharedPreferences.Editor editor = settings.edit();
-
-                //todo other settings?
-                editor.putInt("font_size", (Integer)fontsize.getSelectedItem());
+                editor.putLong("font_size", fontsize.getSelectedItemId());
                 editor.putLong("font_type", fonttype.getSelectedItemId());
                 editor.apply();
                 showMessage(getString(R.string.settings_saved));

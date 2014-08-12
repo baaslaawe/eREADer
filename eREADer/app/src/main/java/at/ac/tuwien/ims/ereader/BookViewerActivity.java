@@ -57,7 +57,10 @@ public class BookViewerActivity extends Activity {
     private Typeface face0;
     private Typeface face1;
     private Typeface face2;
-    private int standardTextSize;
+
+    private int size_small;
+    private int size_medium;
+    private int size_large;
 
     //todo let user be able to pick a sentence to read
     //todo scroll textview automatically on longer contents
@@ -107,10 +110,19 @@ public class BookViewerActivity extends Activity {
         chap_txt.setText(chapt);
         sbMenu=new SidebarMenu(this, false, false, false);
 
+        int standardTextSize=(int)content.getTextSize();
+        if (standardTextSize>StaticHelper.typesize_range) {
+            size_small = standardTextSize - StaticHelper.typesize_range;
+            size_medium = standardTextSize;
+            size_large = standardTextSize + StaticHelper.typesize_range;
+        } else {
+            size_small = standardTextSize;
+            size_medium = standardTextSize;
+            size_large = standardTextSize + StaticHelper.typesize_range;
+        }
         face0 = content.getTypeface();
         face1 = Typeface.createFromAsset(getAssets(), "fonts/GeosansLight.ttf");
         face2 = Typeface.createFromAsset(getAssets(), "fonts/LinLibertine_R.ttf");
-        standardTextSize =(int)content.getTextSize();
         updateTextSettings();
     }
 
@@ -172,14 +184,19 @@ public class BookViewerActivity extends Activity {
     private void updateTextSettings() {
         SharedPreferences settings = getSharedPreferences("settings", 0);
 
-        int fonts=settings.getInt("font_size", standardTextSize);
-        if (standardTextSize != fonts)
-            content.setTextSize(fonts);
+        long fonts=settings.getLong("font_size", StaticHelper.typesize_medium);
+        if (fonts==StaticHelper.typesize_small) {
+            content.setTextSize(size_small);
+        } else if (fonts==StaticHelper.typesize_large) {
+            content.setTextSize(size_large);
+        } else {
+            content.setTextSize(size_medium);
+        }
 
-        long id=settings.getLong("font_type", StaticHelper.typeface_0);
-        if (id==StaticHelper.typeface_1) {
+        long id=settings.getLong("font_type", StaticHelper.typeface_Standard);
+        if (id==StaticHelper.typeface_GeoSans) {
             content.setTypeface(face1);
-        } else if (id==StaticHelper.typeface_2) {
+        } else if (id==StaticHelper.typeface_Libertine) {
             content.setTypeface(face2);
         } else {
             content.setTypeface(face0);

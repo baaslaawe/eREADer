@@ -27,6 +27,8 @@ public class HelpActivity extends Activity {
         menuBtn.setOnClickListener(btnListener);
 
         sbMenu=new SidebarMenu(this, false, false, true);
+
+        //todo fill with help
     }
 
     private View.OnClickListener btnListener = new View.OnClickListener() {

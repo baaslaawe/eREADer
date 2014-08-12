@@ -74,6 +74,8 @@ public class AddBookActivity extends Activity {
         listview.setAdapter(dhAdapter);
 
         sbMenu=new SidebarMenu(this, false, false, false);
+
+        //todo add help for downloading
     }
 
     @Override
