@@ -2,6 +2,7 @@ package at.ac.tuwien.ims.ereader.Services;
 
 import android.app.Service;
 import android.content.Context;
+import android.provider.DocumentsContract;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.Spanned;
@@ -14,6 +15,10 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -21,7 +26,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import at.ac.tuwien.ims.ereader.Entities.Book;
 import at.ac.tuwien.ims.ereader.Entities.Chapter;
@@ -87,12 +95,26 @@ public class BookService {
                         "\nTEST CONTENT 6. TEST CONTENT 6. TEST CONTENT 6.\n" +
                         "\nYou do not feel, how such a trade debases;\n" +
                         "How ill it suits the Artist, proud and true!\n" +
-                        "\nTEST CONTENT 7. TEST CONTENT 7. TEST CONTENT 7.");
+                        "\nTEST CONTENT 7. TEST CONTENT 7. TEST CONTENT 7." +
+                        "\nYou do not feel, how such a trade debases;\n" +
+                        "\nYou do not feel, how such a trade debases;\n" +
+                        "\nYou do not feel, how such a trade debases;\n" +
+                        "\nYou do not feel, how such a trade debases;\n" +
+                        "\nYou do not feel, how such a trade debases;\n" +
+                        "\nYou do not feel, how such a trade debases;\n" +
+                        "\nYou do not feel, how such a trade debases;\n" +
+                        "\nYou do not feel, how such a trade debases;\n" +
+                        "\nYou do not feel, how such a trade debases;\n" +
+                        "\nYou do not feel, how such a trade debases;\n" +
+                        "\nYou do not feel, how such a trade debases;\n" +
+                        "\nYou do not feel, how such a trade debases;\n" +
+                        "\nYou do not feel, how such a trade debases;\n");
 
         updateCurrentPosition(new CurrentPosition(b1.getId(), 1, 1));
         updateCurrentPosition(new CurrentPosition(b2.getId(), 2, 0));
     }
 
+    //todo read chapter headings (just add it in front of saved text)
     public void addBookManually(String URI) throws ServiceException {
         if(URI.endsWith(".epub"))
             this.addBookAsEPUB(URI);
@@ -106,12 +128,13 @@ public class BookService {
             throw new ServiceException(format_not_supported);
     }
 
-    private void addBookAsEPUB(String URI) throws ServiceException {
+    public void addBookAsEPUB(String URI) throws ServiceException {
         try {
-            nl.siegmann.epublib.domain.Book b=new EpubReader().readEpub(new FileInputStream("/storage/emulated/0/.1ebooks/ulysses.epub"));
-            nl.siegmann.epublib.domain.Book b2=new EpubReader().readEpub(new FileInputStream("/storage/emulated/0/.1ebooks/the sailor.epub"));
-            nl.siegmann.epublib.domain.Book b3=new EpubReader().readEpub(new FileInputStream("/storage/emulated/0/.1ebooks/the magic curtain.epub"));
-
+            //String URI1="/storage/emulated/0/.1ebooks/finn.epub";
+            //String URI1="/storage/emulated/0/.1ebooks/pride.epub";
+            //String URI1="/storage/emulated/0/.1ebooks/alice.epub";
+            String URI1="/storage/emulated/0/.1ebooks/sherlock.epub";
+            nl.siegmann.epublib.domain.Book b=new EpubReader().readEpub(new FileInputStream(URI1));
             String author="";
             for (int i=0; i<b.getMetadata().getAuthors().size(); i++) {
                 author += b.getMetadata().getAuthors().get(i).getFirstname() + " " + b.getMetadata().getAuthors().get(i).getLastname();
@@ -135,17 +158,41 @@ public class BookService {
             Book bookToSave= new Book(b.getMetadata().getFirstTitle(), author, lang);
 
             BufferedReader reader;
-            StringBuilder noHTMLString=new StringBuilder();
             StringBuilder htmlString=new StringBuilder();
             for (TOCReference tocReference : b.getTableOfContents().getTocReferences()) {
                 reader = new BufferedReader(new InputStreamReader(tocReference.getResource().getInputStream()));
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    noHTMLString.append(Html.fromHtml(line));
-                    noHTMLString.append("\n");
                     htmlString.append(line);
                 }
             }
+
+            Document doc = Jsoup.parse(htmlString.toString());
+            Elements elements=doc.getElementsByTag("chapter");
+            elements.addAll(doc.getElementsByTag("h1"));
+            elements.addAll(doc.getElementsByTag("h2"));
+            elements.addAll(doc.getElementsByTag("h3"));
+
+            Set<String> temp=new LinkedHashSet<String>();
+            for (int i=0; i<elements.size();i++) {
+                /*newE.addAll(e.getElementsContainingText("chapter"));
+                newE.addAll(e.getElementsContainingText("book"));
+                newE.addAll(e.getElementsContainingText("prologue"));
+                newE.addAll(e.getElementsContainingText("epilogue"));
+                newE.addAll(e.getElementsContainingText("part"));
+                newE.addAll(e.getElementsContainingText("section"));*/
+                String t=elements.get(i).text();
+                if(!t.toLowerCase().contains(bookToSave.getTitle().toLowerCase()) && !t.toLowerCase().contains(bookToSave.getAuthor().toLowerCase())
+                        && !t.toLowerCase().contains("content") && !t.toLowerCase().contains("contents") && !t.toLowerCase().contains("chapters"))
+                    temp.add(t);
+            }
+
+            List<Chapter> chapters=new ArrayList<Chapter>();
+            int i=0;
+            for (String s: temp) {
+                chapters.add(new Chapter(bookToSave, s, i++, "lel"));
+            }
+
             //todo
             Chapter c= new Chapter(new Book("lel", "lel", Language.DE), "lel",0, "lel");
 
@@ -156,11 +203,11 @@ public class BookService {
         }
     }
 
-    private void addBookAsPDF(String URI) throws ServiceException {
+    private void addBookAsHTML(String URI) throws ServiceException {
         //todo
     }
 
-    private void addBookAsHTML(String URI) throws ServiceException {
+    private void addBookAsPDF(String URI) throws ServiceException {
         //todo
     }
 

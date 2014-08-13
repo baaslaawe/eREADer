@@ -26,6 +26,7 @@ import java.util.TimerTask;
 
 import at.ac.tuwien.ims.ereader.Entities.Book;
 import at.ac.tuwien.ims.ereader.Services.BookService;
+import at.ac.tuwien.ims.ereader.Services.ServiceException;
 import at.ac.tuwien.ims.ereader.Util.SidebarMenu;
 
 public class MyLibraryActivity extends Activity {
@@ -76,6 +77,11 @@ public class MyLibraryActivity extends Activity {
 
         registerForContextMenu(listview);
         hideSearchBar();
+        try {
+            bookService.addBookAsEPUB("");
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

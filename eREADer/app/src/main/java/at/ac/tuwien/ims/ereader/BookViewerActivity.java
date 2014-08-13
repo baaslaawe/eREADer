@@ -177,8 +177,6 @@ public class BookViewerActivity extends Activity {
                 content.setText(spanText);
             }
         });
-
-        updateTextSettings();
     }
 
     private void updateTextSettings() {
@@ -264,6 +262,7 @@ public class BookViewerActivity extends Activity {
             if(action.equalsIgnoreCase(ReadingService.BROADCAST_ACTION)) {
                 Bundle extra = intent.getExtras();
                 if (extra.getBoolean("update")) {
+                    updateTextSettings();
                     updateContent();
                     updateChapter();
                     updateButtons();

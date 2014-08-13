@@ -72,7 +72,6 @@ public class ReadingService extends Service {
                 public void run() {
                     while (playing) {
                         synchronized (ttsService) {
-                            //todo read chapter headings
                             while (reading);
                             if(!playing)
                                 return;
@@ -91,7 +90,7 @@ public class ReadingService extends Service {
         }
     }
 
-    public void stopReading() { //todo show and play correct position after pause
+    public void stopReading() { //todo if pause/play clicked too many times it skips...
         if (ttsService != null) {
             if (ttsService.isSpeaking())
                 ttsService.stop();
@@ -211,9 +210,6 @@ public class ReadingService extends Service {
     private void updateTTS() {
         if (ttsService.isLanguageAvailable(lang)==TextToSpeech.LANG_COUNTRY_AVAILABLE)
             ttsService.setLanguage(lang);
-
-        // ttsService.setSpeechRate(float bla); todo get from settings
-        //todo set voice?
     }
 
     private void updateSentences() {
@@ -237,6 +233,7 @@ public class ReadingService extends Service {
         }
     }
 
+    //todo doesnt always work in background?
     private void updateNotificationBar() {
         RemoteViews notificationView = new RemoteViews(getPackageName(), R.layout.navigation_bar);
 
@@ -321,20 +318,24 @@ public class ReadingService extends Service {
             public void onDone(String utteranceId) {
                 Log.d(ReadingService.class.getName(), "Stopped reading: " + sentences.get(currentSentence));
                 if (currentSentence < sentences.size()-1) {
-                    currentSentence++;
+                    if(playing)
+                        currentSentence++;
+                    bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentChapter, currentSentence));
                     reading = false;
                 } else if (currentSentence==sentences.size()-1
                         && currentChapter==chapters.size()-1) {
                     Log.d(ReadingService.class.getName(), "Reached end of book.");
                     stopReading();
+                    bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentChapter, currentSentence));
                     reading = false;
-                    broadcastUpdate();
                 } else {
                     Log.d(ReadingService.class.getName(), "Reached end of chapter, skipping to the next.");
                     next();
+                    bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentChapter, currentSentence));
                     reading = false;
                     startReading();
                 }
+                broadcastUpdate();
             }
 
             @Override
@@ -343,7 +344,6 @@ public class ReadingService extends Service {
             @Override
             public void onStart(String utteranceId) {
                 Log.d(ReadingService.class.getName(), "Starting to read: " + sentences.get(currentSentence));
-                bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentChapter, currentSentence));
                 broadcastUpdate();
             }
         });
