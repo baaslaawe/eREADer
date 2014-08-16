@@ -92,17 +92,10 @@ public class BookService {
         insertChapter(b2, "Chapter 3", 3,
                 "Chiefly, enough of incident prepare!\n" +
                         "They come to look, and they prefer to stare.\n" +
-                        "\nTEST CONTENT 6. TEST CONTENT 6. TEST CONTENT 6.\n" +
+                        "\nTEST CONTENT 6.\n TEST CONTENT 6.\nTEST CONTENT 6.\n" +
                         "\nYou do not feel, how such a trade debases;\n" +
                         "How ill it suits the Artist, proud and true!\n" +
-                        "\nTEST CONTENT 7. TEST CONTENT 7. TEST CONTENT 7." +
-                        "\nYou do not feel, how such a trade debases;\n" +
-                        "\nYou do not feel, how such a trade debases;\n" +
-                        "\nYou do not feel, how such a trade debases;\n" +
-                        "\nYou do not feel, how such a trade debases;\n" +
-                        "\nYou do not feel, how such a trade debases;\n" +
-                        "\nYou do not feel, how such a trade debases;\n" +
-                        "\nYou do not feel, how such a trade debases;\n" +
+                        "\nTEST CONTENT 7.\nTEST CONTENT 7.\nTEST CONTENT 7." +
                         "\nYou do not feel, how such a trade debases;\n" +
                         "\nYou do not feel, how such a trade debases;\n" +
                         "\nYou do not feel, how such a trade debases;\n" +

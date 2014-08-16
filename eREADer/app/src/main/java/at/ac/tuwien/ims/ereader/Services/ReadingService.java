@@ -13,6 +13,7 @@ import android.os.IBinder;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.support.v4.app.NotificationCompat;
+import android.text.Layout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -130,6 +131,10 @@ public class ReadingService extends Service {
         return sentences.get(currentSentence);
     }
 
+    public void setCurrentSentence(int currentSentence) {
+        this.currentSentence=currentSentence;
+    }
+
     public String getCurrChapterHeading() {
         return chapters.get(currentChapter).getHeading();
     }
@@ -231,6 +236,61 @@ public class ReadingService extends Service {
                 sentences.add(content.substring(firstIndex, lastIndex));
             }
         }
+    }
+
+    public int[] getIndicesOfClickedSentence(Layout layout, int x, int y) {
+        int[] f=new int[2];
+        f[0]=0;
+        f[1]=0;
+
+        String content=getCurrentContent();
+        int line = layout.getLineForVertical(y);
+        int clickedChar = layout.getOffsetForHorizontal(line, x);
+
+        BreakIterator it=null;
+        if (lang!=null)
+            it = BreakIterator.getSentenceInstance(lang);
+        else
+            it = BreakIterator.getSentenceInstance(Locale.US);
+        it.setText(content);
+
+        int lastIndex = it.first();
+        while (lastIndex != BreakIterator.DONE) {
+            int firstIndex = lastIndex;
+            lastIndex = it.next();
+
+            if (lastIndex != BreakIterator.DONE && clickedChar >= firstIndex && clickedChar <= lastIndex) {
+                f[0]=firstIndex;
+                f[1]=lastIndex;
+                break;
+            }
+        }
+        return f;
+    }
+
+    public int getSentenceNumberByClick(Layout layout, int x, int y) {
+        String content=getCurrentContent();
+        int line = layout.getLineForVertical(y);
+        int clickedChar = layout.getOffsetForHorizontal(line, x);
+
+        BreakIterator it=null;
+        if (lang!=null)
+            it = BreakIterator.getSentenceInstance(lang);
+        else
+            it = BreakIterator.getSentenceInstance(Locale.US);
+        it.setText(content);
+
+        int i=0;
+        int lastIndex = it.first();
+        while (lastIndex != BreakIterator.DONE) {
+            int firstIndex = lastIndex;
+            lastIndex = it.next();
+
+            if (lastIndex != BreakIterator.DONE && clickedChar >= firstIndex && clickedChar <= lastIndex)
+                break;
+            i++;
+        }
+        return i;
     }
 
     //todo doesnt always work in background?

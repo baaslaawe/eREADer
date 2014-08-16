@@ -44,6 +44,8 @@
     <string name="standard">Standard</string>
     <string name="geosans">GeoSans Light</string>
     <string name="libertine">Linux Libertine</string>
+    <string name="start_from_here">Start reading from this sentence</string>
+    <string name="cancel">Cancel</string>
 
 
     <string name="gutenberg_name">Project Gutenberg</string>

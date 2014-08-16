@@ -1,9 +1,11 @@
 package at.ac.tuwien.ims.ereader;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -11,13 +13,21 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.text.Layout;
 import android.text.Spannable;
 import android.text.style.BackgroundColorSpan;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.johnpersano.supertoasts.SuperActivityToast;
 import com.github.johnpersano.supertoasts.SuperToast;
@@ -62,8 +72,7 @@ public class BookViewerActivity extends Activity {
     private int size_medium;
     private int size_large;
 
-    //todo let user be able to pick a sentence to read
-    //todo scroll textview automatically on longer contents
+    private long clicktime=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +133,60 @@ public class BookViewerActivity extends Activity {
         face1 = Typeface.createFromAsset(getAssets(), "fonts/GeosansLight.ttf");
         face2 = Typeface.createFromAsset(getAssets(), "fonts/LinLibertine_R.ttf");
         updateTextSettings();
+
+        content.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    clicktime=event.getEventTime();
+                    return true;
+                } else if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if(clicktime!=0 && (event.getEventTime()-clicktime)>=800) {
+                        final Layout layout = ((TextView) v).getLayout();
+                        if (layout!=null) {
+                            final int x=(int) event.getX();
+                            final int y=(int) event.getY();
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Spannable spanText = Spannable.Factory.getInstance().newSpannable(readingService.getCurrentContent());
+                                    int i[] = readingService.getIndicesOfCurrentSentence();
+                                    int j[] = readingService.getIndicesOfClickedSentence(layout, x, y);
+                                    if (i != null && j != null) {
+                                        spanText.setSpan(new BackgroundColorSpan(Color.parseColor("#0FC1B8")), i[0], i[1], Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                        spanText.setSpan(new BackgroundColorSpan(Color.parseColor("#0FC1B8")), j[0], j[1], Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                        content.setText(spanText);
+                                    }
+                                }
+                            });
+
+                            CharSequence[] items = {getString(R.string.start_from_here), getString(R.string.cancel)};
+                            AlertDialog.Builder builder = new AlertDialog.Builder(BookViewerActivity.this);
+                            builder.setItems(items, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int item) {
+                                    if (item == 0) {
+                                        readingService.setCurrentSentence(readingService.getSentenceNumberByClick(layout, x, y));
+                                    }
+                                    updateContent();
+                                }
+                            });
+                            AlertDialog dialog = builder.create();
+                            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                            dialog.getWindow().getAttributes().gravity = Gravity.BOTTOM;
+                            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                @Override
+                                public void onDismiss(DialogInterface dialog) {
+                                    updateContent();
+                                }
+                            });
+                            dialog.show();
+                        }
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -167,14 +230,30 @@ public class BookViewerActivity extends Activity {
         }
     };
 
-    public void updateContent() {
+    //todo why does the text disappear after scroll, make scrolling only possible when not reading
+    private final void updateFocus() {
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                Layout layout=content.getLayout();
+                if (layout!=null) {
+                    int line = layout.getLineForOffset((readingService.getIndicesOfCurrentSentence()[0] - (layout.getLineCount() / 2)));
+                    content.scrollTo(0, layout.getLineTop(line));
+                }
+            }
+        });
+    }
+
+    private void updateContent() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Spannable spanText = Spannable.Factory.getInstance().newSpannable(readingService.getCurrentContent());
                 int i[] = readingService.getIndicesOfCurrentSentence();
-                spanText.setSpan(new BackgroundColorSpan(Color.parseColor("#0FC1B8")), i[0], i[1], Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                content.setText(spanText);
+                if (i!=null){
+                    spanText.setSpan(new BackgroundColorSpan(Color.parseColor("#0FC1B8")), i[0], i[1], Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    content.setText(spanText);
+                }
             }
         });
     }
@@ -266,6 +345,7 @@ public class BookViewerActivity extends Activity {
                     updateContent();
                     updateChapter();
                     updateButtons();
+                    updateFocus();
                 }
 
                 if(extra.getBoolean("ttsStart")) {
@@ -277,8 +357,6 @@ public class BookViewerActivity extends Activity {
                 } else if (extra.getBoolean("ttsDone")) {
                     ttsDoneToast.dismiss();
                 }
-
-
             }
         }
     };
@@ -306,5 +384,9 @@ public class BookViewerActivity extends Activity {
             serviceBound = false;
         }
 
+    }
+
+    private void showMessage(String message) {
+        Toast.makeText(BookViewerActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 }
