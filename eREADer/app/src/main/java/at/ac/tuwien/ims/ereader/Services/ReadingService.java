@@ -171,7 +171,7 @@ public class ReadingService extends Service {
         }
     }
 
-    public boolean getPlaying() {
+    public boolean isPlaying() {
         return playing;
     }
 

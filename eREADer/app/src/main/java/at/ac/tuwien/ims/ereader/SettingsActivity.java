@@ -69,14 +69,14 @@ public class SettingsActivity extends Activity {
 
         fontsize=(Spinner) findViewById(R.id.font_size);
         String[] array1;
-        if (standardTextSize>StaticHelper.typesize_range) {
-            size_small = standardTextSize - StaticHelper.typesize_range;
+        if (standardTextSize>StaticHelper.typesize_range_down) {
+            size_small = standardTextSize - StaticHelper.typesize_range_down;
             size_medium = standardTextSize;
-            size_large = standardTextSize + StaticHelper.typesize_range;
+            size_large = standardTextSize + StaticHelper.typesize_range_up;
         } else {
             size_small = standardTextSize;
             size_medium = standardTextSize;
-            size_large = standardTextSize + StaticHelper.typesize_range;
+            size_large = standardTextSize + StaticHelper.typesize_range_up;
         }
         array1 = new String[]{getString(R.string.small), getString(R.string.medium), getString(R.string.large)};
 

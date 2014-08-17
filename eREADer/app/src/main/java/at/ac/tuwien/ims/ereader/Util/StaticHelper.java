@@ -12,5 +12,6 @@ public class StaticHelper {
     public static final long typesize_medium=1;
     public static final long typesize_large=2;
 
-    public static final int typesize_range=7;
+    public static final int typesize_range_down=10;
+    public static final int typesize_range_up=7;
 }

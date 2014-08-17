@@ -134,8 +134,7 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/scrollView2"
-                android:layout_marginTop="1px"
+                android:id="@+id/scrollv_for_text"
                 android:background="#fffafafa"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"

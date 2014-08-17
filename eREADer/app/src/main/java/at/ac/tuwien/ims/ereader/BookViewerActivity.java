@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,9 +24,10 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
+import android.widget.Scroller;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,6 +57,7 @@ public class BookViewerActivity extends Activity {
     private ImageButton volumeButton;
 
     private TextView content;
+    private ScrollView contentScrollView;
     private TextView chap_txt;
 
     private Book book;
@@ -73,6 +76,8 @@ public class BookViewerActivity extends Activity {
     private int size_large;
 
     private long clicktime=0;
+
+    //private Scroller scroller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +104,7 @@ public class BookViewerActivity extends Activity {
         title.setText(book.getTitle());
         chap_txt=(TextView)findViewById(R.id.chap_txt);
         content=(TextView)findViewById(R.id.book_text);
+        contentScrollView =(ScrollView)findViewById(R.id.scrollv_for_text);
 
         int cha=getIntent().getExtras().getInt("chapter");
         String chapt;
@@ -120,14 +126,14 @@ public class BookViewerActivity extends Activity {
         sbMenu=new SidebarMenu(this, false, false, false);
 
         int standardTextSize=(int)content.getTextSize();
-        if (standardTextSize>StaticHelper.typesize_range) {
-            size_small = standardTextSize - StaticHelper.typesize_range;
+        if (standardTextSize>StaticHelper.typesize_range_down) {
+            size_small = standardTextSize - StaticHelper.typesize_range_down;
             size_medium = standardTextSize;
-            size_large = standardTextSize + StaticHelper.typesize_range;
+            size_large = standardTextSize + StaticHelper.typesize_range_up;
         } else {
             size_small = standardTextSize;
             size_medium = standardTextSize;
-            size_large = standardTextSize + StaticHelper.typesize_range;
+            size_large = standardTextSize + StaticHelper.typesize_range_up;
         }
         face0 = content.getTypeface();
         face1 = Typeface.createFromAsset(getAssets(), "fonts/GeosansLight.ttf");
@@ -136,112 +142,80 @@ public class BookViewerActivity extends Activity {
 
         content.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clicktime=event.getEventTime();
-                    return true;
-                } else if(event.getAction() == MotionEvent.ACTION_UP) {
-                    if(clicktime!=0 && (event.getEventTime()-clicktime)>=800) {
-                        final Layout layout = ((TextView) v).getLayout();
-                        if (layout!=null) {
-                            final int x=(int) event.getX();
-                            final int y=(int) event.getY();
+                if (readingService!=null && !readingService.isPlaying()) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        clicktime = event.getEventTime();
+                        return true;
+                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                        if (clicktime != 0 && (event.getEventTime() - clicktime) >= 800) {
+                            final Layout layout = ((TextView) v).getLayout();
+                            if (layout != null) {
+                                final int x = (int) event.getX();
+                                final int y = (int) event.getY();
 
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Spannable spanText = Spannable.Factory.getInstance().newSpannable(readingService.getCurrentContent());
-                                    int i[] = readingService.getIndicesOfCurrentSentence();
-                                    int j[] = readingService.getIndicesOfClickedSentence(layout, x, y);
-                                    if (i != null && j != null) {
-                                        spanText.setSpan(new BackgroundColorSpan(Color.parseColor("#0FC1B8")), i[0], i[1], Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                        spanText.setSpan(new BackgroundColorSpan(Color.parseColor("#0FC1B8")), j[0], j[1], Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                        content.setText(spanText);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Spannable spanText = Spannable.Factory.getInstance().newSpannable(readingService.getCurrentContent());
+                                        int i[] = readingService.getIndicesOfCurrentSentence();
+                                        int j[] = readingService.getIndicesOfClickedSentence(layout, x, y);
+                                        if (i != null && j != null) {
+                                            spanText.setSpan(new BackgroundColorSpan(Color.parseColor("#0FC1B8")), i[0], i[1], Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                            spanText.setSpan(new BackgroundColorSpan(Color.parseColor("#0FC1B8")), j[0], j[1], Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                            content.setText(spanText);
+                                        }
                                     }
-                                }
-                            });
+                                });
 
-                            CharSequence[] items = {getString(R.string.start_from_here), getString(R.string.cancel)};
-                            AlertDialog.Builder builder = new AlertDialog.Builder(BookViewerActivity.this);
-                            builder.setItems(items, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int item) {
-                                    if (item == 0) {
-                                        readingService.setCurrentSentence(readingService.getSentenceNumberByClick(layout, x, y));
+                                CharSequence[] items = {getString(R.string.start_from_here), getString(R.string.cancel)};
+                                AlertDialog.Builder builder = new AlertDialog.Builder(BookViewerActivity.this);
+                                builder.setItems(items, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int item) {
+                                        if (item == 0) {
+                                            readingService.setCurrentSentence(readingService.getSentenceNumberByClick(layout, x, y));
+                                        }
+                                        updateContent();
                                     }
-                                    updateContent();
-                                }
-                            });
-                            AlertDialog dialog = builder.create();
-                            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                            dialog.getWindow().getAttributes().gravity = Gravity.BOTTOM;
-                            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                @Override
-                                public void onDismiss(DialogInterface dialog) {
-                                    updateContent();
-                                }
-                            });
-                            dialog.show();
+                                });
+                                AlertDialog dialog = builder.create();
+                                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                dialog.getWindow().getAttributes().gravity = Gravity.BOTTOM;
+                                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                    @Override
+                                    public void onDismiss(DialogInterface dialog) {
+                                        updateContent();
+                                    }
+                                });
+                                dialog.show();
+                            }
                         }
+                        return true;
                     }
-                    return true;
                 }
                 return false;
             }
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        final int drawerState = sbMenu.getMenuDrawer().getDrawerState();
-        if (drawerState == MenuDrawer.STATE_OPEN || drawerState == MenuDrawer.STATE_OPENING) {
-            sbMenu.getMenuDrawer().closeMenu();
-            return;
-        }
-        super.onBackPressed();
-    }
+    private void updateScroll() {
+        if(readingService.isPlaying()) {
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    Layout layout=content.getLayout();
+                    contentScrollView.smoothScrollTo(0, layout.getLineTop(layout.getLineForOffset((readingService.getIndicesOfCurrentSentence()[0]))));
+                }
+            });
 
-    private View.OnClickListener btnListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (v==optButton) {
-                if(sbMenu.getMenuDrawer().isMenuVisible())
-                    sbMenu.getMenuDrawer().closeMenu();
-                else
-                    sbMenu.getMenuDrawer().openMenu();
-            } else if (v==playButton) {
-                if (readingService.getPlaying()) {
-                    readingService.stopReading();
-                } else {
-                    readingService.startReading();
+            contentScrollView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return true;
                 }
-            } else if (v==ffButton) {
-                readingService.next();
-            } else if(v==fbButton) {
-                readingService.last();
-            } else if (v== volumeButton) {
-                if (readingService.getMuted()) {
-                    readingService.setMuted(false);
-                    volumeButton.setImageDrawable(getResources().getDrawable(R.drawable.notmuted));
-                } else {
-                    readingService.setMuted(true);
-                    volumeButton.setImageDrawable(getResources().getDrawable(R.drawable.muted));
-                }
-            }
-            updateButtons();
+            });
+        } else {
+            contentScrollView.setOnTouchListener(null);
         }
-    };
-
-    //todo why does the text disappear after scroll, make scrolling only possible when not reading
-    private final void updateFocus() {
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                Layout layout=content.getLayout();
-                if (layout!=null) {
-                    int line = layout.getLineForOffset((readingService.getIndicesOfCurrentSentence()[0] - (layout.getLineCount() / 2)));
-                    content.scrollTo(0, layout.getLineTop(line));
-                }
-            }
-        });
     }
 
     private void updateContent() {
@@ -302,11 +276,52 @@ public class BookViewerActivity extends Activity {
             ffButton.setEnabled(true);
         }
 
-        if(readingService.getPlaying())
+        if(readingService.isPlaying())
             playButton.setImageDrawable(getResources().getDrawable(R.drawable.pausebtn));
         else
             playButton.setImageDrawable(getResources().getDrawable(R.drawable.playbtn));
     }
+
+    @Override
+    public void onBackPressed() {
+        final int drawerState = sbMenu.getMenuDrawer().getDrawerState();
+        if (drawerState == MenuDrawer.STATE_OPEN || drawerState == MenuDrawer.STATE_OPENING) {
+            sbMenu.getMenuDrawer().closeMenu();
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    private View.OnClickListener btnListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (v==optButton) {
+                if(sbMenu.getMenuDrawer().isMenuVisible())
+                    sbMenu.getMenuDrawer().closeMenu();
+                else
+                    sbMenu.getMenuDrawer().openMenu();
+            } else if (v==playButton) {
+                if (readingService.isPlaying()) {
+                    readingService.stopReading();
+                } else {
+                    readingService.startReading();
+                }
+            } else if (v==ffButton) {
+                readingService.next();
+            } else if(v==fbButton) {
+                readingService.last();
+            } else if (v== volumeButton) {
+                if (readingService.getMuted()) {
+                    readingService.setMuted(false);
+                    volumeButton.setImageDrawable(getResources().getDrawable(R.drawable.notmuted));
+                } else {
+                    readingService.setMuted(true);
+                    volumeButton.setImageDrawable(getResources().getDrawable(R.drawable.muted));
+                }
+            }
+            updateButtons();
+        }
+    };
 
     @Override
     protected void onStart() {
@@ -341,11 +356,11 @@ public class BookViewerActivity extends Activity {
             if(action.equalsIgnoreCase(ReadingService.BROADCAST_ACTION)) {
                 Bundle extra = intent.getExtras();
                 if (extra.getBoolean("update")) {
-                    updateTextSettings();
+                    //updateTextSettings();
                     updateContent();
                     updateChapter();
                     updateButtons();
-                    updateFocus();
+                    updateScroll();
                 }
 
                 if(extra.getBoolean("ttsStart")) {
