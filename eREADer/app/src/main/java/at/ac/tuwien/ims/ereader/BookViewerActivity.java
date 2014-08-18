@@ -77,8 +77,6 @@ public class BookViewerActivity extends Activity {
 
     private long clicktime=0;
 
-    //private Scroller scroller;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -203,7 +201,14 @@ public class BookViewerActivity extends Activity {
                 @Override
                 public void run() {
                     Layout layout=content.getLayout();
-                    contentScrollView.smoothScrollTo(0, layout.getLineTop(layout.getLineForOffset((readingService.getIndicesOfCurrentSentence()[0]))));
+                    int height=contentScrollView.getHeight();
+                    int scrollY=contentScrollView.getScrollY();
+                    int firstVisibleLineNumber=layout.getLineForVertical(scrollY);
+                    int lastVisibleLineNumber=layout.getLineForVertical(scrollY+height);
+                    int halfOfLayoutLines=(lastVisibleLineNumber-firstVisibleLineNumber)/2;
+                    int line=layout.getLineForOffset(readingService.getIndicesOfCurrentSentence()[0])-halfOfLayoutLines;
+                    if(line>=0)
+                        contentScrollView.smoothScrollTo(0, layout.getLineTop(line));
                 }
             });
 
@@ -398,7 +403,6 @@ public class BookViewerActivity extends Activity {
             unbindService(mConnection);
             serviceBound = false;
         }
-
     }
 
     private void showMessage(String message) {
