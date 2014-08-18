@@ -55,10 +55,12 @@
 
         <service
             android:name="at.ac.tuwien.ims.ereader.Services.ReadingService"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
-                <action android:name="at.ac.tuwien.ims.ereader.Services.ACTION_PLAY" />
-                <action android:name="at.ac.tuwien.ims.ereader.Services.ACTION_PAUSE" />
+                <action android:name="at.ac.tuwien.ims.ereader.Services.BROADCAST"/>
+                <action android:name="at.ac.tuwien.ims.ereader.Services.ACTION_PAUSE"/>
+                <action android:name="at.ac.tuwien.ims.ereader.Services.ACTION_PLAY"/>
+                <action android:name="at.ac.tuwien.ims.ereader.Services.ACTION_CLOSE"/>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>

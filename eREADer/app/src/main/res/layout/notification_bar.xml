@@ -11,22 +11,24 @@
         android:layout_height="wrap_content"
         android:id="@+id/bar_logo"
         android:src="@drawable/logo"
-        android:background="#ff263941" />
+        android:background="#ff2f434b" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_toEndOf="@+id/bar_logo"
         android:layout_toRightOf="@+id/bar_logo"
-        android:weightSum="10"
+        android:weightSum="7"
+        android:layout_marginStart="1px"
         android:layout_marginLeft="1px">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="2"
-            android:weightSum="3">
+            android:layout_weight="1"
+            android:weightSum="4">
 
             <TextView
                 android:layout_width="match_parent"
@@ -38,6 +40,7 @@
                 android:background="#00c9de67"
                 android:gravity="bottom"
                 android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:singleLine="true" />
 
             <TextView
@@ -50,17 +53,37 @@
                 android:background="#00c9de67"
                 android:gravity="top"
                 android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:singleLine="true" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Small Text"
+                android:id="@+id/bar_word"
+                android:layout_weight="1"
+                android:background="#00c9de67"
+                android:singleLine="true"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp" />
         </LinearLayout>
 
         <ImageButton xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/bar_btnPlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#00c9de67"
-            android:src="@drawable/playbtn_bar"
-            android:layout_weight="8" />
+            android:src="@android:drawable/ic_media_play"
+            android:background="#00c5c5c5"
+            android:layout_weight="3" />
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/bar_close"
+            android:background="#00c5c5c5"
+            android:layout_weight="3"
+            android:src="@android:drawable/ic_menu_close_clear_cancel" />
 
     </LinearLayout>
 

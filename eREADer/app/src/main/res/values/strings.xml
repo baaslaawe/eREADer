@@ -7,6 +7,8 @@
     <string name="library">My Library</string>
     <string name="books">Books</string>
     <string name="play">Play</string>
+    <string name="playing">Playing</string>
+    <string name="paused">Paused</string>
     <string name="delete">Delete</string>
     <string name="download">Download</string>
     <string name="settings">Settings</string>
@@ -46,6 +48,7 @@
     <string name="libertine">Linux Libertine</string>
     <string name="start_from_here">Start reading from this sentence</string>
     <string name="cancel">Cancel</string>
+    <string name="sentences">Sentences</string>
 
 
     <string name="gutenberg_name">Project Gutenberg</string>

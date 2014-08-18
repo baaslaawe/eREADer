@@ -11,7 +11,6 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,10 +23,8 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
-import android.widget.Scroller;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -109,12 +106,16 @@ public class BookViewerActivity extends Activity {
         String cont;
         List<Chapter> chapters=bookService.getChaptersOfBook(book.getId());
 
-        if (cha == -1) {
+        if (cha<0) {
             CurrentPosition c=bookService.getCurrentPosition(book.getId());
             chapt=chapters.get(c.getCurrentChapter()).getHeading();
             cont=chapters.get(c.getCurrentChapter()).getContent();
         } else {
-            bookService.updateCurrentPosition(new CurrentPosition(book.getId(), cha, 0));
+            int currSent=0;
+            CurrentPosition c=bookService.getCurrentPosition(book.getId());
+            if(cha==c.getCurrentChapter()&&c.getCurrentSentence()!=0)
+                currSent=bookService.getCurrentPosition(book.getId()).getCurrentSentence();
+            bookService.updateCurrentPosition(new CurrentPosition(book.getId(), cha, currSent));
             chapt=chapters.get(cha).getHeading();
             cont=chapters.get(cha).getContent();
         }
@@ -307,9 +308,9 @@ public class BookViewerActivity extends Activity {
                     sbMenu.getMenuDrawer().openMenu();
             } else if (v==playButton) {
                 if (readingService.isPlaying()) {
-                    readingService.stopReading();
+                    readingService.pause();
                 } else {
-                    readingService.startReading();
+                    readingService.play();
                 }
             } else if (v==ffButton) {
                 readingService.next();
@@ -355,36 +356,10 @@ public class BookViewerActivity extends Activity {
         }
     };
 
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {String action = intent.getAction();
-            if(action.equalsIgnoreCase(ReadingService.BROADCAST_ACTION)) {
-                Bundle extra = intent.getExtras();
-                if (extra.getBoolean("update")) {
-                    //updateTextSettings();
-                    updateContent();
-                    updateChapter();
-                    updateButtons();
-                    updateScroll();
-                }
-
-                if(extra.getBoolean("ttsStart")) {
-                    ttsDoneToast = new SuperActivityToast(BookViewerActivity.this, SuperToast.Type.PROGRESS);
-                    ttsDoneToast.setText(getString(R.string.ttsDone_str));
-                    ttsDoneToast.setIndeterminate(true);
-                    ttsDoneToast.setProgressIndeterminate(true);
-                    ttsDoneToast.show();
-                } else if (extra.getBoolean("ttsDone")) {
-                    ttsDoneToast.dismiss();
-                }
-            }
-        }
-    };
-
     @Override
     public void onResume() {
         super.onResume();
-        registerReceiver(broadcastReceiver, new IntentFilter(ReadingService.BROADCAST_ACTION));
+        registerReceiver(broadcastReceiver, new IntentFilter(StaticHelper.BROADCAST_ACTION));
 
         if (serviceBound)
             readingService.updateBook(book);
@@ -404,6 +379,41 @@ public class BookViewerActivity extends Activity {
             serviceBound = false;
         }
     }
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {String action = intent.getAction();
+            if(action.equalsIgnoreCase(StaticHelper.BROADCAST_ACTION)) {
+                Bundle extra = intent.getExtras();
+                if (extra.getBoolean("update")) {
+                    //updateTextSettings();
+                    updateContent();
+                    updateChapter();
+                    updateButtons();
+                    updateScroll();
+                }
+
+                if(extra.getBoolean("ttsStart")) {
+                    ttsDoneToast = new SuperActivityToast(BookViewerActivity.this, SuperToast.Type.PROGRESS);
+                    ttsDoneToast.setText(getString(R.string.ttsDone_str));
+                    ttsDoneToast.setIndeterminate(true);
+                    ttsDoneToast.setProgressIndeterminate(true);
+                    ttsDoneToast.show();
+                    playButton.setEnabled(false);
+                    contentScrollView.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            return true;
+                        }
+                    });
+                } else if (extra.getBoolean("ttsDone")) {
+                    ttsDoneToast.dismiss();
+                    playButton.setEnabled(true);
+                    contentScrollView.setOnTouchListener(null);
+                }
+            }
+        }
+    };
 
     private void showMessage(String message) {
         Toast.makeText(BookViewerActivity.this, message, Toast.LENGTH_SHORT).show();

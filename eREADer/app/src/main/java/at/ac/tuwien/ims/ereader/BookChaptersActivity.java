@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -134,12 +135,22 @@ public class BookChaptersActivity extends Activity {
     private void showSearchBar() {
         searchbar.setVisibility(View.VISIBLE);
         searchbarVisible = true;
+
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        searchbar.requestFocus();
+        inputMethodManager.showSoftInput(searchbar, 0);
     }
 
     private void hideSearchBar() {
         searchbar.setVisibility(View.GONE);
         searchbarVisible = false;
         clAdapter.updateChapterList();
+        try {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        } catch (NullPointerException n) {
+            //do nothing
+        }
     }
 
     private void hideSearchBarAfterSomeTime(int time) {

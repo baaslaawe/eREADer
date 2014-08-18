@@ -17,10 +17,6 @@ import android.text.Layout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.RemoteViews;
-import android.widget.Toast;
-
-import com.github.johnpersano.supertoasts.SuperActivityToast;
-import com.github.johnpersano.supertoasts.SuperToast;
 
 import java.text.BreakIterator;
 import java.util.ArrayList;
@@ -33,15 +29,13 @@ import at.ac.tuwien.ims.ereader.Entities.Book;
 import at.ac.tuwien.ims.ereader.Entities.Chapter;
 import at.ac.tuwien.ims.ereader.Entities.CurrentPosition;
 import at.ac.tuwien.ims.ereader.R;
+import at.ac.tuwien.ims.ereader.Util.StaticHelper;
 
 /**
  * Created by Flo on 17.07.2014.
  */
 public class ReadingService extends Service {
     private TextToSpeech ttsService;
-    public static final String BROADCAST_ACTION = "at.ac.tuwien.ims.ereader.Services";
-    public static final String ACTION_PLAY="at.ac.tuwien.ims.ereader.Services.ACTION_PLAY";
-    public static final String ACTION_PAUSE="at.ac.tuwien.ims.ereader.Services.ACTION_PAUSE";
 
     private BookService bookService;
 
@@ -60,9 +54,9 @@ public class ReadingService extends Service {
         super();
     }
 
-    public void startReading() {
+    public void play() { //todo sometimes randomly does not work in background
         if (ttsService != null) {
-            playing = true;
+            playing=true;
             setMuted(false);
             updateTTS();
             updateNotificationBar();
@@ -74,14 +68,12 @@ public class ReadingService extends Service {
                     while (playing) {
                         synchronized (ttsService) {
                             while (reading);
-                            if(!playing)
+                            if(!playing || ttsService==null)
                                 return;
-
                             HashMap<String, String> map = new HashMap<String, String>();
                             map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "UniqueID");
                             map.put(TextToSpeech.Engine.KEY_FEATURE_NETWORK_SYNTHESIS, "true");
                             ttsService.speak(sentences.get(currentSentence), TextToSpeech.QUEUE_FLUSH, map);
-
                             reading=true;
                         }
                     }
@@ -91,25 +83,27 @@ public class ReadingService extends Service {
         }
     }
 
-    public void stopReading() { //todo if pause/play clicked too many times it skips...
+    public void pause() {
         if (ttsService != null) {
-            if (ttsService.isSpeaking())
+            if (ttsService.isSpeaking()) {
                 ttsService.stop();
+                reading=false;
+            }
             playing=false;
             broadcastUpdate();
+            updateNotificationBar();
         }
-        updateNotificationBar();
     }
 
     private void broadcastUpdate() {
-        Intent intent = new Intent(BROADCAST_ACTION);
+        Intent intent = new Intent(StaticHelper.BROADCAST_ACTION);
         intent.putExtra("update", true);
         sendBroadcast(intent);
     }
 
     public void next() {
         if (currentChapter < chapters.size()-1) {
-            stopReading();
+            pause();
             currentChapter++;
             currentSentence=0;
             updateSentences();
@@ -119,7 +113,7 @@ public class ReadingService extends Service {
 
     public void last() {
         if (currentChapter > 0) {
-            stopReading();
+            pause();
             currentChapter--;
             currentSentence=0;
             updateSentences();
@@ -151,6 +145,22 @@ public class ReadingService extends Service {
         return chapters.size();
     }
 
+    public boolean isPlaying() {
+        return playing;
+    }
+
+    public boolean getMuted() {
+        return muted;
+    }
+
+    public String getCurrentContent() {
+        return chapters.get(currentChapter).getContent();
+    }
+
+    public String getNumberOfSentences() {
+        return String.valueOf(sentences.size()-1) + " "+ getString(R.string.sentences);
+    }
+
     public int[] getIndicesOfCurrentSentence() {
         int x[]=new int[2];
 
@@ -171,22 +181,10 @@ public class ReadingService extends Service {
         }
     }
 
-    public boolean isPlaying() {
-        return playing;
-    }
-
     public void setMuted(boolean muted) {
         this.muted=muted;
         AudioManager aManager=(AudioManager)getSystemService(AUDIO_SERVICE);
         aManager.setStreamMute(AudioManager.STREAM_MUSIC, muted);
-    }
-
-    public boolean getMuted() {
-        return muted;
-    }
-
-    public String getCurrentContent() {
-        return chapters.get(currentChapter).getContent();
     }
 
     public void updateBook(Book b) {
@@ -293,70 +291,92 @@ public class ReadingService extends Service {
         return i;
     }
 
-    //todo doesnt always work in background?
     private void updateNotificationBar() {
-        RemoteViews notificationView = new RemoteViews(getPackageName(), R.layout.navigation_bar);
+        if (ttsService!=null && book!=null) {
+            RemoteViews notificationView = new RemoteViews(getPackageName(), R.layout.notification_bar);
+            notificationView.setTextViewText(R.id.bar_title_book, getCurrentBookTitle());
+            notificationView.setTextViewText(R.id.bar_chapter_page, getCurrChapterHeading());
+            notificationView.setTextViewText(R.id.bar_word, getNumberOfSentences());
+            notificationView.setOnClickPendingIntent(R.id.bar_close,
+                    PendingIntent.getService(getApplicationContext(),
+                            0, new Intent(StaticHelper.ACTION_CLOSE), PendingIntent.FLAG_UPDATE_CURRENT));
+            if (playing) {
+                notificationView.setImageViewResource(R.id.bar_btnPlay, android.R.drawable.ic_media_pause);
+                notificationView.setOnClickPendingIntent(R.id.bar_btnPlay,
+                        PendingIntent.getService(
+                                getApplicationContext(),
+                                0,
+                                new Intent(StaticHelper.ACTION_PAUSE),
+                                PendingIntent.FLAG_UPDATE_CURRENT));
+            } else {
+                notificationView.setImageViewResource(R.id.bar_btnPlay, android.R.drawable.ic_media_play);
+                notificationView.setOnClickPendingIntent(R.id.bar_btnPlay,
+                        PendingIntent.getService(
+                                getApplicationContext(),
+                                0,
+                                new Intent(StaticHelper.ACTION_PLAY),
+                                PendingIntent.FLAG_UPDATE_CURRENT));
+            }
 
-        PendingIntent pendingIntentAction=null;
-        if(playing) {
-            Intent intentAction = new Intent(ACTION_PAUSE);
-            pendingIntentAction = PendingIntent.getService(getApplicationContext(),
-                    0, intentAction, PendingIntent.FLAG_UPDATE_CURRENT);
-            notificationView.setImageViewResource(R.id.bar_btnPlay, R.drawable.pausebtn_bar);
-        } else {
-            Intent intentAction = new Intent(ACTION_PLAY);
-            pendingIntentAction = PendingIntent.getService(getApplicationContext(),
-                    0, intentAction, PendingIntent.FLAG_UPDATE_CURRENT);
-            notificationView.setImageViewResource(R.id.bar_btnPlay, R.drawable.playbtn_bar);
+            Intent resultIntent = new Intent(this, BookViewerActivity.class);
+            Bundle b = new Bundle();
+            b.putInt("book_id", (int) book.getId());
+            b.putInt("chapter", getCurrentChapter());
+            resultIntent.putExtras(b);
+
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+            stackBuilder.addParentStack(BookViewerActivity.class);
+            stackBuilder.addNextIntent(resultIntent);
+
+            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0,
+                    PendingIntent.FLAG_UPDATE_CURRENT
+            );
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                    .setSmallIcon(R.drawable.logo_small_bar)
+                    .setTicker(getString(R.string.notification_bar_welcome) + ": " + getCurrentBookTitle())
+                    .setContent(notificationView)
+                    .setOngoing(true);
+            builder.setContentIntent(resultPendingIntent);
+
+            NotificationManager notificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(StaticHelper.NOTIFICATION_ID, builder.build());
         }
-
-        notificationView.setOnClickPendingIntent(R.id.bar_btnPlay, pendingIntentAction);
-        notificationView.setTextViewText(R.id.bar_title_book, getCurrentBookTitle());
-        notificationView.setTextViewText(R.id.bar_chapter_page, getCurrChapterHeading());
-
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.logo_small_bar)
-                        .setTicker(getString(R.string.notification_bar_welcome)+ ": "+getCurrentBookTitle())
-                        .setContent(notificationView);
-
-        Intent resultIntent = new Intent(this, BookViewerActivity.class);
-        Bundle b = new Bundle();
-        b.putInt("book_id", (int) book.getId());
-        b.putInt("chapter", currentChapter);
-        resultIntent.putExtras(b);
-
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(BookViewerActivity.class);
-        stackBuilder.addNextIntent(resultIntent);
-
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(
-                        0,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                );
-        mBuilder.setContentIntent(resultPendingIntent);
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(1, mBuilder.build());
     }
 
     //--------------------------------------------------------------------------
-    private final IBinder binder = new ReadingServiceBinder();
 
-    public class ReadingServiceBinder extends Binder {
-        public ReadingService getService() {
-            return ReadingService.this;
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent != null) {
+            String action = intent.getAction();
+            if (!TextUtils.isEmpty(action)) {
+                if(action.equalsIgnoreCase(StaticHelper.ACTION_PAUSE)) {
+                    Log.d(ReadingService.class.getName(), "Pressed pause from Notificationbar");
+                    pause();
+                } else if (action.equalsIgnoreCase(StaticHelper.ACTION_PLAY)) {
+                    Log.d(ReadingService.class.getName(), "Pressed play from Notificationbar");
+                    play();
+                } else if (action.equalsIgnoreCase(StaticHelper.ACTION_CLOSE)) {
+                    Log.d(ReadingService.class.getName(), "Pressed close from Notificationbar");
+                    NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    mNotificationManager.cancel(StaticHelper.NOTIFICATION_ID);
+                    sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
+                    stopSelf();
+                }
+            }
+            broadcastUpdate();
         }
+        return START_STICKY;
     }
-
 
     @Override
     public void onCreate (){
         super.onCreate();
         bookService=new BookService(this);
 
-        Intent intent = new Intent(BROADCAST_ACTION);
+        Intent intent = new Intent(StaticHelper.BROADCAST_ACTION);
         intent.putExtra("ttsStart", true);
         sendBroadcast(intent);
 
@@ -366,7 +386,7 @@ public class ReadingService extends Service {
                 if(status == TextToSpeech.SUCCESS) {
                     ttsService.setLanguage(Locale.US);
                     Log.d(ReadingService.class.getName(), "TTS initialized.");
-                    Intent intent = new Intent(BROADCAST_ACTION);
+                    Intent intent = new Intent(StaticHelper.BROADCAST_ACTION);
                     intent.putExtra("ttsDone", true);
                     sendBroadcast(intent);
                 }
@@ -385,15 +405,16 @@ public class ReadingService extends Service {
                 } else if (currentSentence==sentences.size()-1
                         && currentChapter==chapters.size()-1) {
                     Log.d(ReadingService.class.getName(), "Reached end of book.");
-                    stopReading();
+                    pause();
                     bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentChapter, currentSentence));
                     reading = false;
+                    updateNotificationBar();
                 } else {
                     Log.d(ReadingService.class.getName(), "Reached end of chapter, skipping to the next.");
                     next();
                     bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentChapter, currentSentence));
                     reading = false;
-                    startReading();
+                    play();
                 }
                 broadcastUpdate();
             }
@@ -409,22 +430,12 @@ public class ReadingService extends Service {
         });
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent != null) {
-            String action = intent.getAction();
-            if (!TextUtils.isEmpty(action)) {
-                if (action.equals(ACTION_PLAY)) {
-                    Log.d(ReadingService.class.getName(), "Pressed play from Notificationbar");
-                    startReading();
-                } else if(action.equals(ACTION_PAUSE)) {
-                    Log.d(ReadingService.class.getName(), "Pressed pause from Notificationbar");
-                    stopReading();
-                }
-            }
-            broadcastUpdate();
+    private final IBinder binder = new ReadingServiceBinder();
+
+    public class ReadingServiceBinder extends Binder {
+        public ReadingService getService() {
+            return ReadingService.this;
         }
-        return START_STICKY;
     }
 
     @Override
@@ -436,7 +447,7 @@ public class ReadingService extends Service {
     public void onDestroy () {
         super.onDestroy();
         if (ttsService != null) {
-            stopReading();
+            pause();
             ttsService.shutdown();
         }
     }
