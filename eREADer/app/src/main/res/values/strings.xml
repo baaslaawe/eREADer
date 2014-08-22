@@ -40,6 +40,7 @@
     <string name="settings_saved">Your settings have been saved!</string>
     <string name="font_settings">Font Settings</string>
     <string name="test">This is a test.</string>
+    <string name="longer_test">This is a longer test sentence for better testing.</string>
     <string name="small">Small</string>
     <string name="medium">Medium</string>
     <string name="large">Large</string>
@@ -53,6 +54,7 @@
     <string name="parse_str">Parsing eBook and adding it to the library!</string>
     <string name="success_ebook_add">EBook successfully added to database!</string>
     <string name="loading">Loading content...</string>
+    <string name="tts_speed">Adjust Text-to-Speech rate</string>
 
 
     <string name="gutenberg_name">Project Gutenberg</string>

@@ -124,8 +124,14 @@ public class BookService {
                 throw new ServiceException(ebook_loading_failed);
             }
 
+            int actualContentNumber=1;
             for(int i=0, s=list.size(); i<s; i++) {
-                insertChapter(bookToSave, content+" "+ (i+1), new String(list.get(i).getData()));
+                String cont=new String(list.get(i).getData());
+                if (i==0&&b.getCoverImage()!=null) {
+                    continue;
+                }
+                insertChapter(bookToSave, content + " " + actualContentNumber, cont);
+                actualContentNumber++;
             }
 
         } catch (IOException e) {

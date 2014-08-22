@@ -7,18 +7,25 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.johnpersano.supertoasts.SuperToast;
+
 import net.simonvt.menudrawer.MenuDrawer;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Locale;
 
 import at.ac.tuwien.ims.ereader.Persistence.DatabaseHelper;
 import at.ac.tuwien.ims.ereader.Util.SidebarMenu;
@@ -36,6 +43,9 @@ public class SettingsActivity extends Activity {
     private Spinner fonttype;
     private Spinner fontsize;
     private TextView testtext;
+    private TextView longertesttext;
+    private SeekBar speechRateBar;
+    private ImageButton playButtonRate;
 
     private Typeface face0;
     private Typeface face1;
@@ -44,6 +54,10 @@ public class SettingsActivity extends Activity {
     private int size_small;
     private int size_medium;
     private int size_large;
+
+    private TextToSpeech ttsService;
+    private boolean ttsInitDone=false;
+    private float speechrate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +73,17 @@ public class SettingsActivity extends Activity {
         resetbtn.setOnClickListener(btnListener);
         menuBtn=(ImageButton)findViewById(R.id.optnbtn_settings);
         menuBtn.setOnClickListener(btnListener);
-
         sbMenu=new SidebarMenu(this, false, true, false);
+
+        ttsService=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status == TextToSpeech.SUCCESS) {
+                    ttsService.setLanguage(getResources().getConfiguration().locale);
+                    ttsInitDone=true;
+                }
+            }
+        });
 
         testtext=(TextView) findViewById(R.id.test_sentence);
         int standardTextSize=(int)testtext.getTextSize();
@@ -138,7 +161,40 @@ public class SettingsActivity extends Activity {
             testtext.setTypeface(face0);
         }
 
-        //todo add tts speed
+        longertesttext=(TextView) findViewById(R.id.longer_test_sentence);
+        speechRateBar=(SeekBar)findViewById(R.id.seekBar_settings);
+        speechRateBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                speechrate=StaticHelper.seekbarToRate(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+        speechrate=settings.getFloat("tts_rate", StaticHelper.normal_Speechrate);
+        speechRateBar.setProgress(StaticHelper.rateToSeekbar(speechrate));
+
+
+        playButtonRate=(ImageButton)findViewById(R.id.play_settings);
+        playButtonRate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(ttsInitDone &&!ttsService.isSpeaking()) {
+                    ttsService.setLanguage(getResources().getConfiguration().locale);
+                    ttsService.setSpeechRate(speechrate);
+
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "UniqueID");
+                    map.put(TextToSpeech.Engine.KEY_FEATURE_NETWORK_SYNTHESIS, "true");
+                    ttsService.speak(longertesttext.getText().toString(), TextToSpeech.QUEUE_FLUSH, map);
+                } else
+                    ttsService.stop();
+            }
+        });
     }
 
     private View.OnClickListener btnListener = new View.OnClickListener() {
@@ -149,6 +205,7 @@ public class SettingsActivity extends Activity {
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putLong("font_size", fontsize.getSelectedItemId());
                 editor.putLong("font_type", fonttype.getSelectedItemId());
+                editor.putFloat("tts_rate", speechrate);
                 editor.apply();
                 showMessage(getString(R.string.settings_saved));
             } else if (v==resetbtn) {
@@ -196,6 +253,8 @@ public class SettingsActivity extends Activity {
     };
 
     private void showMessage(String message) {
-        Toast.makeText(SettingsActivity.this, message, Toast.LENGTH_SHORT).show();
+        SuperToast toast=new SuperToast(this);
+        toast.setText(message);
+        toast.show();
     }
 }

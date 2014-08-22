@@ -6,6 +6,7 @@ import android.app.Service;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Binder;
 import android.os.Bundle;
@@ -63,7 +64,6 @@ public class ReadingService extends Service {
         if (ttsService != null) {
             playing=true;
             setMuted(false);
-            updateTTS();
             updateNotificationBar();
             broadcastUpdate();
 
@@ -113,6 +113,7 @@ public class ReadingService extends Service {
             this.currentContent=Html.fromHtml(contents.get(currentChapter).getContent()).toString();
             this.currentChapterHeading = contents.get(currentChapter).getHeading();
             updateSentences();
+            updateTTS();
             broadcastUpdate();
             updateNotificationBar();
         }
@@ -126,6 +127,7 @@ public class ReadingService extends Service {
             this.currentContent=Html.fromHtml(contents.get(currentChapter).getContent()).toString();
             this.currentChapterHeading = contents.get(currentChapter).getHeading();
             updateSentences();
+            updateTTS();
             broadcastUpdate();
             updateNotificationBar();
         }
@@ -221,9 +223,14 @@ public class ReadingService extends Service {
     }
 
     private void updateTTS() {
-        if(lang!=null)
-            if (ttsService.isLanguageAvailable(lang)==TextToSpeech.LANG_COUNTRY_AVAILABLE)
-                ttsService.setLanguage(lang);
+        if(ttsService!=null) {
+            if (lang != null)
+                if (ttsService.isLanguageAvailable(lang) == TextToSpeech.LANG_COUNTRY_AVAILABLE)
+                    ttsService.setLanguage(lang);
+
+            SharedPreferences settings = getSharedPreferences("settings", 0);
+            ttsService.setSpeechRate(settings.getFloat("tts_rate", StaticHelper.normal_Speechrate));
+        }
     }
 
     private void updateSentences() {

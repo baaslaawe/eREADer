@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.github.johnpersano.supertoasts.SuperToast;
+
 import net.simonvt.menudrawer.MenuDrawer;
 
 import at.ac.tuwien.ims.ereader.Util.SidebarMenu;
@@ -51,5 +53,11 @@ public class HelpActivity extends Activity {
             return;
         }
         super.onBackPressed();
+    }
+
+    private void showMessage(String message) {
+        SuperToast toast=new SuperToast(this);
+        toast.setText(message);
+        toast.show();
     }
 }

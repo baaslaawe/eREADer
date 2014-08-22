@@ -3,7 +3,6 @@ package at.ac.tuwien.ims.ereader;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.ContextMenu;
@@ -17,7 +16,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.github.johnpersano.supertoasts.SuperToast;
 
 import net.simonvt.menudrawer.MenuDrawer;
 
@@ -28,7 +28,6 @@ import java.util.TimerTask;
 
 import at.ac.tuwien.ims.ereader.Entities.Book;
 import at.ac.tuwien.ims.ereader.Services.BookService;
-import at.ac.tuwien.ims.ereader.Services.ServiceException;
 import at.ac.tuwien.ims.ereader.Util.SidebarMenu;
 
 public class MyLibraryActivity extends Activity {
@@ -57,7 +56,7 @@ public class MyLibraryActivity extends Activity {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3) {
-                Intent myIntent = new Intent(MyLibraryActivity.this, BookChaptersActivity.class);
+                Intent myIntent = new Intent(MyLibraryActivity.this, BookContentsActivity.class);
                 Bundle b = new Bundle();
                 b.putInt("book_id", (int)blAdapter.getItem(position).getId());
                 myIntent.putExtras(b);
@@ -79,6 +78,8 @@ public class MyLibraryActivity extends Activity {
 
         registerForContextMenu(listview);
         hideSearchBar();
+
+        //todo make stuff look clickable
     }
 
     @Override
@@ -289,6 +290,8 @@ public class MyLibraryActivity extends Activity {
     }
 
     private void showMessage(String message) {
-        Toast.makeText(MyLibraryActivity.this, message, Toast.LENGTH_SHORT).show();
+        SuperToast toast=new SuperToast(this);
+        toast.setText(message);
+        toast.show();
     }
 }

@@ -384,7 +384,6 @@ public class BookViewerActivity extends Activity {
             if(action.equalsIgnoreCase(StaticHelper.BROADCAST_ACTION)) {
                 Bundle extra = intent.getExtras();
                 if (extra.getBoolean("update")) {
-                    //updateTextSettings();
                     updateContent();
                     updateChapter();
                     updateButtons();
@@ -414,6 +413,8 @@ public class BookViewerActivity extends Activity {
     };
 
     private void showMessage(String message) {
-        Toast.makeText(BookViewerActivity.this, message, Toast.LENGTH_SHORT).show();
+        SuperToast toast=new SuperToast(this);
+        toast.setText(message);
+        toast.show();
     }
 }

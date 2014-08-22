@@ -117,6 +117,7 @@ public class AddBookActivity extends Activity {
         protected void onPostExecute(Boolean result) {
             addToast.dismiss();
             showMessage(getString(R.string.success_ebook_add));
+            startActivity(new Intent(AddBookActivity.this, MyLibraryActivity.class));
         }
     }
 
@@ -220,6 +221,8 @@ public class AddBookActivity extends Activity {
     };
 
     private void showMessage(String message) {
-        Toast.makeText(AddBookActivity.this, message, Toast.LENGTH_SHORT).show();
+        SuperToast toast=new SuperToast(this);
+        toast.setText(message);
+        toast.show();
     }
 }

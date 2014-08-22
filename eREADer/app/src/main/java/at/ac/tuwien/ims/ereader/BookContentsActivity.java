@@ -15,7 +15,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.github.johnpersano.supertoasts.SuperToast;
 
 import net.simonvt.menudrawer.MenuDrawer;
 
@@ -29,7 +30,7 @@ import at.ac.tuwien.ims.ereader.Entities.Content;
 import at.ac.tuwien.ims.ereader.Services.BookService;
 import at.ac.tuwien.ims.ereader.Util.SidebarMenu;
 
-public class BookChaptersActivity extends Activity {
+public class BookContentsActivity extends Activity {
     private ImageButton optButton;
     private ImageButton srchButton;
     private ImageButton playbtn;
@@ -44,7 +45,7 @@ public class BookChaptersActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book_chapters);
+        setContentView(R.layout.activity_book_contents);
 
         if (getActionBar() != null)
             getActionBar().hide();
@@ -57,7 +58,7 @@ public class BookChaptersActivity extends Activity {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                Intent myIntent = new Intent(BookChaptersActivity.this, BookViewerActivity.class);
+                Intent myIntent = new Intent(BookContentsActivity.this, BookViewerActivity.class);
                 Bundle b = new Bundle();
                 b.putInt("book_id", (int) book.getId());
                 b.putInt("chapter", position);
@@ -122,7 +123,7 @@ public class BookChaptersActivity extends Activity {
                 else
                     hideSearchBar();
             } else if (v==playbtn) {
-                Intent myIntent = new Intent(BookChaptersActivity.this, BookViewerActivity.class);
+                Intent myIntent = new Intent(BookContentsActivity.this, BookViewerActivity.class);
                 Bundle b = new Bundle();
                 b.putInt("book_id", (int) book.getId());
                 b.putInt("chapter", -1);
@@ -264,6 +265,8 @@ public class BookChaptersActivity extends Activity {
     }
 
     private void showMessage(String message) {
-        Toast.makeText(BookChaptersActivity.this, message, Toast.LENGTH_SHORT).show();
+        SuperToast toast=new SuperToast(this);
+        toast.setText(message);
+        toast.show();
     }
 }
