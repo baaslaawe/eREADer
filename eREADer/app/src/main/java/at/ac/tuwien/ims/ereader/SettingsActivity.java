@@ -137,6 +137,8 @@ public class SettingsActivity extends Activity {
         } else {
             testtext.setTypeface(face0);
         }
+
+        //todo add tts speed
     }
 
     private View.OnClickListener btnListener = new View.OnClickListener() {

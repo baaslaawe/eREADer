@@ -5,12 +5,12 @@ package at.ac.tuwien.ims.ereader.Entities;
  */
 public class CurrentPosition {
     private long book_id;
-    private int currentChapter;
+    private int currentContent;
     private int currentSentence;
 
-    public CurrentPosition(long book_id, int currentChapter, int currentSentence) {
+    public CurrentPosition(long book_id, int currentContent, int currentSentence) {
         this.book_id = book_id;
-        this.currentChapter = currentChapter;
+        this.currentContent = currentContent;
         this.currentSentence = currentSentence;
     }
 
@@ -22,12 +22,12 @@ public class CurrentPosition {
         this.book_id = book_id;
     }
 
-    public int getCurrentChapter() {
-        return currentChapter;
+    public int getCurrentContent() {
+        return currentContent;
     }
 
-    public void setCurrentChapter(int currentChapterInBook) {
-        this.currentChapter = currentChapterInBook;
+    public void setCurrentContent(int currentChapterInBook) {
+        this.currentContent = currentChapterInBook;
     }
 
     public int getCurrentSentence() {
@@ -42,7 +42,7 @@ public class CurrentPosition {
     public String toString() {
         return "CurrentPosition{" +
                 "book_id=" + book_id +
-                ", currentChapter=" + currentChapter +
+                ", currentContent=" + currentContent +
                 ", currentSentence=" + currentSentence +
                 '}';
     }

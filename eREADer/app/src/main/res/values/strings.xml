@@ -49,6 +49,10 @@
     <string name="start_from_here">Start reading from this sentence</string>
     <string name="cancel">Cancel</string>
     <string name="sentences">Sentences</string>
+    <string name="content">Content</string>
+    <string name="parse_str">Parsing eBook and adding it to the library!</string>
+    <string name="success_ebook_add">EBook successfully added to database!</string>
+    <string name="loading">Loading content...</string>
 
 
     <string name="gutenberg_name">Project Gutenberg</string>

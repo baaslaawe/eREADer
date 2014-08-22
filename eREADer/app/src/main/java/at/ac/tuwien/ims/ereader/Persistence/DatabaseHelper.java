@@ -11,14 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import at.ac.tuwien.ims.ereader.Entities.Book;
-import at.ac.tuwien.ims.ereader.Entities.Chapter;
+import at.ac.tuwien.ims.ereader.Entities.Content;
 import at.ac.tuwien.ims.ereader.Entities.CurrentPosition;
 import at.ac.tuwien.ims.ereader.Entities.Language;
 
 /**
  * Created by Flo on 14.07.2014.
  */
-public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, ChapterCRUD, CurrentPositionCRUD {
+public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, ContentCRUD, CurrentPositionCRUD {
     private static final String DATABASE_NAME = "eREADerDB";
     private static final int DATABASE_VERSION = 1;
 
@@ -41,26 +41,24 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Chapte
     private static final String DROP_BOOK_TABLE = "DROP TABLE IF EXISTS " + TABLE_BOOKS;
 
     //---------------------------------------------------------------------
-    //CHAPTERS
-    private static final String TABLE_CHAPTERS = "chapters";
+    //CONTENTS
+    private static final String TABLE_CONTENTS = "contents";
 
-    private static final String CHAPTER_KEY_ID = "id";
-    private static final String CHAPTER_KEY_BOOK_ID = "book_id";
-    private static final String CHAPTER_KEY_HEADING = "heading";
-    private static final String CHAPTER_KEY_CHAPTER_NR = "chapter_nr";
-    private static final String CHAPTER_KEY_CONTENT = "content";
+    private static final String CONTENTS_KEY_ID = "id";
+    private static final String CONTENTS_KEY_BOOK_ID = "book_id";
+    private static final String CONTENTS_KEY_HEADING = "heading";
+    private static final String CONTENTS_KEY_CONTENT = "content";
 
-    private static final String CREATE_CHAPTER_TABLE =
-            "CREATE TABLE " + TABLE_CHAPTERS + "("
-                    + CHAPTER_KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + CHAPTER_KEY_BOOK_ID + " INTEGER NOT NULL,"
-                    + CHAPTER_KEY_HEADING + " TEXT NOT NULL,"
-                    + CHAPTER_KEY_CHAPTER_NR + " INTEGER NOT NULL, "
-                    + CHAPTER_KEY_CONTENT + " TEXT NOT NULL, "
-                    + "FOREIGN KEY(" + CHAPTER_KEY_BOOK_ID + ") REFERENCES "
+    private static final String CREATE_CONTENTS_TABLE =
+            "CREATE TABLE " + TABLE_CONTENTS + "("
+                    + CONTENTS_KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + CONTENTS_KEY_BOOK_ID + " INTEGER NOT NULL,"
+                    + CONTENTS_KEY_HEADING + " TEXT NOT NULL,"
+                    + CONTENTS_KEY_CONTENT + " TEXT NOT NULL, "
+                    + "FOREIGN KEY(" + CONTENTS_KEY_BOOK_ID + ") REFERENCES "
                     + TABLE_BOOKS +"(" + BOOK_KEY_ID+ "));";
 
-    private static final String DROP_CHAPTER_TABLE = "DROP TABLE IF EXISTS " + TABLE_CHAPTERS;
+    private static final String DROP_CONTENTS_TABLE = "DROP TABLE IF EXISTS " + TABLE_CONTENTS;
 
     //---------------------------------------------------------------------
     //CURRENT POSITION
@@ -87,7 +85,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Chapte
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_BOOK_TABLE);
-        db.execSQL(CREATE_CHAPTER_TABLE);
+        db.execSQL(CREATE_CONTENTS_TABLE);
         db.execSQL(CREATE_CURR_TABLE);
     }
 
@@ -97,9 +95,9 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Chapte
                 + oldVersion + "to " + newVersion);
         db.execSQL(DROP_BOOK_TABLE);
 
-        Log.d(DatabaseHelper.class.getName(), "Upgrading Database "+TABLE_CHAPTERS+" from Version "
+        Log.d(DatabaseHelper.class.getName(), "Upgrading Database "+ TABLE_CONTENTS +" from Version "
                 + oldVersion + "to " + newVersion);
-        db.execSQL(DROP_CHAPTER_TABLE);
+        db.execSQL(DROP_CONTENTS_TABLE);
 
         Log.d(DatabaseHelper.class.getName(), "Upgrading Database "+TABLE_CURR+" from Version "
                 + oldVersion + "to " + newVersion);
@@ -111,11 +109,11 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Chapte
     public void resetDatabase() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(DROP_BOOK_TABLE);
-        db.execSQL(DROP_CHAPTER_TABLE);
+        db.execSQL(DROP_CONTENTS_TABLE);
         db.execSQL(DROP_CURR_TABLE);
 
         db.execSQL(CREATE_BOOK_TABLE);
-        db.execSQL(CREATE_CHAPTER_TABLE);
+        db.execSQL(CREATE_CONTENTS_TABLE);
         db.execSQL(CREATE_CURR_TABLE);
 
         db.close();
@@ -203,9 +201,11 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Chapte
 
     public void deleteBook(long book_id) {
         Book book=getBook(book_id);
-        for(Chapter chapter : getChaptersByBook(book_id)) {
-            deleteChapter(chapter.getId());
+        for(Content content : getContentsByBook(book_id)) {
+            deleteContent(content.getId());
         }
+        if(book==null)
+            return;
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_BOOKS, BOOK_KEY_ID + " = ?", new String[] { String.valueOf(book.getId()) });
         db.close();
@@ -215,83 +215,87 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Chapte
     //---------------------------------------------------------------------
     //CHAPTERS
 
-    public long insertChapter(Chapter chapter) {
+    public long insertContent(Content content) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(CHAPTER_KEY_BOOK_ID, chapter.getBook().getId());
-        values.put(CHAPTER_KEY_HEADING, chapter.getHeading());
-        values.put(CHAPTER_KEY_CHAPTER_NR, chapter.getChapter_nr());
-        values.put(CHAPTER_KEY_CONTENT, chapter.getContent());
+        values.put(CONTENTS_KEY_BOOK_ID, content.getBook().getId());
+        values.put(CONTENTS_KEY_HEADING, content.getHeading());
+        values.put(CONTENTS_KEY_CONTENT, content.getContent());
 
-        long id=db.insert(TABLE_CHAPTERS, null, values);
+        long id=db.insert(TABLE_CONTENTS, null, values);
         db.close();
-        Log.d(DatabaseHelper.class.getName(), chapter.toString()+" added to DB");
+        Log.d(DatabaseHelper.class.getName(), content.toString()+" added to DB");
         return id;
     }
 
-    public Chapter getChapter(long id) {
+    public Content getContent(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_CHAPTERS, new String[] {CHAPTER_KEY_ID, CHAPTER_KEY_BOOK_ID,
-                        CHAPTER_KEY_HEADING, CHAPTER_KEY_CHAPTER_NR, CHAPTER_KEY_CONTENT},
-                CHAPTER_KEY_ID + "=?", new String[] { String.valueOf(id) }, null, null, null, null);
+        Cursor cursor = db.query(TABLE_CONTENTS, new String[] {CONTENTS_KEY_ID, CONTENTS_KEY_BOOK_ID,
+                        CONTENTS_KEY_HEADING, CONTENTS_KEY_CONTENT},
+                CONTENTS_KEY_ID + "=?", new String[] { String.valueOf(id) }, null, null, null, null);
 
         if (cursor != null)
             cursor.moveToFirst();
 
-        Chapter chapter = new Chapter(Integer.parseInt(cursor.getString(0)), getBook(Integer.parseInt(cursor.getString(1))),
-                cursor.getString(2), Integer.parseInt(cursor.getString(3)), cursor.getString(4));
-        Log.d(DatabaseHelper.class.getName(), chapter.toString() + " read from DB");
-        return chapter;
+        Content content = new Content(Integer.parseInt(cursor.getString(0)),
+                getBook(Integer.parseInt(cursor.getString(1))),
+                cursor.getString(2),
+                cursor.getString(3));
+        Log.d(DatabaseHelper.class.getName(), content.toString() + " read from DB");
+        return content;
     }
 
-    public List<Chapter> getLightweightChapters(long book_id) {
-        List<Chapter> chapterList = new ArrayList<Chapter>();
-        String selectQuery = "SELECT * FROM " + TABLE_CHAPTERS +
-                " WHERE " + CHAPTER_KEY_BOOK_ID + "=" + book_id;
+    public List<Content> getLightweightContents(long book_id) {
+        List<Content> contentList = new ArrayList<Content>();
+        String selectQuery = "SELECT * FROM " + TABLE_CONTENTS +
+                " WHERE " + CONTENTS_KEY_BOOK_ID + "=" + book_id;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
             do {
-                Chapter chapter = new Chapter(Integer.parseInt(cursor.getString(0)), getBook(Integer.parseInt(cursor.getString(1))),
-                        cursor.getString(2), Integer.parseInt(cursor.getString(3)));
-                chapterList.add(chapter);
+                Content content = new Content(Integer.parseInt(cursor.getString(0)),
+                        getBook(Integer.parseInt(cursor.getString(1))),
+                        cursor.getString(2));
+                contentList.add(content);
             } while (cursor.moveToNext());
         }
 
         Log.d(DatabaseHelper.class.getName(), "All chapters without content from book " + String.valueOf(book_id) + " read from DB");
-        return chapterList;
+        return contentList;
     }
 
-    public List<Chapter> getChaptersByBook(long book_id) {
-        List<Chapter> chapterList = new ArrayList<Chapter>();
-        String selectQuery = "SELECT * FROM " + TABLE_CHAPTERS +
-                " WHERE " + CHAPTER_KEY_BOOK_ID + "=" + book_id;
+    public List<Content> getContentsByBook(long book_id) {
+        List<Content> contentList = new ArrayList<Content>();
+        String selectQuery = "SELECT * FROM " + TABLE_CONTENTS +
+                " WHERE " + CONTENTS_KEY_BOOK_ID + "=" + book_id;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
             do {
-                Chapter chapter = new Chapter(Integer.parseInt(cursor.getString(0)), getBook(Integer.parseInt(cursor.getString(1))),
-                        cursor.getString(2), Integer.parseInt(cursor.getString(3)), cursor.getString(4));
-                chapterList.add(chapter);
+                Content content = new Content(Integer.parseInt(cursor.getString(0)), getBook(Integer.parseInt(cursor.getString(1))),
+                        cursor.getString(2), cursor.getString(3));
+                contentList.add(content);
             } while (cursor.moveToNext());
         }
 
         Log.d(DatabaseHelper.class.getName(), "All chapters from book " + String.valueOf(book_id) + " read from DB");
-        return chapterList;
+        return contentList;
     }
 
-    public void deleteChapter(long chapter_id) {
-        Chapter chapter=getChapter(chapter_id);
+    public void deleteContent(long chapter_id) {
+        Content content=getContent(chapter_id);
+        if(content==null)
+            return;
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_CHAPTERS, CHAPTER_KEY_ID + " = ?", new String[] { String.valueOf(chapter.getId()) });
+        db.delete(TABLE_CONTENTS, CONTENTS_KEY_ID + " = ?", new String[] { String.valueOf(content.getId()) });
         db.close();
-        Log.d(DatabaseHelper.class.getName(), chapter.toString()+" deleted from DB");
+        Log.d(DatabaseHelper.class.getName(), content.toString()+" deleted from DB");
     }
 
     //---------------------------------------------------------------------
@@ -302,7 +306,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Chapte
 
         ContentValues values = new ContentValues();
         values.put(CURR_KEY_BOOK_ID, curr.getBook_id());
-        values.put(CURR_KEY_CHAPTER, curr.getCurrentChapter());
+        values.put(CURR_KEY_CHAPTER, curr.getCurrentContent());
         values.put(CURR_KEY_SENTENCE, curr.getCurrentSentence());
 
         long id=db.insert(TABLE_CURR, null, values);
@@ -315,7 +319,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Chapte
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(CURR_KEY_CHAPTER, curr.getCurrentChapter());
+        values.put(CURR_KEY_CHAPTER, curr.getCurrentContent());
         values.put(CURR_KEY_SENTENCE, curr.getCurrentSentence());
 
         db.update(TABLE_CURR, values, CURR_KEY_BOOK_ID + " = ?", new String[]{String.valueOf(curr.getBook_id())});
@@ -339,6 +343,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Chapte
 
     public void deleteCurrentPosition(long book_id) {
         CurrentPosition c = getCurrentPosition(book_id);
+        if(c==null)
+            return;
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_CURR, CURR_KEY_BOOK_ID + " = ?", new String[] { String.valueOf(c.getBook_id()) });
         db.close();

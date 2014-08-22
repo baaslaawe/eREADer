@@ -25,7 +25,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import at.ac.tuwien.ims.ereader.Entities.Book;
-import at.ac.tuwien.ims.ereader.Entities.Chapter;
+import at.ac.tuwien.ims.ereader.Entities.Content;
 import at.ac.tuwien.ims.ereader.Services.BookService;
 import at.ac.tuwien.ims.ereader.Util.SidebarMenu;
 
@@ -183,8 +183,8 @@ public class BookChaptersActivity extends Activity {
     };
 
     private class CLAdapter extends BaseAdapter {
-        private List<Chapter> chapterlist;
-        private List<Chapter> visiblechapterlist;
+        private List<Content> chapterlist;
+        private List<Content> visiblechapterlist;
 
         private class ItemHolder {
             TextView heading;
@@ -192,7 +192,7 @@ public class BookChaptersActivity extends Activity {
             ImageView marker;
         }
 
-        public CLAdapter(List<Chapter> chapterlist) {
+        public CLAdapter(List<Content> chapterlist) {
             this.chapterlist=chapterlist;
             this.visiblechapterlist=chapterlist;
         }
@@ -205,8 +205,8 @@ public class BookChaptersActivity extends Activity {
             chapterlist=bookService.getLightweightChaptersOfBook(book.getId());
 
             if (!s.isEmpty() && searchbarVisible) {
-                ArrayList<Chapter> temp = new ArrayList<Chapter>();
-                for (Chapter c : chapterlist) {
+                ArrayList<Content> temp = new ArrayList<Content>();
+                for (Content c : chapterlist) {
                     if (c.getHeading().toLowerCase().contains(s.toLowerCase()))
                         temp.add(c);
                     else if (s.matches("\\d+"))
@@ -225,7 +225,7 @@ public class BookChaptersActivity extends Activity {
         }
 
         @Override
-        public Chapter getItem(int position) {
+        public Content getItem(int position) {
             return visiblechapterlist.get(position);
         }
 
@@ -253,7 +253,7 @@ public class BookChaptersActivity extends Activity {
             holder.heading.setText(visiblechapterlist.get(position).getHeading());
             holder.numberOfWords.setText(bookService.getNumberOfWords(visiblechapterlist.get(position).getId()) + " " + getString(R.string.words));
 
-            if (bookService.getCurrentPosition(book.getId()).getCurrentChapter()==position)
+            if (bookService.getCurrentPosition(book.getId()).getCurrentContent()==position)
                 holder.marker.setVisibility(View.VISIBLE);
             else
                 holder.marker.setVisibility(View.GONE);

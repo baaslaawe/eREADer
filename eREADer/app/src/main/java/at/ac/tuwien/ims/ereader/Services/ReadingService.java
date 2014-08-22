@@ -13,6 +13,7 @@ import android.os.IBinder;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.support.v4.app.NotificationCompat;
+import android.text.Html;
 import android.text.Layout;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,7 +27,7 @@ import java.util.Locale;
 
 import at.ac.tuwien.ims.ereader.BookViewerActivity;
 import at.ac.tuwien.ims.ereader.Entities.Book;
-import at.ac.tuwien.ims.ereader.Entities.Chapter;
+import at.ac.tuwien.ims.ereader.Entities.Content;
 import at.ac.tuwien.ims.ereader.Entities.CurrentPosition;
 import at.ac.tuwien.ims.ereader.R;
 import at.ac.tuwien.ims.ereader.Util.StaticHelper;
@@ -36,15 +37,17 @@ import at.ac.tuwien.ims.ereader.Util.StaticHelper;
  */
 public class ReadingService extends Service {
     private TextToSpeech ttsService;
-
     private BookService bookService;
 
     private Book book;
     private Locale lang;
-    private List<Chapter> chapters;
+    private List<Content> contents;
     private int currentChapter;
     private ArrayList<String> sentences;
     private int currentSentence;
+    private String currentContent;
+    private String currentChapterHeading;
+    private String currentBookTitle;
 
     private Boolean muted=false;
     private Boolean playing=false;
@@ -54,7 +57,9 @@ public class ReadingService extends Service {
         super();
     }
 
-    public void play() { //todo sometimes randomly does not work in background
+    //todo sometimes randomly does not work in background
+    //todo sometimes skips sentence when pausing on long sentence
+    public void play() {
         if (ttsService != null) {
             playing=true;
             setMuted(false);
@@ -78,7 +83,6 @@ public class ReadingService extends Service {
                         }
                     }
                 }
-
             }).start();
         }
     }
@@ -102,12 +106,15 @@ public class ReadingService extends Service {
     }
 
     public void next() {
-        if (currentChapter < chapters.size()-1) {
+        if (currentChapter < contents.size()-1) {
             pause();
             currentChapter++;
             currentSentence=0;
+            this.currentContent=Html.fromHtml(contents.get(currentChapter).getContent()).toString();
+            this.currentChapterHeading = contents.get(currentChapter).getHeading();
             updateSentences();
             broadcastUpdate();
+            updateNotificationBar();
         }
     }
 
@@ -116,8 +123,11 @@ public class ReadingService extends Service {
             pause();
             currentChapter--;
             currentSentence=0;
+            this.currentContent=Html.fromHtml(contents.get(currentChapter).getContent()).toString();
+            this.currentChapterHeading = contents.get(currentChapter).getHeading();
             updateSentences();
             broadcastUpdate();
+            updateNotificationBar();
         }
     }
 
@@ -130,11 +140,7 @@ public class ReadingService extends Service {
     }
 
     public String getCurrChapterHeading() {
-        return chapters.get(currentChapter).getHeading();
-    }
-
-    public String getCurrentBookTitle() {
-        return book.getTitle();
+        return this.currentChapterHeading;
     }
 
     public int getCurrentChapter() {
@@ -142,7 +148,7 @@ public class ReadingService extends Service {
     }
 
     public int getNumberOfChaptersInCurrentBook() {
-        return chapters.size();
+        return contents.size();
     }
 
     public boolean isPlaying() {
@@ -154,7 +160,7 @@ public class ReadingService extends Service {
     }
 
     public String getCurrentContent() {
-        return chapters.get(currentChapter).getContent();
+        return this.currentContent;
     }
 
     public String getNumberOfSentences() {
@@ -189,10 +195,11 @@ public class ReadingService extends Service {
 
     public void updateBook(Book b) {
         this.book=b;
-        chapters=bookService.getChaptersOfBook(book.getId());
+        this.currentBookTitle=b.getTitle();
+        contents =bookService.getChaptersOfBook(book.getId());
 
         CurrentPosition c=bookService.getCurrentPosition(book.getId());
-        currentChapter=c.getCurrentChapter();
+        currentChapter=c.getCurrentContent();
         currentSentence=c.getCurrentSentence();
 
         switch (b.getLanguage()) {
@@ -205,25 +212,28 @@ public class ReadingService extends Service {
             default:
                 lang=new Locale("en", "US");
         }
+        this.currentContent=Html.fromHtml(contents.get(currentChapter).getContent()).toString();
+        this.currentChapterHeading = contents.get(currentChapter).getHeading();
+
         updateSentences();
         updateTTS();
         broadcastUpdate();
     }
 
     private void updateTTS() {
-        if (ttsService.isLanguageAvailable(lang)==TextToSpeech.LANG_COUNTRY_AVAILABLE)
-            ttsService.setLanguage(lang);
+        if(lang!=null)
+            if (ttsService.isLanguageAvailable(lang)==TextToSpeech.LANG_COUNTRY_AVAILABLE)
+                ttsService.setLanguage(lang);
     }
 
     private void updateSentences() {
-        String content=getCurrentContent();
         sentences=new ArrayList<String>();
         BreakIterator it=null;
         if (lang!=null)
             it = BreakIterator.getSentenceInstance(lang);
         else
             it = BreakIterator.getSentenceInstance(Locale.US);
-        it.setText(content);
+        it.setText(currentContent);
 
         int lastIndex = it.first();
         while (lastIndex != BreakIterator.DONE) {
@@ -231,7 +241,7 @@ public class ReadingService extends Service {
             lastIndex = it.next();
 
             if (lastIndex != BreakIterator.DONE) {
-                sentences.add(content.substring(firstIndex, lastIndex));
+                sentences.add(currentContent.substring(firstIndex, lastIndex));
             }
         }
     }
@@ -241,7 +251,6 @@ public class ReadingService extends Service {
         f[0]=0;
         f[1]=0;
 
-        String content=getCurrentContent();
         int line = layout.getLineForVertical(y);
         int clickedChar = layout.getOffsetForHorizontal(line, x);
 
@@ -250,7 +259,7 @@ public class ReadingService extends Service {
             it = BreakIterator.getSentenceInstance(lang);
         else
             it = BreakIterator.getSentenceInstance(Locale.US);
-        it.setText(content);
+        it.setText(currentContent);
 
         int lastIndex = it.first();
         while (lastIndex != BreakIterator.DONE) {
@@ -267,7 +276,6 @@ public class ReadingService extends Service {
     }
 
     public int getSentenceNumberByClick(Layout layout, int x, int y) {
-        String content=getCurrentContent();
         int line = layout.getLineForVertical(y);
         int clickedChar = layout.getOffsetForHorizontal(line, x);
 
@@ -276,7 +284,7 @@ public class ReadingService extends Service {
             it = BreakIterator.getSentenceInstance(lang);
         else
             it = BreakIterator.getSentenceInstance(Locale.US);
-        it.setText(content);
+        it.setText(currentContent);
 
         int i=0;
         int lastIndex = it.first();
@@ -294,8 +302,8 @@ public class ReadingService extends Service {
     private void updateNotificationBar() {
         if (ttsService!=null && book!=null) {
             RemoteViews notificationView = new RemoteViews(getPackageName(), R.layout.notification_bar);
-            notificationView.setTextViewText(R.id.bar_title_book, getCurrentBookTitle());
-            notificationView.setTextViewText(R.id.bar_chapter_page, getCurrChapterHeading());
+            notificationView.setTextViewText(R.id.bar_title_book, currentBookTitle);
+            notificationView.setTextViewText(R.id.bar_chapter_page, currentChapterHeading);
             notificationView.setTextViewText(R.id.bar_word, getNumberOfSentences());
             notificationView.setOnClickPendingIntent(R.id.bar_close,
                     PendingIntent.getService(getApplicationContext(),
@@ -334,7 +342,7 @@ public class ReadingService extends Service {
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                     .setSmallIcon(R.drawable.logo_small_bar)
-                    .setTicker(getString(R.string.notification_bar_welcome) + ": " + getCurrentBookTitle())
+                    .setTicker(getString(R.string.notification_bar_welcome) + ": " + currentBookTitle)
                     .setContent(notificationView)
                     .setOngoing(true);
             builder.setContentIntent(resultPendingIntent);
@@ -403,7 +411,7 @@ public class ReadingService extends Service {
                     bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentChapter, currentSentence));
                     reading = false;
                 } else if (currentSentence==sentences.size()-1
-                        && currentChapter==chapters.size()-1) {
+                        && currentChapter== contents.size()-1) {
                     Log.d(ReadingService.class.getName(), "Reached end of book.");
                     pause();
                     bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentChapter, currentSentence));

@@ -5,32 +5,28 @@ import java.util.List;
 /**
  * Created by Flo on 14.07.2014.
  */
-public class Chapter {
+public class Content {
     private long id;
     private Book book;
     private String heading;
-    private int chapter_nr;
     private String content;
 
-    public Chapter(long id, Book book, String heading, int chapter_nr, String content) {
+    public Content(long id, Book book, String heading, String content) {
         this.id = id;
         this.book = book;
         this.heading = heading;
-        this.chapter_nr=chapter_nr;
         this.content = content;
     }
 
-    public Chapter(long id, Book book, String heading, int chapter_nr) {
+    public Content(long id, Book book, String heading) { //lightweight for displaying in toc
         this.id = id;
         this.book = book;
         this.heading = heading;
-        this.chapter_nr=chapter_nr;
     }
 
-    public Chapter(Book book, String heading, int chapter_nr, String content) {
+    public Content(Book book, String heading, String content) {
         this.book = book;
         this.heading = heading;
-        this.chapter_nr=chapter_nr;
         this.content = content;
     }
 
@@ -60,14 +56,6 @@ public class Chapter {
 
     public String toString() {
         return heading+" ("+book.getTitle()+")";
-    }
-
-    public int getChapter_nr() {
-        return chapter_nr;
-    }
-
-    public void setChapter_nr(int chapter_nr) {
-        this.chapter_nr = chapter_nr;
     }
 
     public String getContent() {

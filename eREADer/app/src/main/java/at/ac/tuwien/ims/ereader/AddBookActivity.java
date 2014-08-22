@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Spanned;
+import android.text.SpannedString;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,6 +18,9 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.github.johnpersano.supertoasts.SuperActivityToast;
+import com.github.johnpersano.supertoasts.SuperToast;
 
 import net.simonvt.menudrawer.MenuDrawer;
 
@@ -37,6 +42,8 @@ public class AddBookActivity extends Activity {
     private BookService bookService;
     private DHAdapter dhAdapter;
     private SidebarMenu sbMenu;
+    private SimpleFileDialog fileDialog;
+    private SuperActivityToast addToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +73,7 @@ public class AddBookActivity extends Activity {
                         public void onClick(DialogInterface dialog, int which) {}
                     }).show();
                 } else {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                    startActivity(browserIntent);
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(uri)));
                 }
             }
         });
@@ -75,7 +81,43 @@ public class AddBookActivity extends Activity {
 
         sbMenu=new SidebarMenu(this, false, false, false);
 
+        fileDialog =new SimpleFileDialog(AddBookActivity.this, "FileOpen",
+                new SimpleFileDialog.SimpleFileDialogListener() {
+                    @Override
+                    public void onChosenDir(String chosenDir) {
+                        addToast.show();
+                        new AddTask().execute(chosenDir);
+                    }
+                });
+        fileDialog.Default_File_Name = "";
+
+        addToast = new SuperActivityToast(this, SuperToast.Type.PROGRESS);
+        addToast.setText(getString(R.string.parse_str));
+        addToast.setIndeterminate(true);
+        addToast.setProgressIndeterminate(true);
+
+
         //todo add help for downloading
+    }
+
+    private class AddTask extends AsyncTask<String, Integer, Boolean> {
+        protected Boolean doInBackground(String... path) {
+            try {
+                bookService.addBookManually(path[0]);
+            } catch(ServiceException s) {
+                showMessage(s.getMessage());
+            }
+            return true;
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+            //do nothing
+        }
+
+        protected void onPostExecute(Boolean result) {
+            addToast.dismiss();
+            showMessage(getString(R.string.success_ebook_add));
+        }
     }
 
     @Override
@@ -163,24 +205,11 @@ public class AddBookActivity extends Activity {
         };
     }
 
-
     private View.OnClickListener btnListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if (v==add_button) {
-                SimpleFileDialog foDialog=new SimpleFileDialog(AddBookActivity.this, "FileOpen",
-                        new SimpleFileDialog.SimpleFileDialogListener() {
-                            @Override
-                            public void onChosenDir(String chosenDir) {
-                                try {
-                                    bookService.addBookManually(chosenDir);
-                                } catch(ServiceException s) {
-                                    showMessage(s.getMessage());
-                                }
-                            }
-                        });
-                foDialog.Default_File_Name = "";
-                foDialog.chooseFile_or_Dir();
+                fileDialog.chooseFile_or_Dir();
             } else if(v==optButton) {
                 if(sbMenu.getMenuDrawer().isMenuVisible())
                     sbMenu.getMenuDrawer().closeMenu();

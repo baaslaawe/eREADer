@@ -36,7 +36,7 @@ import net.simonvt.menudrawer.MenuDrawer;
 import java.util.List;
 
 import at.ac.tuwien.ims.ereader.Entities.Book;
-import at.ac.tuwien.ims.ereader.Entities.Chapter;
+import at.ac.tuwien.ims.ereader.Entities.Content;
 import at.ac.tuwien.ims.ereader.Entities.CurrentPosition;
 import at.ac.tuwien.ims.ereader.Services.BookService;
 import at.ac.tuwien.ims.ereader.Services.ReadingService;
@@ -103,24 +103,21 @@ public class BookViewerActivity extends Activity {
 
         int cha=getIntent().getExtras().getInt("chapter");
         String chapt;
-        String cont;
-        List<Chapter> chapters=bookService.getChaptersOfBook(book.getId());
+        List<Content> contents =bookService.getChaptersOfBook(book.getId());
 
         if (cha<0) {
             CurrentPosition c=bookService.getCurrentPosition(book.getId());
-            chapt=chapters.get(c.getCurrentChapter()).getHeading();
-            cont=chapters.get(c.getCurrentChapter()).getContent();
+            chapt= contents.get(c.getCurrentContent()).getHeading();
         } else {
             int currSent=0;
             CurrentPosition c=bookService.getCurrentPosition(book.getId());
-            if(cha==c.getCurrentChapter()&&c.getCurrentSentence()!=0)
+            if(cha==c.getCurrentContent()&&c.getCurrentSentence()!=0)
                 currSent=bookService.getCurrentPosition(book.getId()).getCurrentSentence();
             bookService.updateCurrentPosition(new CurrentPosition(book.getId(), cha, currSent));
-            chapt=chapters.get(cha).getHeading();
-            cont=chapters.get(cha).getContent();
+            chapt= contents.get(cha).getHeading();
         }
 
-        content.setText(cont);
+        content.setText(getString(R.string.loading));
         chap_txt.setText(chapt);
         sbMenu=new SidebarMenu(this, false, false, false);
 
@@ -207,7 +204,8 @@ public class BookViewerActivity extends Activity {
                     int firstVisibleLineNumber=layout.getLineForVertical(scrollY);
                     int lastVisibleLineNumber=layout.getLineForVertical(scrollY+height);
                     int halfOfLayoutLines=(lastVisibleLineNumber-firstVisibleLineNumber)/2;
-                    int line=layout.getLineForOffset(readingService.getIndicesOfCurrentSentence()[0])-halfOfLayoutLines;
+                    int i=readingService.getIndicesOfCurrentSentence()[0]+(readingService.getIndicesOfCurrentSentence()[1]-readingService.getIndicesOfCurrentSentence()[0]);
+                    int line=layout.getLineForOffset(i)-halfOfLayoutLines;
                     if(line>=0)
                         contentScrollView.smoothScrollTo(0, layout.getLineTop(line));
                 }

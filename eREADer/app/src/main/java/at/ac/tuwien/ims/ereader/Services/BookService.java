@@ -1,47 +1,18 @@
 package at.ac.tuwien.ims.ereader.Services;
 
-import android.app.Service;
 import android.content.Context;
-import android.provider.DocumentsContract;
 import android.text.Html;
-import android.text.Spannable;
-import android.text.Spanned;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
-
 import at.ac.tuwien.ims.ereader.Entities.Book;
-import at.ac.tuwien.ims.ereader.Entities.Chapter;
+import at.ac.tuwien.ims.ereader.Entities.Content;
 import at.ac.tuwien.ims.ereader.Entities.CurrentPosition;
-import at.ac.tuwien.ims.ereader.Entities.DownloadHost;
 import at.ac.tuwien.ims.ereader.Entities.Language;
 import at.ac.tuwien.ims.ereader.Persistence.DatabaseHelper;
 import at.ac.tuwien.ims.ereader.R;
 import nl.siegmann.epublib.domain.Resource;
-import nl.siegmann.epublib.domain.Spine;
-import nl.siegmann.epublib.domain.SpineReference;
-import nl.siegmann.epublib.domain.TOCReference;
 import nl.siegmann.epublib.epub.EpubReader;
 
 /**
@@ -52,19 +23,21 @@ public class BookService {
     private String ebook_loading_failed;
     private String format_not_supported;
     private String could_not_download;
+    private String content;
 
     public BookService(Context c) {
         db=new DatabaseHelper(c);
         ebook_loading_failed=c.getString(R.string.ebook_loading_failed);
         format_not_supported=c.getString(R.string.format_not_supported);
         could_not_download=c.getString(R.string.could_not_download);
+        content=c.getString(R.string.content);
     }
 
     public void insertTestBooks() {
         db.resetDatabase();
 
         Book b1=insertBook("Lel1", "Lelman", Language.DE);
-        insertChapter(b1, "Erstes Kapitel", 1,
+        insertChapter(b1, "Erstes Kapitel",
                 "b1CONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENT\n" +
                         "CONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTEN\nTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENT" +
                         "CONTENTCONTENTCONTENTCONTENTCONTENTCONTENT\nCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENT" +
@@ -73,23 +46,23 @@ public class BookService {
                         "CONTENTCONTENTCONTENTCOCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTNTENTCONTENTCONTENT" +
                         "CONTENTCONTENTCONTENTCONTENTCONTENTCONTENT\nCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCO\nNTENTCONTENTCONTENT" +
                         "CONTENTCONTENTCONTENTCONTENT\nCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCO\nNTENTCONTENTCONTENTCONTENTCONTENTCONTENT");
-        insertChapter(b1, "Zweites Kapitel", 2,
+        insertChapter(b1, "Zweites Kapitel",
                 "Das ist der erste Test. Das ist der zweite Test. Das ist der dritte Test. Das ist ein Test." +
                         "Das ist ein Test. Das ist ein Test. Das ist ein Test. Das ist ein Test. Das ist ein Test. Das ist ein Test. Das ist ein Test.");
-        insertChapter(b1, "Kapitel 3", 3,
+        insertChapter(b1, "Kapitel 3",
                 "Hallo wie geht es dir?");
 
 
         Book b2=insertBook("Faust", "Johann Wolfgang von Goethe", Language.EN);
-        insertChapter(b2, "Chapter 1", 1,
+        insertChapter(b2, "Chapter 1",
                 "TEST CONTENT 1. TEST CONTENT 1. TEST CONTENT 1.\n"+
                         "\nTEST CONTENT 2. TEST CONTENT 2. TEST CONTENT 2.");
 
-        insertChapter(b2, "Second Chapter", 2,
+        insertChapter(b2, "Second Chapter",
                 "TEST CONTENT 4. TEST CONTENT 4. TEST CONTENT 4.\n"+
                         "\nTEST CONTENT 5. TEST CONTENT 5. TEST CONTENT 5.");
 
-        insertChapter(b2, "Chapter 3", 3,
+        insertChapter(b2, "Chapter 3",
                 "Chiefly, enough of incident prepare!\n" +
                         "They come to look, and they prefer to stare.\n" +
                         "\nTEST CONTENT 6.\n TEST CONTENT 6.\nTEST CONTENT 6.\n" +
@@ -107,7 +80,6 @@ public class BookService {
         updateCurrentPosition(new CurrentPosition(b2.getId(), 2, 0));
     }
 
-    //todo read chapter headings (just add it in front of saved text)
     public void addBookManually(String URI) throws ServiceException {
         if(URI.endsWith(".epub"))
             this.addBookAsEPUB(URI);
@@ -123,11 +95,7 @@ public class BookService {
 
     public void addBookAsEPUB(String URI) throws ServiceException {
         try {
-            //String URI1="/storage/emulated/0/.1ebooks/finn.epub";
-            //String URI1="/storage/emulated/0/.1ebooks/pride.epub";
-            //String URI1="/storage/emulated/0/.1ebooks/alice.epub";
-            String URI1="/storage/emulated/0/.1ebooks/sherlock.epub";
-            nl.siegmann.epublib.domain.Book b=new EpubReader().readEpub(new FileInputStream(URI1));
+            nl.siegmann.epublib.domain.Book b=new EpubReader().readEpub(new FileInputStream(URI));
             String author="";
             for (int i=0; i<b.getMetadata().getAuthors().size(); i++) {
                 author += b.getMetadata().getAuthors().get(i).getFirstname() + " " + b.getMetadata().getAuthors().get(i).getLastname();
@@ -148,48 +116,17 @@ public class BookService {
             } else
                 throw new ServiceException(ebook_loading_failed);
 
-            Book bookToSave= new Book(b.getMetadata().getFirstTitle(), author, lang);
+            Book bookToSave=insertBook(b.getMetadata().getFirstTitle(), author, lang);
 
-            BufferedReader reader;
-            StringBuilder htmlString=new StringBuilder();
-            for (TOCReference tocReference : b.getTableOfContents().getTocReferences()) {
-                reader = new BufferedReader(new InputStreamReader(tocReference.getResource().getInputStream()));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    htmlString.append(line);
-                }
+            List<Resource> list=b.getContents();
+            if(list.isEmpty()) {
+                deleteBook(bookToSave.getId());
+                throw new ServiceException(ebook_loading_failed);
             }
 
-            Document doc = Jsoup.parse(htmlString.toString());
-            Elements elements=doc.getElementsByTag("chapter");
-            elements.addAll(doc.getElementsByTag("h1"));
-            elements.addAll(doc.getElementsByTag("h2"));
-            elements.addAll(doc.getElementsByTag("h3"));
-
-            Set<String> temp=new LinkedHashSet<String>();
-            for (int i=0; i<elements.size();i++) {
-                /*newE.addAll(e.getElementsContainingText("chapter"));
-                newE.addAll(e.getElementsContainingText("book"));
-                newE.addAll(e.getElementsContainingText("prologue"));
-                newE.addAll(e.getElementsContainingText("epilogue"));
-                newE.addAll(e.getElementsContainingText("part"));
-                newE.addAll(e.getElementsContainingText("section"));*/
-                String t=elements.get(i).text();
-                if(!t.toLowerCase().contains(bookToSave.getTitle().toLowerCase()) && !t.toLowerCase().contains(bookToSave.getAuthor().toLowerCase())
-                        && !t.toLowerCase().contains("content") && !t.toLowerCase().contains("contents") && !t.toLowerCase().contains("chapters"))
-                    temp.add(t);
+            for(int i=0, s=list.size(); i<s; i++) {
+                insertChapter(bookToSave, content+" "+ (i+1), new String(list.get(i).getData()));
             }
-
-            List<Chapter> chapters=new ArrayList<Chapter>();
-            int i=0;
-            for (String s: temp) {
-                chapters.add(new Chapter(bookToSave, s, i++, "lel"));
-            }
-
-            //todo
-            Chapter c= new Chapter(new Book("lel", "lel", Language.DE), "lel",0, "lel");
-
-            //Page p= new Page(c, ,);
 
         } catch (IOException e) {
             throw new ServiceException(ebook_loading_failed);
@@ -215,10 +152,10 @@ public class BookService {
         return db.getBook(id);
     }
 
-    public Chapter insertChapter(Book bookOfChapter, String heading, int chapter_nr, String content) {
-        Chapter c=new Chapter(bookOfChapter, heading, chapter_nr, content);
-        long id=db.insertChapter(c);
-        return db.getChapter(id);
+    public Content insertChapter(Book bookOfChapter, String heading, String content) {
+        Content c=new Content(bookOfChapter, heading, content);
+        long id=db.insertContent(c);
+        return db.getContent(id);
     }
 
     private CurrentPosition insertCurrentPosition(long book_id, int currentChapterInBook, int currentSentence) {
@@ -239,12 +176,12 @@ public class BookService {
         return db.getBook(book_id);
     }
 
-    public List<Chapter> getChaptersOfBook(long book_id) {
-        return db.getChaptersByBook(book_id);
+    public List<Content> getChaptersOfBook(long book_id) {
+        return db.getContentsByBook(book_id);
     }
 
-    public List<Chapter> getLightweightChaptersOfBook(long book_id) {
-        return db.getLightweightChapters(book_id);
+    public List<Content> getLightweightChaptersOfBook(long book_id) {
+        return db.getLightweightContents(book_id);
     }
 
     public CurrentPosition getCurrentPosition(long book_id) {
@@ -256,8 +193,8 @@ public class BookService {
     }
 
     public int getNumberOfWords(long chapter_id) {
-        Chapter c=db.getChapter(chapter_id);
-        String text=c.getContent().trim();
+        Content c=db.getContent(chapter_id);
+        String text=Html.fromHtml(c.getContent()).toString().trim();
         return text.isEmpty() ? 0 : text.split("\\s+").length;
     }
 }

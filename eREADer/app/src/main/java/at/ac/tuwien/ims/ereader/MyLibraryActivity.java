@@ -79,11 +79,6 @@ public class MyLibraryActivity extends Activity {
 
         registerForContextMenu(listview);
         hideSearchBar();
-        try {
-            bookService.addBookAsEPUB("");
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
