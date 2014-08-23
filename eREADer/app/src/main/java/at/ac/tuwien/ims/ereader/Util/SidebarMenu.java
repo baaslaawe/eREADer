@@ -55,6 +55,7 @@ public class SidebarMenu {
             }
         });
         listview.setAdapter(sbAdapter);
+        //todo make clicking visible
     }
 
     public MenuDrawer getMenuDrawer() {

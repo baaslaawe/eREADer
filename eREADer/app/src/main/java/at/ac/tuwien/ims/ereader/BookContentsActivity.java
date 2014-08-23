@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -69,11 +70,11 @@ public class BookContentsActivity extends Activity {
         listview.setAdapter(clAdapter);
 
         optButton=(ImageButton)findViewById(R.id.optnbtn_chapter);
-        optButton.setOnClickListener(btnListener);
+        optButton.setOnTouchListener(btnListener);
         srchButton=(ImageButton)findViewById(R.id.searchbtn_chapter);
-        srchButton.setOnClickListener(btnListener);
+        srchButton.setOnTouchListener(btnListener);
         playbtn=(ImageButton)findViewById(R.id.playbtn_chapter);
-        playbtn.setOnClickListener(btnListener);
+        playbtn.setOnTouchListener(btnListener);
         searchbar=(EditText)findViewById(R.id.searchinput_chapter);
         searchbar.addTextChangedListener(textWatcher);
 
@@ -109,27 +110,35 @@ public class BookContentsActivity extends Activity {
         super.onBackPressed();
     }
 
-    private View.OnClickListener btnListener = new View.OnClickListener() {
+    private View.OnTouchListener btnListener = new View.OnTouchListener() {
         @Override
-        public void onClick(View v) {
+        public boolean onTouch(View v, MotionEvent m) {
             if (v==optButton) {
-                if(sbMenu.getMenuDrawer().isMenuVisible())
-                    sbMenu.getMenuDrawer().closeMenu();
-                else
-                    sbMenu.getMenuDrawer().openMenu();
+                if(m.getAction()==MotionEvent.ACTION_UP)
+                    if(sbMenu.getMenuDrawer().isMenuVisible())
+                        sbMenu.getMenuDrawer().closeMenu();
+                    else
+                        sbMenu.getMenuDrawer().openMenu();
             } else if (v==srchButton) {
-                if(!searchbarVisible)
-                    showSearchBar();
-                else
-                    hideSearchBar();
+                if(m.getAction()==MotionEvent.ACTION_UP)
+                    if(!searchbarVisible)
+                        showSearchBar();
+                    else
+                        hideSearchBar();
             } else if (v==playbtn) {
-                Intent myIntent = new Intent(BookContentsActivity.this, BookViewerActivity.class);
-                Bundle b = new Bundle();
-                b.putInt("book_id", (int) book.getId());
-                b.putInt("chapter", -1);
-                myIntent.putExtras(b);
-                startActivity(myIntent);
+                if(m.getAction()==MotionEvent.ACTION_DOWN)
+                    ((ImageButton)v).setImageResource(R.drawable.playbtn_pressed);
+                else if(m.getAction()==MotionEvent.ACTION_UP) {
+                    ((ImageButton)v).setImageResource(R.drawable.playbtn);
+                    Intent myIntent = new Intent(BookContentsActivity.this, BookViewerActivity.class);
+                    Bundle b = new Bundle();
+                    b.putInt("book_id", (int) book.getId());
+                    b.putInt("chapter", -1);
+                    myIntent.putExtras(b);
+                    startActivity(myIntent);
+                }
             }
+            return true;
         }
     };
 
@@ -258,8 +267,6 @@ public class BookContentsActivity extends Activity {
                 holder.marker.setVisibility(View.VISIBLE);
             else
                 holder.marker.setVisibility(View.GONE);
-
-
             return convertView;
         }
     }

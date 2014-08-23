@@ -48,6 +48,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
     private static final String CONTENTS_KEY_BOOK_ID = "book_id";
     private static final String CONTENTS_KEY_HEADING = "heading";
     private static final String CONTENTS_KEY_CONTENT = "content";
+    private static final String CONTENTS_KEY_WORDS = "words";
 
     private static final String CREATE_CONTENTS_TABLE =
             "CREATE TABLE " + TABLE_CONTENTS + "("
@@ -55,6 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
                     + CONTENTS_KEY_BOOK_ID + " INTEGER NOT NULL,"
                     + CONTENTS_KEY_HEADING + " TEXT NOT NULL,"
                     + CONTENTS_KEY_CONTENT + " TEXT NOT NULL, "
+                    + CONTENTS_KEY_WORDS + " INTEGER NOT NULL, "
                     + "FOREIGN KEY(" + CONTENTS_KEY_BOOK_ID + ") REFERENCES "
                     + TABLE_BOOKS +"(" + BOOK_KEY_ID+ "));";
 
@@ -222,6 +224,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
         values.put(CONTENTS_KEY_BOOK_ID, content.getBook().getId());
         values.put(CONTENTS_KEY_HEADING, content.getHeading());
         values.put(CONTENTS_KEY_CONTENT, content.getContent());
+        values.put(CONTENTS_KEY_WORDS, content.getWords());
 
         long id=db.insert(TABLE_CONTENTS, null, values);
         db.close();
@@ -233,7 +236,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_CONTENTS, new String[] {CONTENTS_KEY_ID, CONTENTS_KEY_BOOK_ID,
-                        CONTENTS_KEY_HEADING, CONTENTS_KEY_CONTENT},
+                        CONTENTS_KEY_HEADING, CONTENTS_KEY_CONTENT, CONTENTS_KEY_WORDS},
                 CONTENTS_KEY_ID + "=?", new String[] { String.valueOf(id) }, null, null, null, null);
 
         if (cursor != null)
@@ -242,7 +245,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
         Content content = new Content(Integer.parseInt(cursor.getString(0)),
                 getBook(Integer.parseInt(cursor.getString(1))),
                 cursor.getString(2),
-                cursor.getString(3));
+                cursor.getString(3),
+                Integer.parseInt(cursor.getString(4)));
         Log.d(DatabaseHelper.class.getName(), content.toString() + " read from DB");
         return content;
     }
@@ -259,7 +263,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
             do {
                 Content content = new Content(Integer.parseInt(cursor.getString(0)),
                         getBook(Integer.parseInt(cursor.getString(1))),
-                        cursor.getString(2));
+                        cursor.getString(2),
+                        Integer.parseInt(cursor.getString(4)));
                 contentList.add(content);
             } while (cursor.moveToNext());
         }
@@ -278,8 +283,12 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
 
         if (cursor.moveToFirst()) {
             do {
-                Content content = new Content(Integer.parseInt(cursor.getString(0)), getBook(Integer.parseInt(cursor.getString(1))),
-                        cursor.getString(2), cursor.getString(3));
+                Content content = new Content(
+                        Integer.parseInt(cursor.getString(0)),
+                        getBook(Integer.parseInt(cursor.getString(1))),
+                        cursor.getString(2),
+                        cursor.getString(3),
+                        Integer.parseInt(cursor.getString(4)));
                 contentList.add(content);
             } while (cursor.moveToNext());
         }

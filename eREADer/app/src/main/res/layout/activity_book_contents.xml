@@ -187,7 +187,7 @@
                 android:fastScrollEnabled="true"
                 android:footerDividersEnabled="true"
                 android:headerDividersEnabled="true"
-                android:listSelector="#00ffffff" />
+                android:listSelector="#12c2b9" />
 
         </LinearLayout>
     </LinearLayout>

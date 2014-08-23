@@ -85,15 +85,15 @@ public class BookViewerActivity extends Activity {
         book=bookService.getBook(getIntent().getExtras().getInt("book_id"));
 
         optButton=(ImageButton)findViewById(R.id.optnbtn_book);
-        optButton.setOnClickListener(btnListener);
+        optButton.setOnTouchListener(btnListener);
         playButton=(ImageButton)findViewById(R.id.playbtn);
-        playButton.setOnClickListener(btnListener);
+        playButton.setOnTouchListener(btnListener);
         ffButton=(ImageButton)findViewById(R.id.ffbtn);
-        ffButton.setOnClickListener(btnListener);
+        ffButton.setOnTouchListener(btnListener);
         fbButton=(ImageButton)findViewById(R.id.fbbtn);
-        fbButton.setOnClickListener(btnListener);
+        fbButton.setOnTouchListener(btnListener);
         volumeButton =(ImageButton)findViewById(R.id.volume_btn);
-        volumeButton.setOnClickListener(btnListener);
+        volumeButton.setOnTouchListener(btnListener);
 
         TextView title=(TextView)findViewById(R.id.bktitletxt);
         title.setText(book.getTitle());
@@ -296,34 +296,56 @@ public class BookViewerActivity extends Activity {
         super.onBackPressed();
     }
 
-    private View.OnClickListener btnListener = new View.OnClickListener() {
+    private View.OnTouchListener btnListener = new View.OnTouchListener() {
         @Override
-        public void onClick(View v) {
+        public boolean onTouch(View v, MotionEvent m) {
             if (v==optButton) {
-                if(sbMenu.getMenuDrawer().isMenuVisible())
-                    sbMenu.getMenuDrawer().closeMenu();
-                else
-                    sbMenu.getMenuDrawer().openMenu();
+                if(m.getAction()==MotionEvent.ACTION_UP)
+                    if(sbMenu.getMenuDrawer().isMenuVisible())
+                        sbMenu.getMenuDrawer().closeMenu();
+                    else
+                        sbMenu.getMenuDrawer().openMenu();
             } else if (v==playButton) {
-                if (readingService.isPlaying()) {
-                    readingService.pause();
-                } else {
-                    readingService.play();
+                if(m.getAction()== MotionEvent.ACTION_DOWN) {
+                    if (readingService.isPlaying())
+                        ((ImageButton) v).setImageResource(R.drawable.playbtn_pressed);
+                    else
+                        ((ImageButton)v).setImageResource(R.drawable.pausebtn_pressed);
+                } else if(m.getAction()==MotionEvent.ACTION_UP) {
+                    if (readingService.isPlaying()) {
+                        ((ImageButton) v).setImageResource(R.drawable.playbtn);
+                        readingService.pause();
+                    } else {
+                        ((ImageButton)v).setImageResource(R.drawable.pausebtn);
+                        readingService.play();
+                    }
                 }
             } else if (v==ffButton) {
-                readingService.next();
-            } else if(v==fbButton) {
-                readingService.last();
-            } else if (v== volumeButton) {
-                if (readingService.getMuted()) {
-                    readingService.setMuted(false);
-                    volumeButton.setImageDrawable(getResources().getDrawable(R.drawable.notmuted));
-                } else {
-                    readingService.setMuted(true);
-                    volumeButton.setImageDrawable(getResources().getDrawable(R.drawable.muted));
+                if(m.getAction()== MotionEvent.ACTION_DOWN)
+                    ((ImageButton)v).setImageResource(R.drawable.ffbtn_pressed);
+                else if(m.getAction()==MotionEvent.ACTION_UP) {
+                    ((ImageButton)v).setImageResource(R.drawable.ffbtn);
+                    readingService.next();
                 }
+            } else if(v==fbButton) {
+                if(m.getAction()== MotionEvent.ACTION_DOWN)
+                    ((ImageButton)v).setImageResource(R.drawable.fbbtn_pressed);
+                else if(m.getAction()==MotionEvent.ACTION_UP) {
+                    ((ImageButton)v).setImageResource(R.drawable.fbbtn);
+                    readingService.last();
+                }
+            } else if (v== volumeButton) {
+                if(m.getAction()==MotionEvent.ACTION_UP)
+                    if (readingService.getMuted()) {
+                        readingService.setMuted(false);
+                        volumeButton.setImageDrawable(getResources().getDrawable(R.drawable.notmuted));
+                    } else {
+                        readingService.setMuted(true);
+                        volumeButton.setImageDrawable(getResources().getDrawable(R.drawable.muted));
+                    }
             }
             updateButtons();
+            return true;
         }
     };
 

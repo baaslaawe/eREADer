@@ -110,7 +110,7 @@ public class ReadingService extends Service {
             pause();
             currentChapter++;
             currentSentence=0;
-            this.currentContent=Html.fromHtml(contents.get(currentChapter).getContent()).toString();
+            this.currentContent=contents.get(currentChapter).getContent();
             this.currentChapterHeading = contents.get(currentChapter).getHeading();
             updateSentences();
             updateTTS();
@@ -124,7 +124,7 @@ public class ReadingService extends Service {
             pause();
             currentChapter--;
             currentSentence=0;
-            this.currentContent=Html.fromHtml(contents.get(currentChapter).getContent()).toString();
+            this.currentContent=contents.get(currentChapter).getContent();
             this.currentChapterHeading = contents.get(currentChapter).getHeading();
             updateSentences();
             updateTTS();
@@ -214,7 +214,7 @@ public class ReadingService extends Service {
             default:
                 lang=new Locale("en", "US");
         }
-        this.currentContent=Html.fromHtml(contents.get(currentChapter).getContent()).toString();
+        this.currentContent=contents.get(currentChapter).getContent();
         this.currentChapterHeading = contents.get(currentChapter).getHeading();
 
         updateSentences();

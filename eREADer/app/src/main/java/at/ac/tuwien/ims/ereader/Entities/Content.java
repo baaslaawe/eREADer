@@ -10,24 +10,28 @@ public class Content {
     private Book book;
     private String heading;
     private String content;
+    private int words;
 
-    public Content(long id, Book book, String heading, String content) {
+    public Content(long id, Book book, String heading, String content, int words) {
         this.id = id;
         this.book = book;
         this.heading = heading;
         this.content = content;
+        this.words = words;
     }
 
-    public Content(long id, Book book, String heading) { //lightweight for displaying in toc
+    public Content(long id, Book book, String heading, int words) { //lightweight for displaying in toc
         this.id = id;
         this.book = book;
         this.heading = heading;
+        this.words = words;
     }
 
-    public Content(Book book, String heading, String content) {
+    public Content(Book book, String heading, String content, int words) {
         this.book = book;
         this.heading = heading;
         this.content = content;
+        this.words = words;
     }
 
     public Book getBook() {
@@ -64,5 +68,13 @@ public class Content {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public int getWords() {
+        return words;
+    }
+
+    public void setWords(int words) {
+        this.words = words;
     }
 }

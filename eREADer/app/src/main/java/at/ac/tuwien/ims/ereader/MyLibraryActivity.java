@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -58,7 +59,7 @@ public class MyLibraryActivity extends Activity {
             public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3) {
                 Intent myIntent = new Intent(MyLibraryActivity.this, BookContentsActivity.class);
                 Bundle b = new Bundle();
-                b.putInt("book_id", (int)blAdapter.getItem(position).getId());
+                b.putInt("book_id", (int) blAdapter.getItem(position).getId());
                 myIntent.putExtras(b);
                 startActivity(myIntent);
             }
@@ -66,11 +67,11 @@ public class MyLibraryActivity extends Activity {
         listview.setAdapter(blAdapter);
 
         optButton=(ImageButton)findViewById(R.id.optnbtn_lib);
-        optButton.setOnClickListener(btnListener);
+        optButton.setOnTouchListener(btnListener);
         srchButton=(ImageButton)findViewById(R.id.searchbtn_lib);
-        srchButton.setOnClickListener(btnListener);
+        srchButton.setOnTouchListener(btnListener);
         addButton=(ImageButton)findViewById(R.id.plusbtn);
-        addButton.setOnClickListener(btnListener);
+        addButton.setOnTouchListener(btnListener);
         searchbar=(EditText)findViewById(R.id.searchinput);
         searchbar.addTextChangedListener(textWatcher);
 
@@ -92,23 +93,31 @@ public class MyLibraryActivity extends Activity {
         super.onBackPressed();
     }
 
-    private View.OnClickListener btnListener = new View.OnClickListener() {
+    private View.OnTouchListener btnListener = new View.OnTouchListener() {
         @Override
-        public void onClick(View v) {
+        public boolean onTouch(View v, MotionEvent m) {
             if (v==optButton) {
-                if(sbMenu.getMenuDrawer().isMenuVisible())
-                    sbMenu.getMenuDrawer().closeMenu();
-                else
-                    sbMenu.getMenuDrawer().openMenu();
+                if(m.getAction()==MotionEvent.ACTION_UP)
+                    if(sbMenu.getMenuDrawer().isMenuVisible())
+                        sbMenu.getMenuDrawer().closeMenu();
+                    else
+                        sbMenu.getMenuDrawer().openMenu();
             } else if (v==srchButton) {
-                if(!searchbarVisible)
-                    showSearchBar();
-                else
-                    hideSearchBar();
+                if(m.getAction()==MotionEvent.ACTION_UP)
+                    if(!searchbarVisible)
+                        showSearchBar();
+                    else
+                        hideSearchBar();
             } else if (v==addButton) {
-                Intent myIntent = new Intent(MyLibraryActivity.this, AddBookActivity.class);
-                startActivity(myIntent);
+                if(m.getAction()== MotionEvent.ACTION_DOWN)
+                    ((ImageButton)v).setImageResource(R.drawable.plusbtn);
+                else if(m.getAction()==MotionEvent.ACTION_UP) {
+                    ((ImageButton)v).setImageResource(R.drawable.plusbtn_pressed);
+                    Intent myIntent = new Intent(MyLibraryActivity.this, AddBookActivity.class);
+                    startActivity(myIntent);
+                }
             }
+            return true;
         }
     };
 
@@ -129,7 +138,7 @@ public class MyLibraryActivity extends Activity {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         } catch (NullPointerException n) {
-           //do nothing
+            //do nothing
         }
     }
 
@@ -226,7 +235,7 @@ public class MyLibraryActivity extends Activity {
                 holder.author_and_lang = (TextView) convertView.findViewById(R.id.author_and_lang);
 
                 ImageButton bt = (ImageButton) convertView.findViewById(R.id.optbtnlist);
-                bt.setOnClickListener(optBtnListener);
+                bt.setOnTouchListener(optBtnListener);
                 convertView.setTag(holder);
             } else {
                 holder = (ItemHolder) convertView.getTag();
@@ -249,13 +258,19 @@ public class MyLibraryActivity extends Activity {
             return convertView;
         }
 
-        private View.OnClickListener optBtnListener = new View.OnClickListener() {
+        private View.OnTouchListener optBtnListener = new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                final int position = listview.getPositionForView(v);
-                if (position != ListView.INVALID_POSITION) {
-                    openContextMenu(v);
+            public boolean onTouch(View v, MotionEvent m) {
+                if (m.getAction() == MotionEvent.ACTION_DOWN) {
+                    ((ImageButton)v).setImageResource(R.drawable.setbtn_pressed);
+                } else if(m.getAction()==MotionEvent.ACTION_UP) {
+                    ((ImageButton)v).setImageResource(R.drawable.setbtn);
+                    final int position = listview.getPositionForView(v);
+                    if (position != ListView.INVALID_POSITION) {
+                        openContextMenu(v);
+                    }
                 }
+                return true;
             }
         };
     }

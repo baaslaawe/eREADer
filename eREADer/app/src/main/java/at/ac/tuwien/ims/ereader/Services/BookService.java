@@ -45,22 +45,22 @@ public class BookService {
                         "CONTENTCONTENT\nCONTENTCOCONTENTCONTENTCONTENTCONTENTCONT\nENTCONTENTNTENTCONTENTCONTENT" +
                         "CONTENTCONTENTCONTENTCOCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTNTENTCONTENTCONTENT" +
                         "CONTENTCONTENTCONTENTCONTENTCONTENTCONTENT\nCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCO\nNTENTCONTENTCONTENT" +
-                        "CONTENTCONTENTCONTENTCONTENT\nCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCO\nNTENTCONTENTCONTENTCONTENTCONTENTCONTENT");
+                        "CONTENTCONTENTCONTENTCONTENT\nCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCONTENTCO\nNTENTCONTENTCONTENTCONTENTCONTENTCONTENT", 0);
         insertChapter(b1, "Zweites Kapitel",
                 "Das ist der erste Test. Das ist der zweite Test. Das ist der dritte Test. Das ist ein Test." +
-                        "Das ist ein Test. Das ist ein Test. Das ist ein Test. Das ist ein Test. Das ist ein Test. Das ist ein Test. Das ist ein Test.");
+                        "Das ist ein Test. Das ist ein Test. Das ist ein Test. Das ist ein Test. Das ist ein Test. Das ist ein Test. Das ist ein Test.", 0);
         insertChapter(b1, "Kapitel 3",
-                "Hallo wie geht es dir?");
+                "Hallo wie geht es dir?", 0);
 
 
         Book b2=insertBook("Faust", "Johann Wolfgang von Goethe", Language.EN);
         insertChapter(b2, "Chapter 1",
                 "TEST CONTENT 1. TEST CONTENT 1. TEST CONTENT 1.\n"+
-                        "\nTEST CONTENT 2. TEST CONTENT 2. TEST CONTENT 2.");
+                        "\nTEST CONTENT 2. TEST CONTENT 2. TEST CONTENT 2.", 0);
 
         insertChapter(b2, "Second Chapter",
                 "TEST CONTENT 4. TEST CONTENT 4. TEST CONTENT 4.\n"+
-                        "\nTEST CONTENT 5. TEST CONTENT 5. TEST CONTENT 5.");
+                        "\nTEST CONTENT 5. TEST CONTENT 5. TEST CONTENT 5.", 0);
 
         insertChapter(b2, "Chapter 3",
                 "Chiefly, enough of incident prepare!\n" +
@@ -74,7 +74,7 @@ public class BookService {
                         "\nYou do not feel, how such a trade debases;\n" +
                         "\nYou do not feel, how such a trade debases;\n" +
                         "\nYou do not feel, how such a trade debases;\n" +
-                        "\nYou do not feel, how such a trade debases;\n");
+                        "\nYou do not feel, how such a trade debases;\n", 0);
 
         updateCurrentPosition(new CurrentPosition(b1.getId(), 1, 1));
         updateCurrentPosition(new CurrentPosition(b2.getId(), 2, 0));
@@ -126,11 +126,13 @@ public class BookService {
 
             int actualContentNumber=1;
             for(int i=0, s=list.size(); i<s; i++) {
+                int words=0;
                 String cont=new String(list.get(i).getData());
-                if (i==0&&b.getCoverImage()!=null) {
+                if (i==0&&b.getCoverImage()!=null || cont.isEmpty()) {
                     continue;
                 }
-                insertChapter(bookToSave, content + " " + actualContentNumber, cont);
+                cont=Html.fromHtml(cont).toString();
+                insertChapter(bookToSave, content + " " + actualContentNumber, cont, cont.split("\\s+").length);
                 actualContentNumber++;
             }
 
@@ -158,8 +160,8 @@ public class BookService {
         return db.getBook(id);
     }
 
-    public Content insertChapter(Book bookOfChapter, String heading, String content) {
-        Content c=new Content(bookOfChapter, heading, content);
+    public Content insertChapter(Book bookOfChapter, String heading, String content, int words) {
+        Content c=new Content(bookOfChapter, heading, content, words);
         long id=db.insertContent(c);
         return db.getContent(id);
     }
@@ -198,9 +200,7 @@ public class BookService {
         db.updateCurrentPosition(c);
     }
 
-    public int getNumberOfWords(long chapter_id) {
-        Content c=db.getContent(chapter_id);
-        String text=Html.fromHtml(c.getContent()).toString().trim();
-        return text.isEmpty() ? 0 : text.split("\\s+").length;
+    public int getNumberOfWords(long content_id) {
+        return db.getContent(content_id).getWords();
     }
 }

@@ -5,10 +5,12 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -68,11 +70,11 @@ public class SettingsActivity extends Activity {
         db=new DatabaseHelper(getApplicationContext());
 
         saveButton=(ImageButton)findViewById(R.id.savebtn_settings);
-        saveButton.setOnClickListener(btnListener);
+        saveButton.setOnTouchListener(btnListener);
         resetbtn=(Button)findViewById(R.id.resetbtn);
-        resetbtn.setOnClickListener(btnListener);
+        resetbtn.setOnTouchListener(btnListener);
         menuBtn=(ImageButton)findViewById(R.id.optnbtn_settings);
-        menuBtn.setOnClickListener(btnListener);
+        menuBtn.setOnTouchListener(btnListener);
         sbMenu=new SidebarMenu(this, false, true, false);
 
         ttsService=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
@@ -191,33 +193,46 @@ public class SettingsActivity extends Activity {
                     map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "UniqueID");
                     map.put(TextToSpeech.Engine.KEY_FEATURE_NETWORK_SYNTHESIS, "true");
                     ttsService.speak(longertesttext.getText().toString(), TextToSpeech.QUEUE_FLUSH, map);
-                } else
+                } else {
                     ttsService.stop();
+                }
             }
         });
     }
 
-    private View.OnClickListener btnListener = new View.OnClickListener() {
+    private View.OnTouchListener btnListener = new View.OnTouchListener() {
         @Override
-        public void onClick(View v) {
+        public boolean onTouch(View v, MotionEvent m) {
             if (v==saveButton) {
-                SharedPreferences settings = getSharedPreferences("settings", 0);
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putLong("font_size", fontsize.getSelectedItemId());
-                editor.putLong("font_type", fonttype.getSelectedItemId());
-                editor.putFloat("tts_rate", speechrate);
-                editor.apply();
-                showMessage(getString(R.string.settings_saved));
+                if(m.getAction()== MotionEvent.ACTION_DOWN)
+                    ((ImageButton)v).setImageResource(R.drawable.savebtn_pressed);
+                else if(m.getAction()==MotionEvent.ACTION_UP) {
+                    SharedPreferences settings = getSharedPreferences("settings", 0);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putLong("font_size", fontsize.getSelectedItemId());
+                    editor.putLong("font_type", fonttype.getSelectedItemId());
+                    editor.putFloat("tts_rate", speechrate);
+                    editor.apply();
+                    showMessage(getString(R.string.settings_saved));
+                    ((ImageButton)v).setImageResource(R.drawable.savebtn);
+                }
             } else if (v==resetbtn) {
-                AlertDialog.Builder ab = new AlertDialog.Builder(SettingsActivity.this);
-                ab.setMessage(getString(R.string.sure)).setPositiveButton(getString(R.string.positive), dialogClickListener)
-                        .setNegativeButton(getString(R.string.negative), dialogClickListener).show();
+                if(m.getAction()== MotionEvent.ACTION_DOWN)
+                    v.setBackgroundColor(Color.parseColor(StaticHelper.COLOR_Blue));
+                else if(m.getAction()==MotionEvent.ACTION_UP) {
+                    AlertDialog.Builder ab = new AlertDialog.Builder(SettingsActivity.this);
+                    ab.setMessage(getString(R.string.sure)).setPositiveButton(getString(R.string.positive), dialogClickListener)
+                            .setNegativeButton(getString(R.string.negative), dialogClickListener).show();
+                    v.setBackgroundColor(Color.parseColor(StaticHelper.COLOR_White));
+                }
             } else if(v==menuBtn) {
-                if(sbMenu.getMenuDrawer().isMenuVisible())
-                    sbMenu.getMenuDrawer().closeMenu();
-                else
-                    sbMenu.getMenuDrawer().openMenu();
+                if(m.getAction()==MotionEvent.ACTION_UP)
+                    if(sbMenu.getMenuDrawer().isMenuVisible())
+                        sbMenu.getMenuDrawer().closeMenu();
+                    else
+                        sbMenu.getMenuDrawer().openMenu();
             }
+            return true;
         }
     };
 

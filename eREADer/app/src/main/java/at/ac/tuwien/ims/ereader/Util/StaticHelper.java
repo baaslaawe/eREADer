@@ -4,6 +4,9 @@ package at.ac.tuwien.ims.ereader.Util;
  * Created by Flo on 11.08.2014.
  */
 public class StaticHelper {
+    public static final String COLOR_Blue="#12c2b9";
+    public static final String COLOR_White="#ffd4d4d4";
+
     public static final long typeface_Standard=0;
     public static final long typeface_GeoSans=1;
     public static final long typeface_Libertine=2;

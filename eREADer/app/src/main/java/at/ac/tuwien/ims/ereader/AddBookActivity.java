@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Spanned;
 import android.text.SpannedString;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -32,6 +34,7 @@ import at.ac.tuwien.ims.ereader.Services.BookService;
 import at.ac.tuwien.ims.ereader.Services.ServiceException;
 import at.ac.tuwien.ims.ereader.Util.SidebarMenu;
 import at.ac.tuwien.ims.ereader.Util.SimpleFileDialog;
+import at.ac.tuwien.ims.ereader.Util.StaticHelper;
 
 /**
  * Created by Flo on 05.08.2014.
@@ -55,9 +58,9 @@ public class AddBookActivity extends Activity {
         bookService=new BookService(this);
 
         add_button=(Button)findViewById(R.id.add_button);
-        add_button.setOnClickListener(btnListener);
+        add_button.setOnTouchListener(btnListener);
         optButton=(ImageButton)findViewById(R.id.optnbtn_add);
-        optButton.setOnClickListener(btnListener);
+        optButton.setOnTouchListener(btnListener);
 
         ListView listview = (ListView)findViewById(R.id.downloadhosts_list);
         dhAdapter = new DHAdapter(listview, getDownloadHosts());
@@ -95,7 +98,6 @@ public class AddBookActivity extends Activity {
         addToast.setText(getString(R.string.parse_str));
         addToast.setIndeterminate(true);
         addToast.setProgressIndeterminate(true);
-
 
         //todo add help for downloading
     }
@@ -180,7 +182,7 @@ public class AddBookActivity extends Activity {
                 holder.site_url = (TextView) convertView.findViewById(R.id.site_url);
 
                 ImageButton bt = (ImageButton) convertView.findViewById(R.id.howtobtnlist);
-                bt.setOnClickListener(howtobtnListener);
+                bt.setOnTouchListener(howtobtnListener);
                 convertView.setTag(holder);
             } else {
                 holder = (ItemHolder) convertView.getTag();
@@ -191,32 +193,45 @@ public class AddBookActivity extends Activity {
             return convertView;
         }
 
-        private View.OnClickListener howtobtnListener = new View.OnClickListener() {
+        private View.OnTouchListener howtobtnListener = new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                final int position = listview.getPositionForView(v);
-                if (position != ListView.INVALID_POSITION) {
-                    AlertDialog.Builder ab = new AlertDialog.Builder(AddBookActivity.this);
-                    ab.setMessage(dhList.get(position).getHow_to_string()).setNeutralButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {}
-                    }).show();
+            public boolean onTouch(View v, MotionEvent m) {
+                if (m.getAction() == MotionEvent.ACTION_DOWN) {
+                    ((ImageButton)v).setImageResource(R.drawable.howtobtn_pressed);
+                } else if(m.getAction()==MotionEvent.ACTION_UP) {
+                    ((ImageButton)v).setImageResource(R.drawable.howtobtn);
+                    final int position = listview.getPositionForView(v);
+                    if (position != ListView.INVALID_POSITION) {
+                        AlertDialog.Builder ab = new AlertDialog.Builder(AddBookActivity.this);
+                        ab.setMessage(dhList.get(position).getHow_to_string()).setNeutralButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {}
+                        }).show();
+                    }
                 }
+                return true;
             }
         };
     }
 
-    private View.OnClickListener btnListener = new View.OnClickListener() {
+    private View.OnTouchListener btnListener = new View.OnTouchListener() {
         @Override
-        public void onClick(View v) {
+        public boolean onTouch(View v, MotionEvent m) {
             if (v==add_button) {
-                fileDialog.chooseFile_or_Dir();
+                if(m.getAction()==MotionEvent.ACTION_DOWN)
+                    v.setBackgroundColor(Color.parseColor(StaticHelper.COLOR_Blue));
+                else if(m.getAction()==MotionEvent.ACTION_UP) {
+                    fileDialog.chooseFile_or_Dir();
+                    v.setBackgroundColor(Color.parseColor(StaticHelper.COLOR_White));
+                }
             } else if(v==optButton) {
-                if(sbMenu.getMenuDrawer().isMenuVisible())
-                    sbMenu.getMenuDrawer().closeMenu();
-                else
-                    sbMenu.getMenuDrawer().openMenu();
+                if(m.getAction()==MotionEvent.ACTION_UP)
+                    if(sbMenu.getMenuDrawer().isMenuVisible())
+                        sbMenu.getMenuDrawer().closeMenu();
+                    else
+                        sbMenu.getMenuDrawer().openMenu();
             }
+            return true;
         }
     };
 
