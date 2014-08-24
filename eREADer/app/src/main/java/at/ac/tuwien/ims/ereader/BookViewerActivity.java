@@ -1,3 +1,20 @@
+/*
+    This file is part of the eReader application.
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+*/
 package at.ac.tuwien.ims.ereader;
 
 import android.app.Activity;
@@ -44,7 +61,9 @@ import at.ac.tuwien.ims.ereader.Util.SidebarMenu;
 import at.ac.tuwien.ims.ereader.Util.StaticHelper;
 
 /**
- * Created by Flo on 09.07.2014.
+ * Activity view and read/play a specific ebook.
+ *
+ * @author Florian Schuster
  */
 public class BookViewerActivity extends Activity {
     private ImageButton optButton;
@@ -222,6 +241,7 @@ public class BookViewerActivity extends Activity {
         }
     }
 
+    //todo maybe only view some parts of text
     private void updateContent() {
         runOnUiThread(new Runnable() {
             @Override
@@ -279,11 +299,6 @@ public class BookViewerActivity extends Activity {
             ffButton.setAlpha(1.f);
             ffButton.setEnabled(true);
         }
-
-        if(readingService.isPlaying())
-            playButton.setImageDrawable(getResources().getDrawable(R.drawable.pausebtn));
-        else
-            playButton.setImageDrawable(getResources().getDrawable(R.drawable.playbtn));
     }
 
     @Override
@@ -308,12 +323,12 @@ public class BookViewerActivity extends Activity {
             } else if (v==playButton) {
                 if(m.getAction()== MotionEvent.ACTION_DOWN) {
                     if (readingService.isPlaying())
-                        ((ImageButton) v).setImageResource(R.drawable.playbtn_pressed);
-                    else
                         ((ImageButton)v).setImageResource(R.drawable.pausebtn_pressed);
+                    else
+                        ((ImageButton)v).setImageResource(R.drawable.playbtn_pressed);
                 } else if(m.getAction()==MotionEvent.ACTION_UP) {
                     if (readingService.isPlaying()) {
-                        ((ImageButton) v).setImageResource(R.drawable.playbtn);
+                        ((ImageButton)v).setImageResource(R.drawable.playbtn);
                         readingService.pause();
                     } else {
                         ((ImageButton)v).setImageResource(R.drawable.pausebtn);

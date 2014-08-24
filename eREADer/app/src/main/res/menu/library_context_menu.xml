@@ -6,6 +6,10 @@
         android:title="@string/play"
         />
     <item
+        android:id="@+id/edit"
+        android:title="@string/edit"
+        />
+    <item
         android:id="@+id/delete"
         android:title="@string/delete"
         />

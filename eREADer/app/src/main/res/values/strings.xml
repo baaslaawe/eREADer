@@ -9,6 +9,7 @@
     <string name="play">Play</string>
     <string name="playing">Playing</string>
     <string name="paused">Paused</string>
+    <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="download">Download</string>
     <string name="settings">Settings</string>
@@ -16,9 +17,11 @@
     <string name="languages_settings">Text-To-Speech Language</string>
     <string name="ger">German</string>
     <string name="eng">English</string>
-    <string name="esp">Espanol</string>
+    <string name="esp">Spanish</string>
+    <string name="unknown">Unknown</string>
     <string name="addbook">Add Book</string>
     <string name="manually_book">Add Book Manually</string>
+    <string name="supported_formats">Supported formats: .epub, .pdf, .txt</string>
     <string name="download_book">Download Books</string>
     <string name="path">Path</string>
     <string name="wasdeleted">was successfully deleted</string>
@@ -55,12 +58,19 @@
     <string name="success_ebook_add">EBook successfully added to database!</string>
     <string name="loading">Loading content...</string>
     <string name="tts_speed">Adjust Text-to-Speech rate</string>
+    <string name="no_title">Unknown title</string>
+    <string name="no_author">Unknown author</string>
+    <string name="save">Save</string>
+    <string name="edit_book">Edit book</string>
+
 
 
     <string name="gutenberg_name">Project Gutenberg</string>
     <string name="gutenberg_howto">1. Download Book\n2. Add Book\n3. Read Book\nTODO</string>
     <string name="free_ebooks_name">Free eBooks</string>
     <string name="free_ebooks_howto">1. Download Book\n2. Add Book\n3. Read Book\nTODO</string>
+    <string name="mobileread_name">MobileRead Wiki</string>
+    <string name="mobileread_howto">1. Download Book\n2. Add Book\n3. Read Book\nTODO</string>
     <string name="general_download_name">General Download Info</string>
     <string name="general_download_howto">1. Download Book\n2. Add Book\n3. Read Book\nTODO</string>
 </resources>

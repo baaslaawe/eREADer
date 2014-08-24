@@ -1,3 +1,20 @@
+/*
+    This file is part of the eReader application.
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+*/
 package at.ac.tuwien.ims.ereader;
 
 import android.app.Activity;
@@ -31,6 +48,11 @@ import at.ac.tuwien.ims.ereader.Entities.Content;
 import at.ac.tuwien.ims.ereader.Services.BookService;
 import at.ac.tuwien.ims.ereader.Util.SidebarMenu;
 
+/**
+ * Activity to display content chunks of one specific eBook.
+ *
+ * @author Florian Schuster
+ */
 public class BookContentsActivity extends Activity {
     private ImageButton optButton;
     private ImageButton srchButton;
@@ -219,9 +241,6 @@ public class BookContentsActivity extends Activity {
                 for (Content c : chapterlist) {
                     if (c.getHeading().toLowerCase().contains(s.toLowerCase()))
                         temp.add(c);
-                    else if (s.matches("\\d+"))
-                        if (bookService.getNumberOfWords(c.getId()) >= Integer.parseInt(s))
-                            temp.add(c);
                 }
                 visiblechapterlist = temp;
             } else
@@ -260,7 +279,7 @@ public class BookContentsActivity extends Activity {
                 holder = (ItemHolder) convertView.getTag();
             }
 
-            holder.heading.setText(visiblechapterlist.get(position).getHeading());
+            holder.heading.setText(getString(R.string.content)+ " "+ visiblechapterlist.get(position).getHeading());
             holder.numberOfWords.setText(bookService.getNumberOfWords(visiblechapterlist.get(position).getId()) + " " + getString(R.string.words));
 
             if (bookService.getCurrentPosition(book.getId()).getCurrentContent()==position)

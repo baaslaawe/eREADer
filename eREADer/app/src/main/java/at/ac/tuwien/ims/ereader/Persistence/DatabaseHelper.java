@@ -1,3 +1,20 @@
+/*
+    This file is part of the eReader application.
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+*/
 package at.ac.tuwien.ims.ereader.Persistence;
 
 import android.content.ContentValues;
@@ -16,7 +33,10 @@ import at.ac.tuwien.ims.ereader.Entities.CurrentPosition;
 import at.ac.tuwien.ims.ereader.Entities.Language;
 
 /**
- * Created by Flo on 14.07.2014.
+ * DAO class for books, contents and currentpositions that uses SQLiteOpenHelper
+ * for using a SQLite database.
+ *
+ * @author Florian Schuster
  */
 public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, ContentCRUD, CurrentPositionCRUD {
     private static final String DATABASE_NAME = "eREADerDB";
@@ -157,6 +177,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
             langu=Language.EN;
         else if (Language.ES.getCode() == lang)
             langu=Language.ES;
+        else if (Language.UNKNOWN.getCode() == lang)
+            langu=Language.UNKNOWN;
         Book book = new Book(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2),
                 langu);
         Log.d(DatabaseHelper.class.getName(), book.toString() + " read from DB");
@@ -180,6 +202,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
                     langu=Language.EN;
                 else if (Language.ES.getCode() == lang)
                     langu=Language.ES;
+                else if (Language.UNKNOWN.getCode() == lang)
+                    langu=Language.UNKNOWN;
                 Book book = new Book(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2),
                         langu);
                 bookList.add(book);
@@ -199,6 +223,17 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
 
         Log.d(DatabaseHelper.class.getName(), "Number of all books read from DB");
         return cursor.getCount();
+    }
+
+    public void updateBook(Book book) {
+        ContentValues values = new ContentValues();
+        values.put(BOOK_KEY_TITLE, book.getTitle());
+        values.put(BOOK_KEY_AUTHOR, book.getAuthor());
+        values.put(BOOK_KEY_LANGUAGE, book.getLanguage().getCode());
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.update(TABLE_BOOKS, values, BOOK_KEY_ID + " = ?", new String[] {String.valueOf(book.getId())});
+        Log.d(DatabaseHelper.class.getName(), book.getTitle()+" updated");
     }
 
     public void deleteBook(long book_id) {

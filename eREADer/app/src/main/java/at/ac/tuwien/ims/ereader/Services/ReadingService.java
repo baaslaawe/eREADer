@@ -1,3 +1,20 @@
+/*
+    This file is part of the eReader application.
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+*/
 package at.ac.tuwien.ims.ereader.Services;
 
 import android.app.NotificationManager;
@@ -34,7 +51,9 @@ import at.ac.tuwien.ims.ereader.R;
 import at.ac.tuwien.ims.ereader.Util.StaticHelper;
 
 /**
- * Created by Flo on 17.07.2014.
+ * todo
+ *
+ * @author Florian Schuster
  */
 public class ReadingService extends Service {
     private TextToSpeech ttsService;
@@ -59,13 +78,13 @@ public class ReadingService extends Service {
     }
 
     //todo sometimes randomly does not work in background
-    //todo sometimes skips sentence when pausing on long sentence
     public void play() {
         if (ttsService != null) {
             playing=true;
             setMuted(false);
             updateNotificationBar();
             broadcastUpdate();
+            updateTTS();
 
             new Thread(new Runnable() {
                 @Override
@@ -113,7 +132,6 @@ public class ReadingService extends Service {
             this.currentContent=contents.get(currentChapter).getContent();
             this.currentChapterHeading = contents.get(currentChapter).getHeading();
             updateSentences();
-            updateTTS();
             broadcastUpdate();
             updateNotificationBar();
         }
@@ -127,7 +145,6 @@ public class ReadingService extends Service {
             this.currentContent=contents.get(currentChapter).getContent();
             this.currentChapterHeading = contents.get(currentChapter).getHeading();
             updateSentences();
-            updateTTS();
             broadcastUpdate();
             updateNotificationBar();
         }
@@ -417,8 +434,7 @@ public class ReadingService extends Service {
                         currentSentence++;
                     bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentChapter, currentSentence));
                     reading = false;
-                } else if (currentSentence==sentences.size()-1
-                        && currentChapter== contents.size()-1) {
+                } else if (currentSentence==sentences.size()-1 && currentChapter== contents.size()-1) {
                     Log.d(ReadingService.class.getName(), "Reached end of book.");
                     pause();
                     bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentChapter, currentSentence));

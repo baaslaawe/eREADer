@@ -1,11 +1,29 @@
+/*
+    This file is part of the eReader application.
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+*/
 package at.ac.tuwien.ims.ereader.Persistence;
 
 import java.util.List;
-
 import at.ac.tuwien.ims.ereader.Entities.Book;
 
 /**
- * Created by Flo on 14.07.2014.
+ * Interface for the CRUD methods for books.
+ *
+ * @author Florian Schuster
  */
 public interface BookCRUD {
     /**
@@ -39,9 +57,16 @@ public interface BookCRUD {
     public int getAllBooksCount();
 
     /**
+     * Updates a book.
+     *
+     * @param book book to update
+     */
+    public void updateBook(Book book);
+
+    /**
      * Deletes a book from the DB (including all its chapters and pages).
      *
-     * @param book_id if of book to delete
+     * @param book_id id of book to delete
      */
     public void deleteBook(long book_id);
 }

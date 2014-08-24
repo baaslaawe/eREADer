@@ -1,3 +1,20 @@
+/*
+    This file is part of the eReader application.
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+*/
 package at.ac.tuwien.ims.ereader;
 
 import android.app.Activity;
@@ -8,8 +25,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Spanned;
-import android.text.SpannedString;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +34,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.johnpersano.supertoasts.SuperActivityToast;
 import com.github.johnpersano.supertoasts.SuperToast;
@@ -30,6 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import at.ac.tuwien.ims.ereader.Entities.DownloadHost;
+import at.ac.tuwien.ims.ereader.Entities.Language;
 import at.ac.tuwien.ims.ereader.Services.BookService;
 import at.ac.tuwien.ims.ereader.Services.ServiceException;
 import at.ac.tuwien.ims.ereader.Util.SidebarMenu;
@@ -37,7 +52,9 @@ import at.ac.tuwien.ims.ereader.Util.SimpleFileDialog;
 import at.ac.tuwien.ims.ereader.Util.StaticHelper;
 
 /**
- * Created by Flo on 05.08.2014.
+ * Activity to add eBooks and inform user about download hosts.
+ *
+ * @author Florian Schuster
  */
 public class AddBookActivity extends Activity {
     private Button add_button;
@@ -69,7 +86,6 @@ public class AddBookActivity extends Activity {
             public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3) {
                 String uri=dhAdapter.getItem(position).getURL();
                 if (uri.isEmpty()) {
-                    bookService.insertTestBooks();
                     AlertDialog.Builder ab = new AlertDialog.Builder(AddBookActivity.this);
                     ab.setMessage(dhAdapter.getItem(position).getHow_to_string()).setNeutralButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
                         @Override
@@ -87,9 +103,14 @@ public class AddBookActivity extends Activity {
         fileDialog =new SimpleFileDialog(AddBookActivity.this, "FileOpen",
                 new SimpleFileDialog.SimpleFileDialogListener() {
                     @Override
-                    public void onChosenDir(String chosenDir) {
+                    public void onChosenDir(final String chosenDir) {
                         addToast.show();
-                        new AddTask().execute(chosenDir);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                new AddTask().execute(chosenDir);
+                            }
+                        });
                     }
                 });
         fileDialog.Default_File_Name = "";
@@ -112,10 +133,6 @@ public class AddBookActivity extends Activity {
             return true;
         }
 
-        protected void onProgressUpdate(Integer... progress) {
-            //do nothing
-        }
-
         protected void onPostExecute(Boolean result) {
             addToast.dismiss();
             showMessage(getString(R.string.success_ebook_add));
@@ -135,9 +152,10 @@ public class AddBookActivity extends Activity {
 
     private List<DownloadHost> getDownloadHosts() {
         ArrayList<DownloadHost> dhList=new ArrayList<DownloadHost>();
-        dhList.add(new DownloadHost(getString(R.string.gutenberg_name), "http://m.gutenberg.org/", getString(R.string.gutenberg_howto)));
-        dhList.add(new DownloadHost(getString(R.string.free_ebooks_name), "http://www.free-ebooks.net", getString(R.string.free_ebooks_howto)));
-        dhList.add(new DownloadHost(getString(R.string.general_download_name), "", getString(R.string.general_download_howto)));
+        dhList.add(new DownloadHost(getString(R.string.gutenberg_name), "http://m.gutenberg.org/", getString(R.string.gutenberg_howto), Language.EN));
+        dhList.add(new DownloadHost(getString(R.string.free_ebooks_name), "http://www.free-ebooks.net", getString(R.string.free_ebooks_howto), Language.EN));
+        dhList.add(new DownloadHost(getString(R.string.mobileread_name), "http://wiki.mobileread.com/wiki/Free_eBooks-de/de", getString(R.string.mobileread_howto), Language.DE));
+        dhList.add(new DownloadHost(getString(R.string.general_download_name), "", getString(R.string.general_download_howto), null));
         return dhList;
     }
 
@@ -189,7 +207,23 @@ public class AddBookActivity extends Activity {
             }
 
             holder.page_name.setText(dhList.get(position).getSite_name());
-            holder.site_url.setText(dhList.get(position).getURL());
+            if(dhList.get(position).getLanguage()==null)
+                holder.site_url.setText(dhList.get(position).getURL());
+            else {
+                String lang="";
+                switch (dhList.get(position).getLanguage()) {
+                    case EN:
+                        lang=getString(R.string.eng);
+                        break;
+                    case DE:
+                        lang=getString(R.string.ger);
+                        break;
+                    case ES:
+                        lang=getString(R.string.esp);
+                        break;
+                }
+                holder.site_url.setText(lang+", "+dhList.get(position).getURL());
+            }
             return convertView;
         }
 

@@ -1,6 +1,25 @@
+/*
+    This file is part of the eReader application.
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+*/
 package at.ac.tuwien.ims.ereader;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,10 +31,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.johnpersano.supertoasts.SuperToast;
@@ -28,9 +49,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import at.ac.tuwien.ims.ereader.Entities.Book;
+import at.ac.tuwien.ims.ereader.Entities.Language;
 import at.ac.tuwien.ims.ereader.Services.BookService;
 import at.ac.tuwien.ims.ereader.Util.SidebarMenu;
 
+/**
+ * Activity to display all available eBooks in the database.
+ *
+ * @author Florian Schuster
+ */
 public class MyLibraryActivity extends Activity {
     private ImageButton optButton;
     private ImageButton srchButton;
@@ -41,6 +68,11 @@ public class MyLibraryActivity extends Activity {
 
     private BookService bookService;
     private SidebarMenu sbMenu;
+
+    private AlertDialog dialog;
+    private EditText author;
+    private EditText title;
+    private Spinner langspinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,10 +109,23 @@ public class MyLibraryActivity extends Activity {
 
         sbMenu=new SidebarMenu(this, true, false, false);
 
+        View editView = getLayoutInflater().inflate(R.layout.dialog_editbook, null);
+        AlertDialog.Builder editBuilder = new AlertDialog.Builder(this);
+        editBuilder.setView(editView)
+                .setPositiveButton(R.string.save, dialogClickListener)
+                .setNegativeButton(R.string.cancel, dialogClickListener)
+                .setTitle(getString(R.string.edit_book));
+        dialog=editBuilder.create();
+
+        author=(EditText)editView.findViewById(R.id.dialog_author);
+        title=(EditText)editView.findViewById(R.id.dialog_title);
+        langspinner=(Spinner)editView.findViewById(R.id.dialog_lang);
+        langspinner.setAdapter(new ArrayAdapter(MyLibraryActivity.this, android.R.layout.simple_spinner_dropdown_item,
+                new String[]{getString(R.string.ger), getString(R.string.eng),
+                        getString(R.string.esp), getString(R.string.unknown)}));
+
         registerForContextMenu(listview);
         hideSearchBar();
-
-        //todo make stuff look clickable
     }
 
     @Override
@@ -110,9 +155,9 @@ public class MyLibraryActivity extends Activity {
                         hideSearchBar();
             } else if (v==addButton) {
                 if(m.getAction()== MotionEvent.ACTION_DOWN)
-                    ((ImageButton)v).setImageResource(R.drawable.plusbtn);
-                else if(m.getAction()==MotionEvent.ACTION_UP) {
                     ((ImageButton)v).setImageResource(R.drawable.plusbtn_pressed);
+                else if(m.getAction()==MotionEvent.ACTION_UP) {
+                    ((ImageButton)v).setImageResource(R.drawable.plusbtn);
                     Intent myIntent = new Intent(MyLibraryActivity.this, AddBookActivity.class);
                     startActivity(myIntent);
                 }
@@ -282,9 +327,10 @@ public class MyLibraryActivity extends Activity {
             getMenuInflater().inflate(R.menu.library_context_menu, menu);
     }
 
+    private AdapterView.AdapterContextMenuInfo info;
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
         switch(item.getItemId()){
             case R.id.play:
@@ -295,14 +341,52 @@ public class MyLibraryActivity extends Activity {
                 myIntent.putExtras(b);
                 startActivity(myIntent);
                 break;
+            case R.id.edit:
+                author.setHint(blAdapter.getItem(info.position).getAuthor());
+                title.setHint(blAdapter.getItem(info.position).getTitle());
+                langspinner.setSelection(blAdapter.getItem(info.position).getLanguage().getCode());
+                dialog.show();
+                break;
             case R.id.delete:
-                bookService.deleteBook((int)blAdapter.getItem(info.position).getId());
+                bookService.deleteBook(blAdapter.getItem(info.position).getId());
                 showMessage(blAdapter.getItem(info.position).getTitle() + " " + getString(R.string.wasdeleted));
                 blAdapter.updateBookList();
                 break;
         }
         return super.onContextItemSelected(item);
     }
+
+    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    String aut= author.getText().length()==0 ? author.getHint().toString() : author.getText().toString();
+                    String tit= title.getText().length()==0 ? title.getHint().toString() : title.getText().toString();
+                    Language l=null;
+                    switch (langspinner.getSelectedItemPosition()) {
+                        case 0:
+                            l=Language.DE;
+                            break;
+                        case 1:
+                            l=Language.EN;
+                            break;
+                        case 2:
+                            l=Language.ES;
+                            break;
+                        default:
+                            l=Language.UNKNOWN;
+                            break;
+                    }
+                    bookService.updateBook(new Book(blAdapter.getItem(info.position).getId(), tit, aut, l));
+                    break;
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //do nothing
+                    break;
+            }
+            blAdapter.updateBookList();
+        }
+    };
 
     private void showMessage(String message) {
         SuperToast toast=new SuperToast(this);
