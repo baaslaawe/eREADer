@@ -31,7 +31,6 @@ import android.os.IBinder;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.support.v4.app.NotificationCompat;
-import android.text.Html;
 import android.text.Layout;
 import android.text.TextUtils;
 import android.util.Log;
@@ -51,7 +50,7 @@ import at.ac.tuwien.ims.ereader.R;
 import at.ac.tuwien.ims.ereader.Util.StaticHelper;
 
 /**
- * todo
+ * A Service that handles reading books and connects with BookViewActivity to update its content.
  *
  * @author Florian Schuster
  */
@@ -62,11 +61,11 @@ public class ReadingService extends Service {
     private Book book;
     private Locale lang;
     private List<Content> contents;
-    private int currentChapter;
+    private int currentContent;
     private ArrayList<String> sentences;
     private int currentSentence;
-    private String currentContent;
-    private String currentChapterHeading;
+    private String currentContentString;
+    private String currentContentHeading;
     private String currentBookTitle;
 
     private Boolean muted=false;
@@ -77,7 +76,6 @@ public class ReadingService extends Service {
         super();
     }
 
-    //todo sometimes randomly does not work in background
     public void play() {
         if (ttsService != null) {
             playing=true;
@@ -125,12 +123,12 @@ public class ReadingService extends Service {
     }
 
     public void next() {
-        if (currentChapter < contents.size()-1) {
+        if (currentContent<contents.size()-1) {
             pause();
-            currentChapter++;
+            currentContent++;
             currentSentence=0;
-            this.currentContent=contents.get(currentChapter).getContent();
-            this.currentChapterHeading = contents.get(currentChapter).getHeading();
+            this.currentContentString=contents.get(currentContent).getContent();
+            this.currentContentHeading=contents.get(currentContent).getHeading();
             updateSentences();
             broadcastUpdate();
             updateNotificationBar();
@@ -138,12 +136,12 @@ public class ReadingService extends Service {
     }
 
     public void last() {
-        if (currentChapter > 0) {
+        if (currentContent>0) {
             pause();
-            currentChapter--;
+            currentContent--;
             currentSentence=0;
-            this.currentContent=contents.get(currentChapter).getContent();
-            this.currentChapterHeading = contents.get(currentChapter).getHeading();
+            this.currentContentString=contents.get(currentContent).getContent();
+            this.currentContentHeading=contents.get(currentContent).getHeading();
             updateSentences();
             broadcastUpdate();
             updateNotificationBar();
@@ -158,12 +156,12 @@ public class ReadingService extends Service {
         this.currentSentence=currentSentence;
     }
 
-    public String getCurrChapterHeading() {
-        return this.currentChapterHeading;
+    public String getCurrContentHeading() {
+        return this.currentContentHeading;
     }
 
-    public int getCurrentChapter() {
-        return currentChapter;
+    public int getCurrentContent() {
+        return currentContent;
     }
 
     public int getNumberOfChaptersInCurrentBook() {
@@ -178,12 +176,18 @@ public class ReadingService extends Service {
         return muted;
     }
 
-    public String getCurrentContent() {
-        return this.currentContent;
+    public String getCurrentContentString() {
+        return this.currentContentString;
     }
 
     public String getNumberOfSentences() {
         return String.valueOf(sentences.size()-1) + " "+ getString(R.string.sentences);
+    }
+
+    public void setMuted(boolean muted) {
+        this.muted=muted;
+        AudioManager aManager=(AudioManager)getSystemService(AUDIO_SERVICE);
+        aManager.setStreamMute(AudioManager.STREAM_MUSIC, muted);
     }
 
     public int[] getIndicesOfCurrentSentence() {
@@ -206,19 +210,13 @@ public class ReadingService extends Service {
         }
     }
 
-    public void setMuted(boolean muted) {
-        this.muted=muted;
-        AudioManager aManager=(AudioManager)getSystemService(AUDIO_SERVICE);
-        aManager.setStreamMute(AudioManager.STREAM_MUSIC, muted);
-    }
-
     public void updateBook(Book b) {
         this.book=b;
         this.currentBookTitle=b.getTitle();
-        contents =bookService.getChaptersOfBook(book.getId());
+        contents=bookService.getContentsOfBook(book.getId());
 
         CurrentPosition c=bookService.getCurrentPosition(book.getId());
-        currentChapter=c.getCurrentContent();
+        currentContent =c.getCurrentContent();
         currentSentence=c.getCurrentSentence();
 
         switch (b.getLanguage()) {
@@ -231,8 +229,8 @@ public class ReadingService extends Service {
             default:
                 lang=new Locale("en", "US");
         }
-        this.currentContent=contents.get(currentChapter).getContent();
-        this.currentChapterHeading = contents.get(currentChapter).getHeading();
+        this.currentContentString =contents.get(currentContent).getContent();
+        this.currentContentHeading = contents.get(currentContent).getHeading();
 
         updateSentences();
         updateTTS();
@@ -257,7 +255,7 @@ public class ReadingService extends Service {
             it = BreakIterator.getSentenceInstance(lang);
         else
             it = BreakIterator.getSentenceInstance(Locale.US);
-        it.setText(currentContent);
+        it.setText(currentContentString);
 
         int lastIndex = it.first();
         while (lastIndex != BreakIterator.DONE) {
@@ -265,7 +263,7 @@ public class ReadingService extends Service {
             lastIndex = it.next();
 
             if (lastIndex != BreakIterator.DONE) {
-                sentences.add(currentContent.substring(firstIndex, lastIndex));
+                sentences.add(currentContentString.substring(firstIndex, lastIndex));
             }
         }
     }
@@ -283,7 +281,7 @@ public class ReadingService extends Service {
             it = BreakIterator.getSentenceInstance(lang);
         else
             it = BreakIterator.getSentenceInstance(Locale.US);
-        it.setText(currentContent);
+        it.setText(currentContentString);
 
         int lastIndex = it.first();
         while (lastIndex != BreakIterator.DONE) {
@@ -308,7 +306,7 @@ public class ReadingService extends Service {
             it = BreakIterator.getSentenceInstance(lang);
         else
             it = BreakIterator.getSentenceInstance(Locale.US);
-        it.setText(currentContent);
+        it.setText(currentContentString);
 
         int i=0;
         int lastIndex = it.first();
@@ -327,7 +325,7 @@ public class ReadingService extends Service {
         if (ttsService!=null && book!=null) {
             RemoteViews notificationView = new RemoteViews(getPackageName(), R.layout.notification_bar);
             notificationView.setTextViewText(R.id.bar_title_book, currentBookTitle);
-            notificationView.setTextViewText(R.id.bar_chapter_page, currentChapterHeading);
+            notificationView.setTextViewText(R.id.bar_chapter_page, currentContentHeading);
             notificationView.setTextViewText(R.id.bar_word, getNumberOfSentences());
             notificationView.setOnClickPendingIntent(R.id.bar_close,
                     PendingIntent.getService(getApplicationContext(),
@@ -353,7 +351,7 @@ public class ReadingService extends Service {
             Intent resultIntent = new Intent(this, BookViewerActivity.class);
             Bundle b = new Bundle();
             b.putInt("book_id", (int) book.getId());
-            b.putInt("chapter", getCurrentChapter());
+            b.putInt("chapter", getCurrentContent());
             resultIntent.putExtras(b);
 
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
@@ -432,18 +430,18 @@ public class ReadingService extends Service {
                 if (currentSentence < sentences.size()-1) {
                     if(playing)
                         currentSentence++;
-                    bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentChapter, currentSentence));
+                    bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentContent, currentSentence));
                     reading = false;
-                } else if (currentSentence==sentences.size()-1 && currentChapter== contents.size()-1) {
+                } else if (currentSentence==sentences.size()-1 && currentContent == contents.size()-1) {
                     Log.d(ReadingService.class.getName(), "Reached end of book.");
                     pause();
-                    bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentChapter, currentSentence));
+                    bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentContent, currentSentence));
                     reading = false;
                     updateNotificationBar();
                 } else {
                     Log.d(ReadingService.class.getName(), "Reached end of chapter, skipping to the next.");
                     next();
-                    bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentChapter, currentSentence));
+                    bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentContent, currentSentence));
                     reading = false;
                     play();
                 }
@@ -471,15 +469,19 @@ public class ReadingService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
+        Log.d(ReadingService.class.getName(), "Readingservice onBind.");
         return binder;
     }
 
     @Override
-    public void onDestroy () {
+    public void onDestroy() {
         super.onDestroy();
         if (ttsService != null) {
             pause();
             ttsService.shutdown();
         }
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancel(StaticHelper.NOTIFICATION_ID);
+        Log.d(ReadingService.class.getName(), "Readingservice destroyed.");
     }
 }

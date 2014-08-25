@@ -41,7 +41,8 @@ import at.ac.tuwien.ims.ereader.R;
 import at.ac.tuwien.ims.ereader.SettingsActivity;
 
 /**
- * todo
+ * A class that handles the sidebar menu that is displayed in all activities to navigate through the
+ * application.
  *
  * @author Florian Schuster
  */
@@ -121,10 +122,10 @@ public class SidebarMenu {
 
             holder.name.setText(sidebarItems.get(position).getName());
             holder.icon.setImageResource(sidebarItems.get(position).getIcon_id());
-            if(sidebarItems.get(position).isActive())
+            /*if(sidebarItems.get(position).isActive())
                 holder.bg.setBackgroundColor(Color.parseColor("#FFD4D4D4"));
             else
-                holder.bg.setBackgroundColor(Color.parseColor("#fffafafa"));
+                holder.bg.setBackgroundColor(Color.parseColor("#fffafafa"));*/
             return convertView;
         }
     }

@@ -29,7 +29,7 @@ import net.simonvt.menudrawer.MenuDrawer;
 import at.ac.tuwien.ims.ereader.Util.SidebarMenu;
 
 /**
- * Activity todo
+ * Activity that explains the user how to use the application.
  *
  * @author Florian Schuster
  */

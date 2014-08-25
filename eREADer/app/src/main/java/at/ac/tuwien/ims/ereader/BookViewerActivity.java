@@ -43,7 +43,6 @@ import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.johnpersano.supertoasts.SuperActivityToast;
 import com.github.johnpersano.supertoasts.SuperToast;
@@ -122,7 +121,7 @@ public class BookViewerActivity extends Activity {
 
         int cha=getIntent().getExtras().getInt("chapter");
         String chapt;
-        List<Content> contents =bookService.getChaptersOfBook(book.getId());
+        List<Content> contents =bookService.getContentsOfBook(book.getId());
 
         if (cha<0) {
             CurrentPosition c=bookService.getCurrentPosition(book.getId());
@@ -157,7 +156,7 @@ public class BookViewerActivity extends Activity {
 
         content.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
-                if (readingService!=null && !readingService.isPlaying()) {
+                if (serviceBound && !readingService.isPlaying()) {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         clicktime = event.getEventTime();
                         return true;
@@ -171,7 +170,7 @@ public class BookViewerActivity extends Activity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Spannable spanText = Spannable.Factory.getInstance().newSpannable(readingService.getCurrentContent());
+                                        Spannable spanText = Spannable.Factory.getInstance().newSpannable(readingService.getCurrentContentString());
                                         int i[] = readingService.getIndicesOfCurrentSentence();
                                         int j[] = readingService.getIndicesOfClickedSentence(layout, x, y);
                                         if (i != null && j != null) {
@@ -213,47 +212,48 @@ public class BookViewerActivity extends Activity {
     }
 
     private void updateScroll() {
-        if(readingService.isPlaying()) {
-            new Handler().post(new Runnable() {
-                @Override
-                public void run() {
-                    Layout layout=content.getLayout();
-                    int height=contentScrollView.getHeight();
-                    int scrollY=contentScrollView.getScrollY();
-                    int firstVisibleLineNumber=layout.getLineForVertical(scrollY);
-                    int lastVisibleLineNumber=layout.getLineForVertical(scrollY+height);
-                    int halfOfLayoutLines=(lastVisibleLineNumber-firstVisibleLineNumber)/2;
-                    int i=readingService.getIndicesOfCurrentSentence()[0]+(readingService.getIndicesOfCurrentSentence()[1]-readingService.getIndicesOfCurrentSentence()[0]);
-                    int line=layout.getLineForOffset(i)-halfOfLayoutLines;
-                    if(line>=0)
-                        contentScrollView.smoothScrollTo(0, layout.getLineTop(line));
-                }
-            });
+        if(serviceBound)
+            if(readingService.isPlaying()) {
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Layout layout=content.getLayout();
+                        int height=contentScrollView.getHeight();
+                        int scrollY=contentScrollView.getScrollY();
+                        int firstVisibleLineNumber=layout.getLineForVertical(scrollY);
+                        int lastVisibleLineNumber=layout.getLineForVertical(scrollY+height);
+                        int halfOfLayoutLines=(lastVisibleLineNumber-firstVisibleLineNumber)/2;
+                        int i=readingService.getIndicesOfCurrentSentence()[0]+(readingService.getIndicesOfCurrentSentence()[1]-readingService.getIndicesOfCurrentSentence()[0]);
+                        int line=layout.getLineForOffset(i)-halfOfLayoutLines;
+                        if(line>=0)
+                            contentScrollView.smoothScrollTo(0, layout.getLineTop(line));
+                    }
+                });
 
-            contentScrollView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    return true;
-                }
-            });
-        } else {
-            contentScrollView.setOnTouchListener(null);
-        }
+                contentScrollView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return true;
+                    }
+                });
+            } else {
+                contentScrollView.setOnTouchListener(null);
+            }
     }
 
-    //todo maybe only view some parts of text
     private void updateContent() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Spannable spanText = Spannable.Factory.getInstance().newSpannable(readingService.getCurrentContent());
-                int i[] = readingService.getIndicesOfCurrentSentence();
-                if (i!=null){
-                    spanText.setSpan(new BackgroundColorSpan(Color.parseColor("#0FC1B8")), i[0], i[1], Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    content.setText(spanText);
+        if(serviceBound)
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Spannable spanText = Spannable.Factory.getInstance().newSpannable(readingService.getCurrentContentString());
+                    int i[] = readingService.getIndicesOfCurrentSentence();
+                    if (i!=null){
+                        spanText.setSpan(new BackgroundColorSpan(Color.parseColor("#0FC1B8")), i[0], i[1], Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        content.setText(spanText);
+                    }
                 }
-            }
-        });
+            });
     }
 
     private void updateTextSettings() {
@@ -279,25 +279,34 @@ public class BookViewerActivity extends Activity {
     }
 
     private void updateChapter() {
-        chap_txt.setText(readingService.getCurrChapterHeading());
+        if(serviceBound)
+            chap_txt.setText(readingService.getCurrContentHeading());
     }
 
     private void updateButtons() {
-        if (readingService.getCurrentChapter()==0) {
-            fbButton.setAlpha(0.2f);
-            fbButton.setEnabled(false);
-        }
-        if (readingService.getCurrentChapter()==readingService.getNumberOfChaptersInCurrentBook()-1) {
-            ffButton.setAlpha(0.2f);
-            ffButton.setEnabled(false);
-        }
-        if (readingService.getCurrentChapter()>0) {
-            fbButton.setAlpha(1.f);
-            fbButton.setEnabled(true);
-        }
-        if (readingService.getCurrentChapter()<readingService.getNumberOfChaptersInCurrentBook()-1) {
-            ffButton.setAlpha(1.f);
-            ffButton.setEnabled(true);
+        if(serviceBound) {
+            if (readingService.getCurrentContent() == 0) {
+                fbButton.setAlpha(0.2f);
+                fbButton.setEnabled(false);
+            }
+            if (readingService.getCurrentContent() == readingService.getNumberOfChaptersInCurrentBook() - 1) {
+                ffButton.setAlpha(0.2f);
+                ffButton.setEnabled(false);
+            }
+            if (readingService.getCurrentContent() > 0) {
+                fbButton.setAlpha(1.f);
+                fbButton.setEnabled(true);
+            }
+            if (readingService.getCurrentContent() < readingService.getNumberOfChaptersInCurrentBook() - 1) {
+                ffButton.setAlpha(1.f);
+                ffButton.setEnabled(true);
+            }
+
+            if (readingService.getMuted()) {
+                volumeButton.setImageDrawable(getResources().getDrawable(R.drawable.muted));
+            } else {
+                volumeButton.setImageDrawable(getResources().getDrawable(R.drawable.notmuted));
+            }
         }
     }
 
@@ -320,36 +329,36 @@ public class BookViewerActivity extends Activity {
                         sbMenu.getMenuDrawer().closeMenu();
                     else
                         sbMenu.getMenuDrawer().openMenu();
-            } else if (v==playButton) {
+            } else if (v==playButton && serviceBound) {
                 if(m.getAction()== MotionEvent.ACTION_DOWN) {
                     if (readingService.isPlaying())
-                        ((ImageButton)v).setImageResource(R.drawable.pausebtn_pressed);
+                        playButton.setImageResource(R.drawable.pausebtn_pressed);
                     else
-                        ((ImageButton)v).setImageResource(R.drawable.playbtn_pressed);
+                        playButton.setImageResource(R.drawable.playbtn_pressed);
                 } else if(m.getAction()==MotionEvent.ACTION_UP) {
                     if (readingService.isPlaying()) {
-                        ((ImageButton)v).setImageResource(R.drawable.playbtn);
+                        playButton.setImageResource(R.drawable.playbtn);
                         readingService.pause();
                     } else {
-                        ((ImageButton)v).setImageResource(R.drawable.pausebtn);
+                        playButton.setImageResource(R.drawable.pausebtn);
                         readingService.play();
                     }
                 }
-            } else if (v==ffButton) {
+            } else if (v==ffButton && serviceBound) {
                 if(m.getAction()== MotionEvent.ACTION_DOWN)
-                    ((ImageButton)v).setImageResource(R.drawable.ffbtn_pressed);
+                    ffButton.setImageResource(R.drawable.ffbtn_pressed);
                 else if(m.getAction()==MotionEvent.ACTION_UP) {
-                    ((ImageButton)v).setImageResource(R.drawable.ffbtn);
+                    ffButton.setImageResource(R.drawable.ffbtn);
                     readingService.next();
                 }
-            } else if(v==fbButton) {
+            } else if(v==fbButton && serviceBound) {
                 if(m.getAction()== MotionEvent.ACTION_DOWN)
-                    ((ImageButton)v).setImageResource(R.drawable.fbbtn_pressed);
+                    fbButton.setImageResource(R.drawable.fbbtn_pressed);
                 else if(m.getAction()==MotionEvent.ACTION_UP) {
-                    ((ImageButton)v).setImageResource(R.drawable.fbbtn);
+                    fbButton.setImageResource(R.drawable.fbbtn);
                     readingService.last();
                 }
-            } else if (v== volumeButton) {
+            } else if (v== volumeButton && serviceBound) {
                 if(m.getAction()==MotionEvent.ACTION_UP)
                     if (readingService.getMuted()) {
                         readingService.setMuted(false);
@@ -370,24 +379,32 @@ public class BookViewerActivity extends Activity {
         Intent mIntent = new Intent(this, ReadingService.class);
         bindService(mIntent, mConnection, BIND_AUTO_CREATE);
 
-        if (serviceBound)
+        if (serviceBound) {
             readingService.updateBook(book);
+            if(readingService.isPlaying())
+                playButton.setImageResource(R.drawable.pausebtn);
+            else
+                playButton.setImageResource(R.drawable.playbtn);
+        }
     }
 
     ServiceConnection mConnection = new ServiceConnection() {
         public void onServiceDisconnected(ComponentName name) {
-            Log.d(BookViewerActivity.class.getName(), "Service is disconnected");
             serviceBound = false;
             readingService = null;
+            Log.d(BookViewerActivity.class.getName(), "Service is disconnected");
         }
 
         public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.d(BookViewerActivity.class.getName(), "Service is connected");
             serviceBound = true;
             ReadingService.ReadingServiceBinder mLocalBinder = (ReadingService.ReadingServiceBinder)service;
             readingService = mLocalBinder.getService();
-
             readingService.updateBook(book);
+            if(readingService.isPlaying())
+                playButton.setImageResource(R.drawable.pausebtn);
+            else
+                playButton.setImageResource(R.drawable.playbtn);
+            Log.d(BookViewerActivity.class.getName(), "Service is connected");
         }
     };
 
@@ -396,8 +413,13 @@ public class BookViewerActivity extends Activity {
         super.onResume();
         registerReceiver(broadcastReceiver, new IntentFilter(StaticHelper.BROADCAST_ACTION));
 
-        if (serviceBound)
+        if (serviceBound) {
             readingService.updateBook(book);
+            if(readingService.isPlaying())
+                playButton.setImageResource(R.drawable.pausebtn);
+            else
+                playButton.setImageResource(R.drawable.playbtn);
+        }
     }
 
     @Override
@@ -407,8 +429,8 @@ public class BookViewerActivity extends Activity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         if(serviceBound) {
             unbindService(mConnection);
             serviceBound = false;
@@ -417,7 +439,8 @@ public class BookViewerActivity extends Activity {
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {String action = intent.getAction();
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
             if(action.equalsIgnoreCase(StaticHelper.BROADCAST_ACTION)) {
                 Bundle extra = intent.getExtras();
                 if (extra.getBoolean("update")) {

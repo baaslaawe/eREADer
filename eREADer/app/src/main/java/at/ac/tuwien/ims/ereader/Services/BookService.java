@@ -22,7 +22,6 @@ import android.text.Html;
 
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfReaderContentParser;
-import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy;
 import com.itextpdf.text.pdf.parser.TextExtractionStrategy;
 
@@ -31,7 +30,7 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
-import java.util.Scanner;
+import java.util.Map;
 
 import at.ac.tuwien.ims.ereader.Entities.Book;
 import at.ac.tuwien.ims.ereader.Entities.Content;
@@ -43,7 +42,7 @@ import nl.siegmann.epublib.domain.Resource;
 import nl.siegmann.epublib.epub.EpubReader;
 
 /**
- * todo
+ * A service class that handles inserting and deleting books, contents and currentpositions.
  *
  * @author Florian Schuster
  */
@@ -51,7 +50,6 @@ public class BookService {
     private DatabaseHelper db;
     private String ebook_loading_failed;
     private String format_not_supported;
-    private String could_not_download;
     private String no_title;
     private String no_author;
 
@@ -59,7 +57,6 @@ public class BookService {
         db=new DatabaseHelper(c);
         ebook_loading_failed=c.getString(R.string.ebook_loading_failed);
         format_not_supported=c.getString(R.string.format_not_supported);
-        could_not_download=c.getString(R.string.could_not_download);
         no_title=c.getString(R.string.no_title);
         no_author=c.getString(R.string.no_author);
     }
@@ -102,14 +99,9 @@ public class BookService {
                 insertChapter(bookToSave, "" + actualContentNumber, cont, words);
                 actualContentNumber++;
             }
-
         } catch (IOException e) {
             throw new ServiceException(ebook_loading_failed);
         }
-    }
-
-    private void addBookAsHTML(String URI) throws ServiceException {
-        //todo download from web?
     }
 
     private void addBookAsPDF(String URI) throws ServiceException {
@@ -119,6 +111,16 @@ public class BookService {
             String title="";
             String author="";
             String l="";
+            for(Map.Entry<String,String> s : reader.getInfo().entrySet()) {
+                if(title.isEmpty() || author.isEmpty() || l.isEmpty())
+                    if(s.getKey().toLowerCase().contains("title") || s.getKey().toLowerCase().contains("titel")) {
+                        title = s.getValue();
+                    } else if(s.getKey().toLowerCase().contains("author") || s.getKey().toLowerCase().contains("autor")) {
+                        author = s.getValue();
+                    } else if(s.getKey().toLowerCase().contains("language") || s.getKey().toLowerCase().contains("sprache")) {
+                        l = s.getValue();
+                    }
+            }
             PdfReaderContentParser parser = new PdfReaderContentParser(reader);
             TextExtractionStrategy strategy;
             for (int i = 1; i <= reader.getNumberOfPages(); i++) {
@@ -126,7 +128,9 @@ public class BookService {
                 str.append(strategy.getResultantText());
             }
             String content=str.toString();
-            //todo
+            Language lang=getLanguageFromString(l);
+
+            //todo split contents
             //Book bookToSave=insertBook(title, author, lang);
             //insertChapter(bookToSave, "", content, content.split("\\s+").length);
 
@@ -145,13 +149,13 @@ public class BookService {
             String l="";
             while ((line = in.readLine()) != null) {
                 if(title.isEmpty() || author.isEmpty() || l.isEmpty())
-                    if(line.contains("Title: ") || line.contains("Titel: ")) {
+                    if(line.toLowerCase().contains("title") || line.toLowerCase().contains("titel")) {
                         String[] tokens = line.split(": ");
                         title = tokens[1];
-                    } else if(line.contains("Author: ") || line.contains("Autor: ")) {
+                    } else if(line.toLowerCase().contains("author") || line.toLowerCase().contains("autor")) {
                         String[] tokens = line.split(": ");
                         author = tokens[1];
-                    } else if(line.contains("Language: ") || line.contains("Sprache: ")) {
+                    } else if(line.toLowerCase().contains("language") || line.toLowerCase().contains("sprache")) {
                         String[] tokens = line.split(": ");
                         l = tokens[1];
                     }
@@ -164,9 +168,9 @@ public class BookService {
                 throw new ServiceException(ebook_loading_failed);
 
             Language lang=getLanguageFromString(l);
-            //Book bookToSave=insertBook(title, author, lang);
 
             //todo split in contents
+            //Book bookToSave=insertBook(title, author, lang);
             //insertChapter(bookToSave, "", content, content.split("\\s+").length);
 
         } catch(IOException e) {
@@ -234,7 +238,7 @@ public class BookService {
         db.updateBook(book);
     }
 
-    public List<Content> getChaptersOfBook(long book_id) {
+    public List<Content> getContentsOfBook(long book_id) {
         return db.getContentsByBook(book_id);
     }
 

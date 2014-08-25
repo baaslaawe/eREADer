@@ -55,6 +55,7 @@
 
         <service
             android:name="at.ac.tuwien.ims.ereader.Services.ReadingService"
+            android:label="Reading Service"
             android:exported="false">
             <intent-filter>
                 <action android:name="at.ac.tuwien.ims.ereader.Services.BROADCAST"/>
