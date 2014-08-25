@@ -65,6 +65,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/sidebar_list"
             android:choiceMode="singleChoice"
-            android:listSelector="#12c2b9"/>
+            android:listSelector="#ffc3c3c3"/>
     </LinearLayout>
 </LinearLayout>

@@ -20,6 +20,8 @@ package at.ac.tuwien.ims.ereader.Util;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -75,7 +77,6 @@ public class SidebarMenu {
             }
         });
         listview.setAdapter(sbAdapter);
-        //todo make clicking visible
     }
 
     public MenuDrawer getMenuDrawer() {
@@ -122,10 +123,17 @@ public class SidebarMenu {
 
             holder.name.setText(sidebarItems.get(position).getName());
             holder.icon.setImageResource(sidebarItems.get(position).getIcon_id());
-            /*if(sidebarItems.get(position).isActive())
-                holder.bg.setBackgroundColor(Color.parseColor("#FFD4D4D4"));
-            else
-                holder.bg.setBackgroundColor(Color.parseColor("#fffafafa"));*/
+            if(sidebarItems.get(position).isActive())
+                holder.bg.setBackgroundColor(Color.parseColor(StaticHelper.COLOR_Grey));
+            else {
+                int color = Color.TRANSPARENT;
+                Drawable background = holder.bg.getBackground();
+                if (background instanceof ColorDrawable)
+                    color=((ColorDrawable)background).getColor();
+
+                if(color!=Color.TRANSPARENT && color!=Color.parseColor(StaticHelper.COLOR_DarkGrey))
+                    holder.bg.setBackgroundColor(Color.parseColor(StaticHelper.COLOR_White));
+            }
             return convertView;
         }
     }

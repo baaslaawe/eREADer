@@ -26,7 +26,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,15 +35,12 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.johnpersano.supertoasts.SuperToast;
 
 import net.simonvt.menudrawer.MenuDrawer;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Locale;
 
 import at.ac.tuwien.ims.ereader.Persistence.DatabaseHelper;
 import at.ac.tuwien.ims.ereader.Util.SidebarMenu;
@@ -242,7 +238,7 @@ public class SettingsActivity extends Activity {
                     AlertDialog.Builder ab = new AlertDialog.Builder(SettingsActivity.this);
                     ab.setMessage(getString(R.string.sure)).setPositiveButton(getString(R.string.positive), dialogClickListener)
                             .setNegativeButton(getString(R.string.negative), dialogClickListener).show();
-                    v.setBackgroundColor(Color.parseColor(StaticHelper.COLOR_White));
+                    v.setBackgroundColor(Color.parseColor(StaticHelper.COLOR_Grey));
                 }
             } else if(v==menuBtn) {
                 if(m.getAction()==MotionEvent.ACTION_UP)

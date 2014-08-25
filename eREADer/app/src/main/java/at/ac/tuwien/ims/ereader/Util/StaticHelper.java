@@ -23,8 +23,11 @@ package at.ac.tuwien.ims.ereader.Util;
  * @author Florian Schuster
  */
 public class StaticHelper {
+    public static final String COLOR_DarkBlue="#243840";
     public static final String COLOR_Blue="#12c2b9";
-    public static final String COLOR_White="#ffd4d4d4";
+    public static final String COLOR_Grey ="#ffd4d4d4";
+    public static final String COLOR_White="#fffafafa";
+    public static final String COLOR_DarkGrey="#ffc3c3c3";
 
     public static final long typeface_Standard=0;
     public static final long typeface_GeoSans=1;

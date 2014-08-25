@@ -256,7 +256,7 @@ public class AddBookActivity extends Activity {
                     v.setBackgroundColor(Color.parseColor(StaticHelper.COLOR_Blue));
                 else if(m.getAction()==MotionEvent.ACTION_UP) {
                     fileDialog.chooseFile_or_Dir();
-                    v.setBackgroundColor(Color.parseColor(StaticHelper.COLOR_White));
+                    v.setBackgroundColor(Color.parseColor(StaticHelper.COLOR_Grey));
                 }
             } else if(v==optButton) {
                 if(m.getAction()==MotionEvent.ACTION_UP)
