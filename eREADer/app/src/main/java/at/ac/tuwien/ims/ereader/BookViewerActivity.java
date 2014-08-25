@@ -73,7 +73,7 @@ public class BookViewerActivity extends Activity {
 
     private TextView content;
     private ScrollView contentScrollView;
-    private TextView chap_txt;
+    private TextView cont_heading;
 
     private Book book;
     private ReadingService readingService;
@@ -115,7 +115,7 @@ public class BookViewerActivity extends Activity {
 
         TextView title=(TextView)findViewById(R.id.bktitletxt);
         title.setText(book.getTitle());
-        chap_txt=(TextView)findViewById(R.id.chap_txt);
+        cont_heading =(TextView)findViewById(R.id.chap_txt);
         content=(TextView)findViewById(R.id.book_text);
         contentScrollView =(ScrollView)findViewById(R.id.scrollv_for_text);
 
@@ -136,7 +136,7 @@ public class BookViewerActivity extends Activity {
         }
 
         content.setText(getString(R.string.loading));
-        chap_txt.setText(chapt);
+        cont_heading.setText(chapt);
         sbMenu=new SidebarMenu(this, false, false, false);
 
         int standardTextSize=(int)content.getTextSize();
@@ -241,6 +241,11 @@ public class BookViewerActivity extends Activity {
             }
     }
 
+    /**
+     * Method that updates the current content and applies a span to it that displays the current-
+     * sentence that is read.
+     *
+     */
     private void updateContent() {
         if(serviceBound)
             runOnUiThread(new Runnable() {
@@ -256,6 +261,10 @@ public class BookViewerActivity extends Activity {
             });
     }
 
+    /**
+     * Method that updates font-size and font-type of the content TextView.
+     *
+     */
     private void updateTextSettings() {
         SharedPreferences settings = getSharedPreferences("settings", 0);
 
@@ -278,18 +287,26 @@ public class BookViewerActivity extends Activity {
         }
     }
 
-    private void updateChapter() {
+    /**
+     * Method that updates the current content heading TextView.
+     *
+     */
+    private void updateContentHeader() {
         if(serviceBound)
-            chap_txt.setText(readingService.getCurrContentHeading());
+            cont_heading.setText(readingService.getCurrContentHeading());
     }
 
+    /**
+     * Updates the state of fast-forward, fast-backward and volume buttons.
+     *
+     */
     private void updateButtons() {
         if(serviceBound) {
             if (readingService.getCurrentContent() == 0) {
                 fbButton.setAlpha(0.2f);
                 fbButton.setEnabled(false);
             }
-            if (readingService.getCurrentContent() == readingService.getNumberOfChaptersInCurrentBook() - 1) {
+            if (readingService.getCurrentContent() == readingService.getNumberOfContentsInCurrentBook() - 1) {
                 ffButton.setAlpha(0.2f);
                 ffButton.setEnabled(false);
             }
@@ -297,7 +314,7 @@ public class BookViewerActivity extends Activity {
                 fbButton.setAlpha(1.f);
                 fbButton.setEnabled(true);
             }
-            if (readingService.getCurrentContent() < readingService.getNumberOfChaptersInCurrentBook() - 1) {
+            if (readingService.getCurrentContent() < readingService.getNumberOfContentsInCurrentBook() - 1) {
                 ffButton.setAlpha(1.f);
                 ffButton.setEnabled(true);
             }
@@ -437,6 +454,11 @@ public class BookViewerActivity extends Activity {
         }
     }
 
+    /**
+     * Broadcast receiver that receives broadcasts from the ReadingService.
+     * Handles content updates and the TTS toast informer.
+     *
+     */
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -445,7 +467,7 @@ public class BookViewerActivity extends Activity {
                 Bundle extra = intent.getExtras();
                 if (extra.getBoolean("update")) {
                     updateContent();
-                    updateChapter();
+                    updateContentHeader();
                     updateButtons();
                     updateScroll();
                 }

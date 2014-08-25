@@ -53,6 +53,12 @@ public class BookService {
     private String no_title;
     private String no_author;
 
+    /**
+     * Constructor for the service class. Uses context of caller class to instantiate DatabaseHelper
+     * and to get some Strings from the resources.
+     *
+     * @param c Context
+     */
     public BookService(Context c) {
         db=new DatabaseHelper(c);
         ebook_loading_failed=c.getString(R.string.ebook_loading_failed);
@@ -61,6 +67,12 @@ public class BookService {
         no_author=c.getString(R.string.no_author);
     }
 
+    /**
+     * Uses the URL to redirect the insertion to the specific method.
+     *
+     * @param URI of the selected file
+     * @throws ServiceException if the file format is not supported
+     */
     public void addBookManually(String URI) throws ServiceException {
         if(URI.endsWith(".epub"))
             this.addBookAsEPUB(URI);
@@ -72,6 +84,12 @@ public class BookService {
             throw new ServiceException(format_not_supported);
     }
 
+    /**
+     * Adds a book of the epub format to the database.
+     *
+     * @param URI of the selected file
+     * @throws ServiceException if an error occurs during book insertion
+     */
     public void addBookAsEPUB(String URI) throws ServiceException {
         try {
             nl.siegmann.epublib.domain.Book b=new EpubReader().readEpub(new FileInputStream(URI));
@@ -96,7 +114,7 @@ public class BookService {
                 int words=cont.split("\\s+").length;
                 if(words<20)
                     continue;
-                insertChapter(bookToSave, "" + actualContentNumber, cont, words);
+                insertContent(bookToSave, "" + actualContentNumber, cont, words);
                 actualContentNumber++;
             }
         } catch (IOException e) {
@@ -104,6 +122,12 @@ public class BookService {
         }
     }
 
+    /**
+     * Adds a book of the pdf format to the database.
+     *
+     * @param URI of the selected file
+     * @throws ServiceException if an error occurs during book insertion
+     */
     private void addBookAsPDF(String URI) throws ServiceException {
         try {
             PdfReader reader = new PdfReader(URI);
@@ -132,13 +156,19 @@ public class BookService {
 
             //todo split contents
             //Book bookToSave=insertBook(title, author, lang);
-            //insertChapter(bookToSave, "", content, content.split("\\s+").length);
+            //insertContent(bookToSave, "", content, content.split("\\s+").length);
 
         } catch(IOException e) {
             throw new ServiceException(ebook_loading_failed);
         }
     }
 
+    /**
+     * Adds a book of the txt format to the database.
+     *
+     * @param URI of the selected file
+     * @throws ServiceException if an error occurs during book insertion
+     */
     private void addBookAsTXT(String URI) throws ServiceException {
         try {
             BufferedReader in = new BufferedReader(new FileReader(URI));
@@ -171,14 +201,20 @@ public class BookService {
 
             //todo split in contents
             //Book bookToSave=insertBook(title, author, lang);
-            //insertChapter(bookToSave, "", content, content.split("\\s+").length);
+            //insertContent(bookToSave, "", content, content.split("\\s+").length);
 
         } catch(IOException e) {
             throw new ServiceException(ebook_loading_failed);
         }
     }
 
-    private Language getLanguageFromString(String l) throws ServiceException {
+    /**
+     * Languages are only saved as String in ebooks, so we try to convert it to our own format.
+     *
+     * @param l String of the language
+     * @return language of the ebook or Language.UNKOWN if language is unknown
+     */
+    private Language getLanguageFromString(String l) {
         if (l.equals("English") || l.equals("Englisch") || l.equals("en")) {
             return Language.EN;
         } else if(l.equals("German") || l.equals("Deutsch") || l.equals("de")) {
@@ -189,6 +225,16 @@ public class BookService {
             return Language.UNKNOWN;
     }
 
+    /**
+     * Inserts a book using the DatabaseHelper. Also inserts new currentposition at the start
+     * of the book.
+     *
+     * @param title of the book
+     * @param author of the book
+     * @param language of the book
+     * @return the inserted book with its given id
+     * @throws ServiceException if an error occurs while inserting currentposition
+     */
     private Book insertBook(String title, String author, Language language) throws ServiceException {
         if(title.isEmpty())
             title=no_title;
@@ -202,58 +248,129 @@ public class BookService {
         return db.getBook(id);
     }
 
-    private Content insertChapter(Book bookOfChapter, String heading, String content, int words) throws ServiceException {
-        if(bookOfChapter==null || content.isEmpty() || words<0)
+    /**
+     * Inserts a content using the DatabaseHelper.
+     *
+     * @param bookOfContent the book that the content belongs to
+     * @param heading of the content
+     * @param content of the content
+     * @param numberOfWords of the content
+     * @return the inserted content with its given id
+     * @throws ServiceException if book is null, content is empty or words are negative
+     */
+    private Content insertContent(Book bookOfContent, String heading, String content, int numberOfWords) throws ServiceException {
+        if(bookOfContent==null || content.isEmpty() || numberOfWords<0)
             throw new ServiceException(ebook_loading_failed);
 
-        Content c=new Content(bookOfChapter, heading, content, words);
+        Content c=new Content(bookOfContent, heading, content, numberOfWords);
         long id=db.insertContent(c);
         return db.getContent(id);
     }
 
-    private CurrentPosition insertCurrentPosition(long book_id, int currentChapterInBook, int currentSentence) throws ServiceException {
-        if(book_id<0 || currentChapterInBook<0 || currentSentence<0)
+    /**
+     * Inserts a current position of a book using the DatabaseHelper.
+     *
+     * @param book_id id of book that the currentposition belongs to
+     * @param currentContentInBook content number in current book
+     * @param currentSentence number of sentence in content
+     * @return the inserted current position with its given id
+     * @throws ServiceException if any of the numbers is negative
+     */
+    private CurrentPosition insertCurrentPosition(long book_id, int currentContentInBook, int currentSentence) throws ServiceException {
+        if(book_id<0 || currentContentInBook<0 || currentSentence<0)
             throw new ServiceException(ebook_loading_failed);
 
-        CurrentPosition c=new CurrentPosition(book_id, currentChapterInBook, currentSentence);
+        CurrentPosition c=new CurrentPosition(book_id, currentContentInBook, currentSentence);
         long id=db.insertCurrentPosition(c);
         return db.getCurrentPosition(id);
     }
 
+    /**
+     * Returns all books in the database using the DatabaseHelper.
+     *
+     * @return list with book entities
+     */
     public List<Book> getAllBooks() {
         return db.getAllBooks();
     }
 
+    /**
+     * Deletes a book using the DatabaseHelper.
+     *
+     * @param book_id the id of the book to delete
+     */
     public void deleteBook(long book_id) {
         if(book_id<0)
             return;
         db.deleteBook(book_id);
     }
 
+    /**
+     * Gets a book from the database using DatabaseHelper.
+     *
+     * @param book_id id of the book to get
+     * @return the book with the given id
+     */
     public Book getBook(long book_id) {
         return db.getBook(book_id);
     }
 
+    /**
+     * Updates a book using DatabaseHelper.
+     *
+     * @param book the book to update
+     */
     public void updateBook(Book book) {
         db.updateBook(book);
     }
 
+    /**
+     * Returns all contents of a book in the database using the DatabaseHelper.
+     *
+     * @param book_id id of the book
+     * @return a list with content entities
+     */
     public List<Content> getContentsOfBook(long book_id) {
         return db.getContentsByBook(book_id);
     }
 
-    public List<Content> getLightweightChaptersOfBook(long book_id) {
+    /**
+     * Returns all contents without the Text of a book in the database using the DatabaseHelper.
+     * This is useful when you only want the metadata of a content entity to display a
+     * table of contents.
+     *
+     * @param book_id id of the book
+     * @return a list with content entities
+     */
+    public List<Content> getLightweightContentsOfBook(long book_id) {
         return db.getLightweightContents(book_id);
     }
 
+    /**
+     * Gets a current position of a specific book from the database using DatabaseHelper.
+     *
+     * @param book_id id of the book
+     * @return a current position entity
+     */
     public CurrentPosition getCurrentPosition(long book_id) {
         return db.getCurrentPosition(book_id);
     }
 
+    /**
+     * Updates a current position using DatabaseHelper.
+     *
+     * @param c the current position to update
+     */
     public void updateCurrentPosition(CurrentPosition c) {
         db.updateCurrentPosition(c);
     }
 
+    /**
+     * Returns the number of words of a specific content chunk.
+     *
+     * @param content_id id of the content
+     * @return number of words
+     */
     public int getNumberOfWords(long content_id) {
         return db.getContent(content_id).getWords();
     }

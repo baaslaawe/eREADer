@@ -76,7 +76,7 @@ public class BookContentsActivity extends Activity {
         book=bookService.getBook(getIntent().getExtras().getInt("book_id"));
 
         ListView listview = (ListView)findViewById(R.id.chapterlist);
-        clAdapter = new CLAdapter(bookService.getLightweightChaptersOfBook(book.getId()));
+        clAdapter = new CLAdapter(bookService.getLightweightContentsOfBook(book.getId()));
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -164,6 +164,10 @@ public class BookContentsActivity extends Activity {
         }
     };
 
+    /**
+     * Shows the searchbar, opens the keyboard and focuses input to it.
+     *
+     */
     private void showSearchBar() {
         searchbar.setVisibility(View.VISIBLE);
         searchbarVisible = true;
@@ -173,6 +177,10 @@ public class BookContentsActivity extends Activity {
         inputMethodManager.showSoftInput(searchbar, 0);
     }
 
+    /**
+     * Closes the searchbar and closes the keyboard.
+     *
+     */
     private void hideSearchBar() {
         searchbar.setVisibility(View.GONE);
         searchbarVisible = false;
@@ -185,6 +193,11 @@ public class BookContentsActivity extends Activity {
         }
     }
 
+    /**
+     * Hides the searchbar after a specific time
+     *
+     * @param time until searchbar is closed
+     */
     private void hideSearchBarAfterSomeTime(int time) {
         new Timer().schedule(new TimerTask() {
             @Override
@@ -201,6 +214,10 @@ public class BookContentsActivity extends Activity {
         }, time);
     }
 
+    /**
+     * Textwatcher that observes the searchbar and closes it after some time if not used.
+     *
+     */
     private TextWatcher textWatcher = new TextWatcher() {
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
         public void onTextChanged(CharSequence s, int start, int before, int count) {}
@@ -214,6 +231,10 @@ public class BookContentsActivity extends Activity {
         }
     };
 
+    /**
+     * BaseAdapter that fills the list of Contents with Listitems.
+     *
+     */
     private class CLAdapter extends BaseAdapter {
         private List<Content> chapterlist;
         private List<Content> visiblechapterlist;
@@ -234,7 +255,7 @@ public class BookContentsActivity extends Activity {
         }
 
         public void updateChapterList(String s) {
-            chapterlist=bookService.getLightweightChaptersOfBook(book.getId());
+            chapterlist=bookService.getLightweightContentsOfBook(book.getId());
 
             if (!s.isEmpty() && searchbarVisible) {
                 ArrayList<Content> temp = new ArrayList<Content>();

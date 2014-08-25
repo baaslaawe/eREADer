@@ -124,10 +124,13 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
         Log.d(DatabaseHelper.class.getName(), "Upgrading Database "+TABLE_CURR+" from Version "
                 + oldVersion + "to " + newVersion);
         db.execSQL(DROP_CURR_TABLE);
-
         onCreate(db);
     }
 
+    /**
+     * Resets the whole Database by dropping and then creating all tables.
+     *
+     */
     public void resetDatabase() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(DROP_BOOK_TABLE);

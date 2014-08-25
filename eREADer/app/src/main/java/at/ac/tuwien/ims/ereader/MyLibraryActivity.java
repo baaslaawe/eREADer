@@ -74,6 +74,8 @@ public class MyLibraryActivity extends Activity {
     private EditText title;
     private Spinner langspinner;
 
+    private AdapterView.AdapterContextMenuInfo info;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -166,6 +168,10 @@ public class MyLibraryActivity extends Activity {
         }
     };
 
+    /**
+     * Shows the searchbar, opens the keyboard and focuses input to it.
+     *
+     */
     private void showSearchBar() {
         searchbar.setVisibility(View.VISIBLE);
         searchbarVisible = true;
@@ -175,6 +181,10 @@ public class MyLibraryActivity extends Activity {
         inputMethodManager.showSoftInput(searchbar, 0);
     }
 
+    /**
+     * Closes the searchbar and closes the keyboard.
+     *
+     */
     private void hideSearchBar() {
         searchbar.setVisibility(View.GONE);
         searchbarVisible = false;
@@ -187,6 +197,11 @@ public class MyLibraryActivity extends Activity {
         }
     }
 
+    /**
+     * Hides the searchbar after a specific time
+     *
+     * @param time until searchbar is closed
+     */
     private void hideSearchBarAfterSomeTime(int time) {
         new Timer().schedule(new TimerTask() {
             @Override
@@ -203,6 +218,10 @@ public class MyLibraryActivity extends Activity {
         }, time);
     }
 
+    /**
+     * Textwatcher that observes the searchbar and closes it after some time if not used.
+     *
+     */
     private TextWatcher textWatcher = new TextWatcher() {
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
         public void onTextChanged(CharSequence s, int start, int before, int count) {}
@@ -216,6 +235,10 @@ public class MyLibraryActivity extends Activity {
         }
     };
 
+    /**
+     * BaseAdapter that fills the list of ebooks with Listitems.
+     *
+     */
     private class BLAdapter extends BaseAdapter {
         private ListView listview;
         private List<Book> booklist;
@@ -327,7 +350,6 @@ public class MyLibraryActivity extends Activity {
             getMenuInflater().inflate(R.menu.library_context_menu, menu);
     }
 
-    private AdapterView.AdapterContextMenuInfo info;
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();

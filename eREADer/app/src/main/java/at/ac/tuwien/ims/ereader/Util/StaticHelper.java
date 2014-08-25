@@ -48,6 +48,12 @@ public class StaticHelper {
 
     public static final float normal_Speechrate=1.f;
 
+    /**
+     * Method that converts seekbar progress to tts speech rate.
+     *
+     * @param progress of the seekbar
+     * @return tts speech rate
+     */
     public static float seekbarToRate(int progress) {
         if(progress>=0&&progress<=5)
             return 0.5f;
@@ -73,6 +79,12 @@ public class StaticHelper {
             return 2.f;
     }
 
+    /**
+     * Method that converts tts speech rate to seekbar progress.
+     *
+     * @param rate tts speech rate
+     * @return seekbar progress
+     */
     public static int rateToSeekbar(float rate) {
         if(rate==0.5f)
             return 3;

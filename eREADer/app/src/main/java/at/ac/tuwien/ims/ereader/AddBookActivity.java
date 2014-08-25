@@ -123,6 +123,10 @@ public class AddBookActivity extends Activity {
         //todo add help for downloading
     }
 
+    /**
+     * Asynchronous Task that adds a book and informs the user if it is done.
+     *
+     */
     private class AddTask extends AsyncTask<String, Integer, Boolean> {
         protected Boolean doInBackground(String... path) {
             try {
@@ -150,6 +154,11 @@ public class AddBookActivity extends Activity {
         super.onBackPressed();
     }
 
+    /**
+     * A method that fills a list with available DownloadHosts.
+     *
+     * @return a list with DownloadHosts
+     */
     private List<DownloadHost> getDownloadHosts() {
         ArrayList<DownloadHost> dhList=new ArrayList<DownloadHost>();
         dhList.add(new DownloadHost(getString(R.string.gutenberg_name), "http://m.gutenberg.org/", getString(R.string.gutenberg_howto), Language.EN));
@@ -159,6 +168,10 @@ public class AddBookActivity extends Activity {
         return dhList;
     }
 
+    /**
+     * BaseAdapter that fills the list of DownloadHosts with Listitems.
+     *
+     */
     private class DHAdapter extends BaseAdapter {
         private ListView listview;
         private List<DownloadHost> dhList;
