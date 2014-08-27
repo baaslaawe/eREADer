@@ -62,4 +62,23 @@ public enum Language {
         else
             return Language.UNKNOWN;
     }
+
+    /**
+     * Languages are only saved as String in ebooks, so we try to convert it to our own format.
+     *
+     * @param l String of the language
+     * @return language of the ebook or Language.UNKOWN if language is unknown
+     */
+    public static Language getLanguageFromString(String l) {
+        if (l.equals("English") || l.equals("Englisch") || l.equals("en")) {
+            return Language.EN;
+        } else if(l.equals("German") || l.equals("Deutsch") || l.equals("de")) {
+            return Language.DE;
+        } else if(l.equals("Spanish") || l.equals("Spanisch") || l.equals("es")) {
+            return Language.ES;
+        } else if(l.equals("French") || l.equals("Franzoesisch") || l.equals("fr")) {
+            return Language.FR;
+        } else
+            return Language.UNKNOWN;
+    }
 }

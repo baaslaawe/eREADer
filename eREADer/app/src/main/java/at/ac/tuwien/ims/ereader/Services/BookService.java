@@ -20,6 +20,7 @@ package at.ac.tuwien.ims.ereader.Services;
 import android.content.Context;
 import android.text.Html;
 import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.parser.LocationTextExtractionStrategy;
 import com.itextpdf.text.pdf.parser.PdfReaderContentParser;
 import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy;
 import com.itextpdf.text.pdf.parser.TextExtractionStrategy;
@@ -51,6 +52,7 @@ public class BookService {
     private String ebook_loading_failed;
     private String no_title;
     private String no_author;
+    private String ebook_unknown_language;
 
     /**
      * Constructor for the service class. Uses context of caller class to instantiate DatabaseHelper
@@ -63,6 +65,7 @@ public class BookService {
         ebook_loading_failed=c.getString(R.string.ebook_loading_failed);
         no_title=c.getString(R.string.no_title);
         no_author=c.getString(R.string.no_author);
+        ebook_unknown_language=c.getString(R.string.ebook_unknown_language);
     }
 
     /**
@@ -77,7 +80,7 @@ public class BookService {
             String author=b.getMetadata().getAuthors().get(0).getFirstname() + " " + b.getMetadata().getAuthors().get(0).getLastname();
             author=author.replace(",", "");
 
-            Language lang=getLanguageFromString(b.getMetadata().getLanguage());
+            Language lang=Language.getLanguageFromString(b.getMetadata().getLanguage());
             Book bookToSave=insertBook(b.getMetadata().getFirstTitle(), author, lang);
 
             List<Resource> list=b.getContents();
@@ -109,21 +112,18 @@ public class BookService {
      * @param URI of the selected file
      * @throws ServiceException if an error occurs during book insertion
      */
-    public void addBookAsPDF(String URI) throws ServiceException {
+    public void addBookAsPDF(String URI, String language) throws ServiceException { //todo remove false line breaks
         try {
             PdfReader reader = new PdfReader(URI);
             StringBuilder str = new StringBuilder();
             String title="";
             String author="";
-            String l="";
             for(Map.Entry<String,String> s : reader.getInfo().entrySet()) {
-                if(title.isEmpty() || author.isEmpty() || l.isEmpty())
+                if(title.isEmpty() || author.isEmpty())
                     if(s.getKey().toLowerCase().contains("title") || s.getKey().toLowerCase().contains("titel")) {
                         title = s.getValue();
                     } else if(s.getKey().toLowerCase().contains("author") || s.getKey().toLowerCase().contains("autor")) {
                         author = s.getValue();
-                    } else if(s.getKey().toLowerCase().contains("language") || s.getKey().toLowerCase().contains("sprache")) {
-                        l = s.getValue();
                     }
             }
             PdfReaderContentParser parser = new PdfReaderContentParser(reader);
@@ -132,9 +132,8 @@ public class BookService {
                 strategy = parser.processContent(i, new SimpleTextExtractionStrategy());
                 str.append(strategy.getResultantText());
             }
-            Language lang=getLanguageFromString(l);
+            Language lang=Language.getLanguageFromString(language);
             Book bookToSave=insertBook(title, author, lang);
-
             String content=str.toString().trim();
             divideAndSafeContentInChunks(bookToSave, content);
 
@@ -149,32 +148,28 @@ public class BookService {
      * @param URI of the selected file
      * @throws ServiceException if an error occurs during book insertion
      */
-    public void addBookAsTXT(String URI) throws ServiceException {
+    public void addBookAsTXT(String URI, String language) throws ServiceException {
         try {
             BufferedReader in = new BufferedReader(new FileReader(URI));
             StringBuilder str = new StringBuilder();
             String line;
             String title="";
             String author="";
-            String l="";
             while ((line = in.readLine()) != null) {
-                if(title.isEmpty() || author.isEmpty() || l.isEmpty())
+                if(title.isEmpty() || author.isEmpty())
                     if(line.toLowerCase().contains("title") || line.toLowerCase().contains("titel")) {
                         String[] tokens = line.split(": ");
                         title = tokens[1];
                     } else if(line.toLowerCase().contains("author") || line.toLowerCase().contains("autor")) {
                         String[] tokens = line.split(": ");
                         author = tokens[1];
-                    } else if(line.toLowerCase().contains("language") || line.toLowerCase().contains("sprache")) {
-                        String[] tokens = line.split(": ");
-                        l = tokens[1];
                     }
                 str.append(line);
-                str.append("\n");
+                if ("".equals(line.trim()))
+                    str.append("\n");
             }
             in.close();
-
-            Language lang=getLanguageFromString(l);
+            Language lang=Language.getLanguageFromString(language);
             Book bookToSave=insertBook(title, author, lang);
 
             String content=str.toString().trim();
@@ -197,11 +192,6 @@ public class BookService {
         if(content.isEmpty() || bookToSaveTo==null) {
             if(bookToSaveTo!=null)
                 deleteBook(bookToSaveTo.getId());
-            throw new ServiceException(ebook_loading_failed);
-        }
-
-        if(bookToSaveTo.getLanguage()==Language.UNKNOWN) { //todo
-            deleteBook(bookToSaveTo.getId());
             throw new ServiceException(ebook_loading_failed);
         }
 
@@ -230,23 +220,6 @@ public class BookService {
     }
 
     /**
-     * Languages are only saved as String in ebooks, so we try to convert it to our own format.
-     *
-     * @param l String of the language
-     * @return language of the ebook or Language.UNKOWN if language is unknown
-     */
-    private Language getLanguageFromString(String l) {
-        if (l.equals("English") || l.equals("Englisch") || l.equals("en")) {
-            return Language.EN;
-        } else if(l.equals("German") || l.equals("Deutsch") || l.equals("de")) {
-            return Language.DE;
-        } else if(l.equals("Spanish") || l.equals("Spanisch") || l.equals("es")) {
-            return Language.ES;
-        } else
-            return Language.UNKNOWN;
-    }
-
-    /**
      * Inserts a book using the DatabaseHelper. Also inserts new currentposition at the start
      * of the book.
      *
@@ -259,9 +232,10 @@ public class BookService {
     private Book insertBook(String title, String author, Language language) throws ServiceException {
         if(title.isEmpty())
             title=no_title;
-
         if(author.isEmpty())
             author=no_author;
+        if(language==Language.UNKNOWN)
+            throw new ServiceException(ebook_unknown_language);
 
         Book b=new Book(title, author, language);
         long id=db.insertBook(b);

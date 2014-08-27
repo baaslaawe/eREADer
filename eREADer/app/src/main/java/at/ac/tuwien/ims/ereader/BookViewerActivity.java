@@ -136,7 +136,7 @@ public class BookViewerActivity extends Activity {
         }
 
         content.setText(getString(R.string.loading));
-        cont_heading.setText(chapt);
+        cont_heading.setText(getString(R.string.content)+ " "+chapt);
         sbMenu=new SidebarMenu(this, false, false, false);
 
         int standardTextSize=(int)content.getTextSize();

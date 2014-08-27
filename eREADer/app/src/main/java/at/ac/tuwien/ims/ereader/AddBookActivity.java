@@ -29,10 +29,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.johnpersano.supertoasts.SuperActivityToast;
@@ -64,6 +67,10 @@ public class AddBookActivity extends Activity {
     private SidebarMenu sbMenu;
     private SimpleFileDialog fileDialog;
     private SuperActivityToast addToast;
+
+    private AlertDialog dialogEdit;
+    private Spinner langspinner;
+    private String chosenDir2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,13 +111,18 @@ public class AddBookActivity extends Activity {
                 new SimpleFileDialog.SimpleFileDialogListener() {
                     @Override
                     public void onChosenDir(final String chosenDir) {
-                        addToast.show();
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                new AddTask().execute(chosenDir);
-                            }
-                        });
+                        chosenDir2=chosenDir;
+                        if(chosenDir.endsWith(".pdf")||chosenDir.endsWith(".txt")) {
+                            dialogEdit.show();
+                        } else {
+                            addToast.show();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    new AddTask().execute(chosenDir);
+                                }
+                            });
+                        }
                     }
                 });
         fileDialog.Default_File_Name = "";
@@ -120,8 +132,38 @@ public class AddBookActivity extends Activity {
         addToast.setIndeterminate(true);
         addToast.setProgressIndeterminate(true);
 
+        View editView = getLayoutInflater().inflate(R.layout.dialog_selectlanguage, null);
+        AlertDialog.Builder editBuilder = new AlertDialog.Builder(this);
+        editBuilder.setView(editView)
+                .setPositiveButton(R.string.save, dialogEditClickListener)
+                .setNegativeButton(R.string.cancel, null)
+                .setTitle(getString(R.string.select_language_book));
+        dialogEdit=editBuilder.create();
+
+        langspinner=(Spinner)editView.findViewById(R.id.dialog_lang);
+        String[] array=new String[]{
+                getString(R.string.ger),
+                getString(R.string.eng),
+                getString(R.string.esp),
+                getString(R.string.fr)};
+        langspinner.setAdapter(new ArrayAdapter(AddBookActivity.this, android.R.layout.simple_spinner_dropdown_item, array));
+
         //todo add help for downloading
     }
+
+    DialogInterface.OnClickListener dialogEditClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            final String l=(String)langspinner.getSelectedItem();
+            addToast.show();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    new AddTask().execute(chosenDir2, l);
+                }
+            });
+        }
+    };
 
     /**
      * Asynchronous Task that adds a book by its format and informs the user if it is done or
@@ -129,15 +171,15 @@ public class AddBookActivity extends Activity {
      *
      */
     private class AddTask extends AsyncTask<String, Integer, Boolean> {
-        protected Boolean doInBackground(String... path) {
+        protected Boolean doInBackground(String... vars) {
             try {
-                String URI=path[0];
+                String URI=vars[0];
                 if(URI.endsWith(".epub")) {
                     bookService.addBookAsEPUB(URI);
                 } else if(URI.endsWith(".pdf")) {
-                    bookService.addBookAsPDF(URI);
+                    bookService.addBookAsPDF(URI, vars[1]);
                 } else if(URI.endsWith(".txt")) {
-                    bookService.addBookAsTXT(URI);
+                    bookService.addBookAsTXT(URI, vars[1]);
                 } else
                     throw new ServiceException(getString(R.string.format_not_supported));
             } catch(ServiceException s) {
