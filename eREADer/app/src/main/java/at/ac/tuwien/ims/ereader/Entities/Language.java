@@ -17,22 +17,49 @@
 */
 package at.ac.tuwien.ims.ereader.Entities;
 
+import java.util.Locale;
+
 /**
  * Enum of available languages for the tts engine in this application.
  *
  * @author Florian Schuster
  */
 public enum Language {
-    DE(0),
-    EN(1),
-    ES(2),
-    UNKNOWN(3);
+    DE(0, new Locale("de", "DE")),
+    EN(1, new Locale("en", "US")),
+    ES(2, new Locale("es", "ES")),
+    FR(3, new Locale("fr", "FR")),
+    UNKNOWN(4, new Locale("en", "US"));
 
     private final int code;
-    private Language(int c) {
-        code = c;
+    private final Locale locale;
+    private Language(int c, Locale l) {
+        code=c;
+        locale=l;
     }
     public int getCode() {
         return code;
+    }
+    public Locale getLocale() {
+        return locale;
+    }
+
+    /**
+     * Returns the Language from given code of the language.
+     *
+     * @param lang language code
+     * @return a Language object
+     */
+    public static Language getLanguageFromCode(int lang) {
+        if (Language.DE.getCode() == lang)
+            return Language.DE;
+        else if (Language.EN.getCode() == lang)
+            return Language.EN;
+        else if (Language.ES.getCode() == lang)
+            return Language.ES;
+        else if (Language.FR.getCode() == lang)
+            return Language.FR;
+        else
+            return Language.UNKNOWN;
     }
 }

@@ -19,7 +19,6 @@ package at.ac.tuwien.ims.ereader.Services;
 
 import android.content.Context;
 import android.text.Html;
-
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfReaderContentParser;
 import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy;
@@ -29,6 +28,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.BreakIterator;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +49,6 @@ import nl.siegmann.epublib.epub.EpubReader;
 public class BookService {
     private DatabaseHelper db;
     private String ebook_loading_failed;
-    private String format_not_supported;
     private String no_title;
     private String no_author;
 
@@ -62,26 +61,8 @@ public class BookService {
     public BookService(Context c) {
         db=new DatabaseHelper(c);
         ebook_loading_failed=c.getString(R.string.ebook_loading_failed);
-        format_not_supported=c.getString(R.string.format_not_supported);
         no_title=c.getString(R.string.no_title);
         no_author=c.getString(R.string.no_author);
-    }
-
-    /**
-     * Uses the URL to redirect the insertion to the specific method.
-     *
-     * @param URI of the selected file
-     * @throws ServiceException if the file format is not supported
-     */
-    public void addBookManually(String URI) throws ServiceException {
-        if(URI.endsWith(".epub"))
-            this.addBookAsEPUB(URI);
-        else if(URI.endsWith(".pdf"))
-            this.addBookAsPDF(URI);
-        else if(URI.endsWith(".txt"))
-            this.addBookAsTXT(URI);
-        else
-            throw new ServiceException(format_not_supported);
     }
 
     /**
@@ -128,7 +109,7 @@ public class BookService {
      * @param URI of the selected file
      * @throws ServiceException if an error occurs during book insertion
      */
-    private void addBookAsPDF(String URI) throws ServiceException {
+    public void addBookAsPDF(String URI) throws ServiceException {
         try {
             PdfReader reader = new PdfReader(URI);
             StringBuilder str = new StringBuilder();
@@ -151,12 +132,11 @@ public class BookService {
                 strategy = parser.processContent(i, new SimpleTextExtractionStrategy());
                 str.append(strategy.getResultantText());
             }
-            String content=str.toString();
             Language lang=getLanguageFromString(l);
+            Book bookToSave=insertBook(title, author, lang);
 
-            //todo split contents
-            //Book bookToSave=insertBook(title, author, lang);
-            //insertContent(bookToSave, "", content, content.split("\\s+").length);
+            String content=str.toString().trim();
+            divideAndSafeContentInChunks(bookToSave, content);
 
         } catch(IOException e) {
             throw new ServiceException(ebook_loading_failed);
@@ -169,7 +149,7 @@ public class BookService {
      * @param URI of the selected file
      * @throws ServiceException if an error occurs during book insertion
      */
-    private void addBookAsTXT(String URI) throws ServiceException {
+    public void addBookAsTXT(String URI) throws ServiceException {
         try {
             BufferedReader in = new BufferedReader(new FileReader(URI));
             StringBuilder str = new StringBuilder();
@@ -190,21 +170,62 @@ public class BookService {
                         l = tokens[1];
                     }
                 str.append(line);
+                str.append("\n");
             }
             in.close();
-            String content=str.toString().trim();
-
-            if(content.isEmpty())
-                throw new ServiceException(ebook_loading_failed);
 
             Language lang=getLanguageFromString(l);
+            Book bookToSave=insertBook(title, author, lang);
 
-            //todo split in contents
-            //Book bookToSave=insertBook(title, author, lang);
-            //insertContent(bookToSave, "", content, content.split("\\s+").length);
+            String content=str.toString().trim();
+            divideAndSafeContentInChunks(bookToSave, content);
 
         } catch(IOException e) {
             throw new ServiceException(ebook_loading_failed);
+        }
+    }
+
+    /**
+     * Divides a whole content string from an ebook into content chunks to better save and display
+     * it.
+     *
+     * @param bookToSaveTo book that the content should be saved to
+     * @param content the string of the whole content
+     * @throws ServiceException when content is empty
+     */
+    public void divideAndSafeContentInChunks(Book bookToSaveTo, String content) throws ServiceException {
+        if(content.isEmpty() || bookToSaveTo==null) {
+            if(bookToSaveTo!=null)
+                deleteBook(bookToSaveTo.getId());
+            throw new ServiceException(ebook_loading_failed);
+        }
+
+        if(bookToSaveTo.getLanguage()==Language.UNKNOWN) { //todo
+            deleteBook(bookToSaveTo.getId());
+            throw new ServiceException(ebook_loading_failed);
+        }
+
+        BreakIterator it = BreakIterator.getSentenceInstance(bookToSaveTo.getLanguage().getLocale());
+        it.setText(content);
+        int words=0;
+        int actualContentNumber=1;
+        int lastIndex = it.first();
+
+        int savedIndex=0;
+        while (lastIndex != BreakIterator.DONE) {
+            int firstIndex = lastIndex;
+            lastIndex = it.next();
+
+            if (lastIndex != BreakIterator.DONE) {
+                words+=content.substring(firstIndex, lastIndex).split("\\s+").length;
+
+                if(words>=5000) {
+                    insertContent(bookToSaveTo, "" + actualContentNumber, content.substring(savedIndex, lastIndex), words);
+                    actualContentNumber++;
+                    words=0;
+                    savedIndex=lastIndex;
+                }
+            }
         }
     }
 

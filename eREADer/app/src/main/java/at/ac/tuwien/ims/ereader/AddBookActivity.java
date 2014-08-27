@@ -124,23 +124,35 @@ public class AddBookActivity extends Activity {
     }
 
     /**
-     * Asynchronous Task that adds a book and informs the user if it is done.
+     * Asynchronous Task that adds a book by its format and informs the user if it is done or
+     * if an error has occurred.
      *
      */
     private class AddTask extends AsyncTask<String, Integer, Boolean> {
         protected Boolean doInBackground(String... path) {
             try {
-                bookService.addBookManually(path[0]);
+                String URI=path[0];
+                if(URI.endsWith(".epub")) {
+                    bookService.addBookAsEPUB(URI);
+                } else if(URI.endsWith(".pdf")) {
+                    bookService.addBookAsPDF(URI);
+                } else if(URI.endsWith(".txt")) {
+                    bookService.addBookAsTXT(URI);
+                } else
+                    throw new ServiceException(getString(R.string.format_not_supported));
             } catch(ServiceException s) {
                 showMessage(s.getMessage());
+                return false;
             }
             return true;
         }
 
-        protected void onPostExecute(Boolean result) {
+        protected void onPostExecute(Boolean success) {
             addToast.dismiss();
-            showMessage(getString(R.string.success_ebook_add));
-            startActivity(new Intent(AddBookActivity.this, MyLibraryActivity.class));
+            if(success) {
+                showMessage(getString(R.string.success_ebook_add));
+                startActivity(new Intent(AddBookActivity.this, MyLibraryActivity.class));
+            }
         }
     }
 
@@ -154,7 +166,7 @@ public class AddBookActivity extends Activity {
         super.onBackPressed();
     }
 
-    /**
+    /**todo http://allesebook.de/kostenlose-ebooks/
      * A method that fills a list with available DownloadHosts.
      *
      * @return a list with DownloadHosts

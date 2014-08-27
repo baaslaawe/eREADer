@@ -17,6 +17,10 @@
 */
 package at.ac.tuwien.ims.ereader.Util;
 
+import java.util.Locale;
+
+import at.ac.tuwien.ims.ereader.Entities.Language;
+
 /**
  * A helper class that contains static variables and methods.
  *

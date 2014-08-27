@@ -31,6 +31,7 @@ import at.ac.tuwien.ims.ereader.Entities.Book;
 import at.ac.tuwien.ims.ereader.Entities.Content;
 import at.ac.tuwien.ims.ereader.Entities.CurrentPosition;
 import at.ac.tuwien.ims.ereader.Entities.Language;
+import at.ac.tuwien.ims.ereader.Util.StaticHelper;
 
 /**
  * DAO class for books, contents and currentpositions that uses SQLiteOpenHelper
@@ -172,18 +173,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
         if (cursor != null)
             cursor.moveToFirst();
 
-        Language langu=null;
-        int lang=Integer.parseInt(cursor.getString(3));
-        if (Language.DE.getCode() == lang)
-            langu=Language.DE;
-        else if (Language.EN.getCode() == lang)
-            langu=Language.EN;
-        else if (Language.ES.getCode() == lang)
-            langu=Language.ES;
-        else if (Language.UNKNOWN.getCode() == lang)
-            langu=Language.UNKNOWN;
         Book book = new Book(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2),
-                langu);
+                Language.getLanguageFromCode(Integer.parseInt(cursor.getString(3))));
         Log.d(DatabaseHelper.class.getName(), book.toString() + " read from DB");
         return book;
     }
@@ -197,18 +188,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
 
         if (cursor.moveToFirst()) {
             do {
-                Language langu=null;
-                int lang=Integer.parseInt(cursor.getString(3));
-                if (Language.DE.getCode() == lang)
-                    langu=Language.DE;
-                else if (Language.EN.getCode() == lang)
-                    langu=Language.EN;
-                else if (Language.ES.getCode() == lang)
-                    langu=Language.ES;
-                else if (Language.UNKNOWN.getCode() == lang)
-                    langu=Language.UNKNOWN;
                 Book book = new Book(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2),
-                        langu);
+                        Language.getLanguageFromCode(Integer.parseInt(cursor.getString(3))));
                 bookList.add(book);
                 Log.d(DatabaseHelper.class.getName(), "book got from db: "+book.getId());
             } while (cursor.moveToNext());

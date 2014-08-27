@@ -414,18 +414,9 @@ public class ReadingService extends Service {
         currentContent =c.getCurrentContent();
         currentSentence=c.getCurrentSentence();
 
-        switch (b.getLanguage()) {
-            case DE:
-                lang=new Locale("de", "DE");
-                break;
-            case ES:
-                lang=new Locale("es", "ES");
-                break;
-            default:
-                lang=new Locale("en", "US");
-        }
-        this.currentContentString =contents.get(currentContent).getContent();
-        this.currentContentHeading = contents.get(currentContent).getHeading();
+        lang=b.getLanguage().getLocale();
+        this.currentContentString=contents.get(currentContent).getContent();
+        this.currentContentHeading=contents.get(currentContent).getHeading();
 
         updateSentences();
         updateTTS();

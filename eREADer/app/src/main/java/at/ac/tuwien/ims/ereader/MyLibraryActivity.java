@@ -69,7 +69,7 @@ public class MyLibraryActivity extends Activity {
     private BookService bookService;
     private SidebarMenu sbMenu;
 
-    private AlertDialog dialog;
+    private AlertDialog dialogEdit;
     private EditText author;
     private EditText title;
     private Spinner langspinner;
@@ -114,17 +114,21 @@ public class MyLibraryActivity extends Activity {
         View editView = getLayoutInflater().inflate(R.layout.dialog_editbook, null);
         AlertDialog.Builder editBuilder = new AlertDialog.Builder(this);
         editBuilder.setView(editView)
-                .setPositiveButton(R.string.save, dialogClickListener)
-                .setNegativeButton(R.string.cancel, dialogClickListener)
+                .setPositiveButton(R.string.save, dialogEditClickListener)
+                .setNegativeButton(R.string.cancel, null)
                 .setTitle(getString(R.string.edit_book));
-        dialog=editBuilder.create();
+        dialogEdit=editBuilder.create();
 
         author=(EditText)editView.findViewById(R.id.dialog_author);
         title=(EditText)editView.findViewById(R.id.dialog_title);
         langspinner=(Spinner)editView.findViewById(R.id.dialog_lang);
-        langspinner.setAdapter(new ArrayAdapter(MyLibraryActivity.this, android.R.layout.simple_spinner_dropdown_item,
-                new String[]{getString(R.string.ger), getString(R.string.eng),
-                        getString(R.string.esp), getString(R.string.unknown)}));
+        String[] array=new String[]{
+                getString(R.string.ger),
+                getString(R.string.eng),
+                getString(R.string.esp),
+                getString(R.string.fr),
+                getString(R.string.unknown)};
+        langspinner.setAdapter(new ArrayAdapter(MyLibraryActivity.this, android.R.layout.simple_spinner_dropdown_item, array));
 
         registerForContextMenu(listview);
         hideSearchBar();
@@ -367,45 +371,36 @@ public class MyLibraryActivity extends Activity {
                 author.setHint(blAdapter.getItem(info.position).getAuthor());
                 title.setHint(blAdapter.getItem(info.position).getTitle());
                 langspinner.setSelection(blAdapter.getItem(info.position).getLanguage().getCode());
-                dialog.show();
+                dialogEdit.show();
                 break;
             case R.id.delete:
-                bookService.deleteBook(blAdapter.getItem(info.position).getId());
-                showMessage(blAdapter.getItem(info.position).getTitle() + " " + getString(R.string.wasdeleted));
-                blAdapter.updateBookList();
+                AlertDialog.Builder deleteBuilder = new AlertDialog.Builder(MyLibraryActivity.this);
+                deleteBuilder.setTitle(getString(R.string.delete_book))
+                        .setMessage(getString(R.string.sure_delete) + "\n" + blAdapter.getItem(info.position).getTitle())
+                        .setPositiveButton(getString(R.string.delete), dialogDeleteClickListener)
+                        .setNegativeButton(getString(R.string.cancel), null)
+                        .show();
                 break;
         }
         return super.onContextItemSelected(item);
     }
 
-    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+    DialogInterface.OnClickListener dialogEditClickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            switch (which){
-                case DialogInterface.BUTTON_POSITIVE:
-                    String aut= author.getText().length()==0 ? author.getHint().toString() : author.getText().toString();
-                    String tit= title.getText().length()==0 ? title.getHint().toString() : title.getText().toString();
-                    Language l=null;
-                    switch (langspinner.getSelectedItemPosition()) {
-                        case 0:
-                            l=Language.DE;
-                            break;
-                        case 1:
-                            l=Language.EN;
-                            break;
-                        case 2:
-                            l=Language.ES;
-                            break;
-                        default:
-                            l=Language.UNKNOWN;
-                            break;
-                    }
-                    bookService.updateBook(new Book(blAdapter.getItem(info.position).getId(), tit, aut, l));
-                    break;
-                case DialogInterface.BUTTON_NEGATIVE:
-                    //do nothing
-                    break;
-            }
+            String aut=author.getText().length()==0 ? author.getHint().toString() : author.getText().toString();
+            String tit=title.getText().length()==0 ? title.getHint().toString() : title.getText().toString();
+            Language l=Language.getLanguageFromCode(langspinner.getSelectedItemPosition());
+            bookService.updateBook(new Book(blAdapter.getItem(info.position).getId(), tit, aut, l));
+            blAdapter.updateBookList();
+        }
+    };
+
+    DialogInterface.OnClickListener dialogDeleteClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            bookService.deleteBook(blAdapter.getItem(info.position).getId());
+            showMessage(blAdapter.getItem(info.position).getTitle() + " " + getString(R.string.wasdeleted));
             blAdapter.updateBookList();
         }
     };

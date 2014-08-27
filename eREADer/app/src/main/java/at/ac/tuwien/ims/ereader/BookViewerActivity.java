@@ -293,7 +293,7 @@ public class BookViewerActivity extends Activity {
      */
     private void updateContentHeader() {
         if(serviceBound)
-            cont_heading.setText(readingService.getCurrContentHeading());
+            cont_heading.setText(getString(R.string.content)+ " "+readingService.getCurrContentHeading());
     }
 
     /**
