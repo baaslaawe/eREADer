@@ -90,7 +90,7 @@ public class SettingsActivity extends Activity {
         resetbtn.setOnTouchListener(btnListener);
         menuBtn=(ImageButton)findViewById(R.id.optnbtn_settings);
         menuBtn.setOnTouchListener(btnListener);
-        sbMenu=new SidebarMenu(this, false, true, false);
+        sbMenu=new SidebarMenu(this, false, true, false, false);
 
         ttsService=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override

@@ -118,6 +118,7 @@ public class BookViewerActivity extends Activity {
         cont_heading =(TextView)findViewById(R.id.chap_txt);
         content=(TextView)findViewById(R.id.book_text);
         contentScrollView =(ScrollView)findViewById(R.id.scrollv_for_text);
+        contentScrollView.smoothScrollTo(0, 0);
 
         int cha=getIntent().getExtras().getInt("chapter");
         String chapt;
@@ -137,7 +138,7 @@ public class BookViewerActivity extends Activity {
 
         content.setText(getString(R.string.loading));
         cont_heading.setText(getString(R.string.content)+ " "+chapt);
-        sbMenu=new SidebarMenu(this, false, false, false);
+        sbMenu=new SidebarMenu(this, false, false, false, false);
 
         int standardTextSize=(int)content.getTextSize();
         if (standardTextSize>StaticHelper.typesize_range_down) {
@@ -466,6 +467,11 @@ public class BookViewerActivity extends Activity {
             if(action.equalsIgnoreCase(StaticHelper.BROADCAST_ACTION)) {
                 Bundle extra = intent.getExtras();
                 if (extra.getBoolean("update")) {
+                    if(readingService.isPlaying())
+                        playButton.setImageResource(R.drawable.pausebtn);
+                    else
+                        playButton.setImageResource(R.drawable.playbtn);
+
                     updateContent();
                     updateContentHeader();
                     updateButtons();

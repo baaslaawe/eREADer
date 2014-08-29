@@ -46,6 +46,7 @@ import net.simonvt.menudrawer.MenuDrawer;
 import java.util.ArrayList;
 import java.util.List;
 
+import at.ac.tuwien.ims.ereader.Entities.Book;
 import at.ac.tuwien.ims.ereader.Entities.DownloadHost;
 import at.ac.tuwien.ims.ereader.Entities.Language;
 import at.ac.tuwien.ims.ereader.Services.BookService;
@@ -68,9 +69,15 @@ public class AddBookActivity extends Activity {
     private SimpleFileDialog fileDialog;
     private SuperActivityToast addToast;
 
+    private AlertDialog dialogLanguage;
+    private Spinner langspinner_lang;
+    private String temp_chosendir;
+
     private AlertDialog dialogEdit;
-    private Spinner langspinner;
-    private String chosenDir2;
+    private EditText author;
+    private EditText title;
+    private Spinner langspinner_edit;
+    private long tempbook_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,23 +112,27 @@ public class AddBookActivity extends Activity {
         });
         listview.setAdapter(dhAdapter);
 
-        sbMenu=new SidebarMenu(this, false, false, false);
+        sbMenu=new SidebarMenu(this, false, false, false, true);
 
         fileDialog =new SimpleFileDialog(AddBookActivity.this, "FileOpen",
                 new SimpleFileDialog.SimpleFileDialogListener() {
                     @Override
                     public void onChosenDir(final String chosenDir) {
-                        chosenDir2=chosenDir;
-                        if(chosenDir.endsWith(".pdf")||chosenDir.endsWith(".txt")) {
-                            dialogEdit.show();
+                        if(chosenDir.endsWith(".pdf")||chosenDir.endsWith(".txt")||chosenDir.endsWith(".html")||chosenDir.endsWith(".htm")||chosenDir.endsWith(".epub")) {
+                            if(chosenDir.endsWith(".epub")) {
+                                addToast.show();
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        new AddTask().execute(chosenDir);
+                                    }
+                                });
+                            } else {
+                                temp_chosendir = chosenDir;
+                                dialogLanguage.show();
+                            }
                         } else {
-                            addToast.show();
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    new AddTask().execute(chosenDir);
-                                }
-                            });
+                            showMessage(getString(R.string.format_not_supported));
                         }
                     }
                 });
@@ -132,36 +143,60 @@ public class AddBookActivity extends Activity {
         addToast.setIndeterminate(true);
         addToast.setProgressIndeterminate(true);
 
-        View editView = getLayoutInflater().inflate(R.layout.dialog_selectlanguage, null);
-        AlertDialog.Builder editBuilder = new AlertDialog.Builder(this);
-        editBuilder.setView(editView)
-                .setPositiveButton(R.string.save, dialogEditClickListener)
+        View lanugageDialogView = getLayoutInflater().inflate(R.layout.dialog_selectlanguage, null);
+        AlertDialog.Builder languageAlertBuilder = new AlertDialog.Builder(this);
+        languageAlertBuilder.setView(lanugageDialogView)
+                .setPositiveButton(R.string.save, dialogLangClickListener)
                 .setNegativeButton(R.string.cancel, null)
                 .setTitle(getString(R.string.select_language_book));
-        dialogEdit=editBuilder.create();
-
-        langspinner=(Spinner)editView.findViewById(R.id.dialog_lang);
+        dialogLanguage =languageAlertBuilder.create();
+        langspinner_lang=(Spinner)lanugageDialogView.findViewById(R.id.dialog_lang);
         String[] array=new String[]{
                 getString(R.string.ger),
                 getString(R.string.eng),
                 getString(R.string.esp),
                 getString(R.string.fr)};
-        langspinner.setAdapter(new ArrayAdapter(AddBookActivity.this, android.R.layout.simple_spinner_dropdown_item, array));
+        langspinner_lang.setAdapter(new ArrayAdapter(AddBookActivity.this, android.R.layout.simple_spinner_dropdown_item, array));
+
+
+        View editView = getLayoutInflater().inflate(R.layout.dialog_editbook, null);
+        AlertDialog.Builder editBuilder = new AlertDialog.Builder(this);
+        editBuilder.setView(editView)
+                .setPositiveButton(R.string.save, dialogEditClickListener)
+                .setNegativeButton(R.string.cancel, null)
+                .setTitle(getString(R.string.edit_after_insert));
+        dialogEdit=editBuilder.create();
+        author=(EditText)editView.findViewById(R.id.dialog_author);
+        title=(EditText)editView.findViewById(R.id.dialog_title);
+        langspinner_edit=(Spinner)editView.findViewById(R.id.dialog_lang);
+        langspinner_edit.setAdapter(new ArrayAdapter(AddBookActivity.this, android.R.layout.simple_spinner_dropdown_item, array));
 
         //todo add help for downloading
     }
 
-    DialogInterface.OnClickListener dialogEditClickListener = new DialogInterface.OnClickListener() {
+    DialogInterface.OnClickListener dialogLangClickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            final String l=(String)langspinner.getSelectedItem();
+            final String l=(String) langspinner_lang.getSelectedItem();
             addToast.show();
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    new AddTask().execute(chosenDir2, l);
+                    new AddTask().execute(temp_chosendir, l);
                 }
             });
+        }
+    };
+
+    DialogInterface.OnClickListener dialogEditClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            String aut=author.getText().length()==0 ? author.getHint().toString() : author.getText().toString();
+            String tit=title.getText().length()==0 ? title.getHint().toString() : title.getText().toString();
+            Language l=Language.getLanguageFromCode(langspinner_edit.getSelectedItemPosition());
+            bookService.updateBook(new Book(tempbook_id, tit, aut, l));
+            showMessage(getString(R.string.success_ebook_add));
+            startActivity(new Intent(AddBookActivity.this, MyLibraryActivity.class));
         }
     };
 
@@ -170,30 +205,38 @@ public class AddBookActivity extends Activity {
      * if an error has occurred.
      *
      */
-    private class AddTask extends AsyncTask<String, Integer, Boolean> {
-        protected Boolean doInBackground(String... vars) {
+    private class AddTask extends AsyncTask<String, Integer, Book> {
+        protected Book doInBackground(String... vars) {
             try {
                 String URI=vars[0];
-                if(URI.endsWith(".epub")) {
-                    bookService.addBookAsEPUB(URI);
-                } else if(URI.endsWith(".pdf")) {
-                    bookService.addBookAsPDF(URI, vars[1]);
-                } else if(URI.endsWith(".txt")) {
-                    bookService.addBookAsTXT(URI, vars[1]);
-                } else
-                    throw new ServiceException(getString(R.string.format_not_supported));
+                if(URI.endsWith(".epub"))
+                    return bookService.addBookAsEPUB(URI);
+                else if(URI.endsWith(".pdf"))
+                    return bookService.addBookAsPDF(URI, vars[1]);
+                else if(URI.endsWith(".txt"))
+                    return bookService.addBookAsTXT(URI, vars[1]);
+                else if(URI.endsWith(".html")||URI.endsWith(".htm"))
+                    return bookService.addBookAsHTML(URI, vars[1]);
             } catch(ServiceException s) {
                 showMessage(s.getMessage());
-                return false;
+                return null;
             }
-            return true;
+            return null;
         }
 
-        protected void onPostExecute(Boolean success) {
+        protected void onPostExecute(Book book) {
             addToast.dismiss();
-            if(success) {
-                showMessage(getString(R.string.success_ebook_add));
-                startActivity(new Intent(AddBookActivity.this, MyLibraryActivity.class));
+            if(book!=null) {
+                if(book.getTitle().equals(getString(R.string.no_title)) || book.getAuthor().equals(getString(R.string.no_author))) {
+                    tempbook_id=book.getId();
+                    author.setHint(book.getAuthor());
+                    title.setHint(book.getTitle());
+                    langspinner_edit.setSelection(book.getLanguage().getCode());
+                    dialogEdit.show();
+                } else {
+                    showMessage(getString(R.string.success_ebook_add));
+                    startActivity(new Intent(AddBookActivity.this, MyLibraryActivity.class));
+                }
             }
         }
     }
@@ -287,6 +330,9 @@ public class AddBookActivity extends Activity {
                         break;
                     case ES:
                         lang=getString(R.string.esp);
+                        break;
+                    case FR:
+                        lang=getString(R.string.fr);
                         break;
                 }
                 holder.site_url.setText(lang+", "+dhList.get(position).getURL());

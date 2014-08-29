@@ -21,6 +21,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -52,6 +53,7 @@ import at.ac.tuwien.ims.ereader.Entities.Book;
 import at.ac.tuwien.ims.ereader.Entities.Language;
 import at.ac.tuwien.ims.ereader.Services.BookService;
 import at.ac.tuwien.ims.ereader.Util.SidebarMenu;
+import at.ac.tuwien.ims.ereader.Util.StaticHelper;
 
 /**
  * Activity to display all available eBooks in the database.
@@ -80,9 +82,14 @@ public class MyLibraryActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_library);
-
         if (getActionBar() != null)
             getActionBar().hide();
+
+        SharedPreferences settings = getSharedPreferences("settings", 0);
+        if(!settings.getBoolean("startUpHelpSeen", false)) {
+            startActivity(new Intent(MyLibraryActivity.this, HelpActivity.class));
+        }
+
         bookService=new BookService(this);
 
         ListView listview = (ListView)findViewById(R.id.booklist);
@@ -109,7 +116,7 @@ public class MyLibraryActivity extends Activity {
         searchbar=(EditText)findViewById(R.id.searchinput);
         searchbar.addTextChangedListener(textWatcher);
 
-        sbMenu=new SidebarMenu(this, true, false, false);
+        sbMenu=new SidebarMenu(this, true, false, false, false);
 
         View editView = getLayoutInflater().inflate(R.layout.dialog_editbook, null);
         AlertDialog.Builder editBuilder = new AlertDialog.Builder(this);
@@ -324,6 +331,9 @@ public class MyLibraryActivity extends Activity {
                     break;
                 case ES:
                     lang=getString(R.string.esp);
+                    break;
+                case FR:
+                    lang=getString(R.string.fr);
                     break;
             }
             holder.author_and_lang.setText(visiblebooklist.get(position).getAuthor() + ", " + lang);

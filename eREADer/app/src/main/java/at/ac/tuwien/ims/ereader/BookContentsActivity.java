@@ -119,7 +119,7 @@ public class BookContentsActivity extends Activity {
         hideSearchBar();
         clAdapter.updateChapterList();
 
-        sbMenu=new SidebarMenu(this, false, false, false);
+        sbMenu=new SidebarMenu(this, false, false, false, false);
     }
 
     @Override

@@ -37,6 +37,7 @@ import net.simonvt.menudrawer.Position;
 import java.util.ArrayList;
 import java.util.List;
 
+import at.ac.tuwien.ims.ereader.AddBookActivity;
 import at.ac.tuwien.ims.ereader.HelpActivity;
 import at.ac.tuwien.ims.ereader.MyLibraryActivity;
 import at.ac.tuwien.ims.ereader.R;
@@ -54,11 +55,13 @@ public class SidebarMenu {
     private Activity activity;
     private MenuDrawer mDrawer;
 
-    public SidebarMenu(Activity a, boolean libActive, boolean settActive, boolean helpActive) {
+    public SidebarMenu(Activity a, boolean libActive, boolean settActive, boolean helpActive, boolean addactive) {
         this.activity=a;
         sidebarItems=new ArrayList<SidebarItem>();
         sidebarItems.add(new SidebarItem(a.getString(R.string.library), R.drawable.libbtn,
                 new Intent(activity, MyLibraryActivity.class), libActive));
+        sidebarItems.add(new SidebarItem(a.getString(R.string.addbook), R.drawable.addbtn,
+                new Intent(activity, AddBookActivity.class), addactive));
         sidebarItems.add(new SidebarItem(a.getString(R.string.settings), R.drawable.settbtn,
                 new Intent(activity, SettingsActivity.class), settActive));
         sidebarItems.add(new SidebarItem(a.getString(R.string.help), R.drawable.helpbtn,

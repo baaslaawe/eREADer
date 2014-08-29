@@ -18,6 +18,7 @@
 package at.ac.tuwien.ims.ereader;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -44,10 +45,17 @@ public class HelpActivity extends Activity {
         if (getActionBar() != null)
             getActionBar().hide();
 
+        SharedPreferences settings = getSharedPreferences("settings", 0);
+        if(!settings.getBoolean("startUpHelpSeen", true)) {
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean("startUpHelpSeen", true);
+            editor.apply();
+        }
+
         menuBtn=(ImageButton)findViewById(R.id.optnbtn_help);
         menuBtn.setOnClickListener(btnListener);
 
-        sbMenu=new SidebarMenu(this, false, false, true);
+        sbMenu=new SidebarMenu(this, false, false, true, false);
 
         //todo fill with help
     }
