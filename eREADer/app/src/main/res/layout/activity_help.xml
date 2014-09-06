@@ -166,7 +166,7 @@
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:weightSum="3"
                     android:id="@+id/linearLayout2">
@@ -199,14 +199,14 @@
                         android:paddingLeft="5dp"
                         android:paddingTop="5dp"
                         android:paddingRight="5dp"
-                        android:paddingBottom="10dp" />
+                        android:paddingBottom="30dp" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:weightSum="3"
                     android:id="@+id/linearLayout2">
@@ -239,14 +239,14 @@
                         android:paddingLeft="5dp"
                         android:paddingTop="5dp"
                         android:paddingRight="5dp"
-                        android:paddingBottom="10dp" />
+                        android:paddingBottom="30dp" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:weightSum="3"
                     android:id="@+id/linearLayout2">
@@ -279,13 +279,13 @@
                         android:paddingLeft="5dp"
                         android:paddingTop="5dp"
                         android:paddingRight="5dp"
-                        android:paddingBottom="10dp"/>
+                        android:paddingBottom="30dp"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:weightSum="3"
                     android:id="@+id/linearLayout2">
@@ -318,13 +318,13 @@
                         android:paddingLeft="5dp"
                         android:paddingTop="5dp"
                         android:paddingRight="5dp"
-                        android:paddingBottom="10dp"/>
+                        android:paddingBottom="30dp"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:weightSum="3"
                     android:id="@+id/linearLayout2">
@@ -357,13 +357,13 @@
                         android:paddingLeft="5dp"
                         android:paddingTop="5dp"
                         android:paddingRight="5dp"
-                        android:paddingBottom="10dp"/>
+                        android:paddingBottom="30dp"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:weightSum="3"
                     android:id="@+id/linearLayout2">
@@ -396,7 +396,7 @@
                         android:paddingLeft="5dp"
                         android:paddingTop="5dp"
                         android:paddingRight="5dp"
-                        android:paddingBottom="10dp"/>
+                        android:paddingBottom="30dp"/>
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

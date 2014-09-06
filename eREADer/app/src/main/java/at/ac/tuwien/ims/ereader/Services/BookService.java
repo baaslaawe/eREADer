@@ -137,6 +137,8 @@ public class BookService {
             for(String s: titleSearch) {
                 if(title==null)
                     title=info.get(s);
+                else
+                    break;
             }
             String author=null;
             List<String> authorSearch=new ArrayList<String>();
@@ -147,12 +149,14 @@ public class BookService {
             for(String s: authorSearch) {
                 if(author==null)
                     author=info.get(s);
+                else
+                    break;
             }
 
             PdfReaderContentParser parser = new PdfReaderContentParser(reader);
-            TextExtractionStrategy strategy;
+            TextExtractionStrategy strategy=new SimpleTextExtractionStrategy();
             for (int i = 1; i <= reader.getNumberOfPages(); i++) {
-                strategy = parser.processContent(i, new SimpleTextExtractionStrategy());
+                strategy = parser.processContent(i, strategy);
                 str.append(strategy.getResultantText());
             }
 

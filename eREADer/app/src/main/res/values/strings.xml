@@ -60,7 +60,7 @@
     <string name="content">Content</string>
     <string name="parse_str">Parsing eBook and adding it to the library!</string>
     <string name="success_ebook_add">EBook successfully added to database!</string>
-    <string name="loading">Loading content...</string>
+    <string name="loading">Loading content…</string>
     <string name="tts_speed">Adjust Text-to-Speech rate</string>
     <string name="no_title">Unknown title</string>
     <string name="no_author">Unknown author</string>
@@ -72,13 +72,12 @@
     <string name="sidebar">Sidebar</string>
     <string name="edit_after_insert">Please edit title and author manually.</string>
 
-
-    <string name="help_library">TODO Add help</string>
-    <string name="help_contentsview">TODO Add help</string>
-    <string name="help_bookview">TODO Add help</string>
-    <string name="help_addbook">TODO Add help</string>
-    <string name="help_settings">TODO Add help</string>
-    <string name="help_sidebar">TODO Add help</string>
+    <string name="help_sidebar">The sidebar helps the user to quickly navigate through the application.\nIt can be opened by either tapping the button on the top-left side or by swiping from the left edge to the middle of the screen.</string>
+    <string name="help_library">The library contains all your saved eBooks and displays them for you to view or edit.\nPressing an eBook will open it, using the small button on the right side of the list will open a small menu that lets you play, edit or delete the eBook.\nPressing the round \'add\'-Button will open the \'Add Book\' window.</string>
+    <string name="help_contentsview">The content view lets the user view all the content chunks of the currently selected book.\nThe arrow displays the current reading position in the eBook.</string>
+    <string name="help_bookview">The book viewer will display certain content of an eBook.\nWhen the user presses the round \'play\'-Button the application will start reading at the current position of the book, if it is in the current content chunk, else it will start at the beginning.\nBy long pressing a sentence, the user can select it to be read next, instead of the current position.\nThe three buttons on the bottom will let the user mute the reading and fast-forward or fast-backbward a content chunk.</string>
+    <string name="help_addbook">This window lets the user add eBooks from the device\'s drive by clicking the \'add\'-Button.\nThe list below is a selection of download sites for free eBooks. By pressing the small button on the right side of the list the application will display an information for every site on how to download an eBook.</string>
+    <string name="help_settings">The settings give the user the opportunity to change some options for the application and lets him/her reset the database of the application.</string>
 
     <string name="gutenberg_name">Project Gutenberg</string>
     <string name="gutenberg_howto">1. Download Book\n2. Add Book\n3. Read Book\nTODO</string>
