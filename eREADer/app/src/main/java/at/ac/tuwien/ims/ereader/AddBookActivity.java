@@ -101,10 +101,7 @@ public class AddBookActivity extends Activity {
                 String uri=dhAdapter.getItem(position).getURL();
                 if (uri.isEmpty()) {
                     AlertDialog.Builder ab = new AlertDialog.Builder(AddBookActivity.this);
-                    ab.setMessage(dhAdapter.getItem(position).getHow_to_string()).setNeutralButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {}
-                    }).show();
+                    ab.setMessage(dhAdapter.getItem(position).getHow_to_string()).setNeutralButton(getString(R.string.understood), null).show();
                 } else {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(uri)));
                 }
@@ -335,8 +332,12 @@ public class AddBookActivity extends Activity {
                         AlertDialog.Builder ab = new AlertDialog.Builder(AddBookActivity.this);
                         ab.setMessage(dhList.get(position).getHow_to_string()).setNeutralButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {}
-                        }).show();
+                            public void onClick(DialogInterface dialog, int which) {
+                                String URI=dhList.get(position).getURL();
+                                if(!URI.isEmpty())
+                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(URI)));
+                            }
+                        }).setTitle(getString(R.string.dl_info)).show();
                     }
                 }
                 return true;

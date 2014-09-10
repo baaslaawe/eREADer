@@ -72,6 +72,7 @@
     <string name="select_language_book">Please pick the language of the book.</string>
     <string name="sidebar">Sidebar</string>
     <string name="edit_after_insert">Please edit title and author manually.</string>
+    <string name="dl_info">Download information</string>
 
     <string name="help_sidebar">The sidebar helps the user to quickly navigate through the application.\nIt can be opened by either tapping the button on the top-left side or by swiping from the left edge to the middle of the screen.</string>
     <string name="help_library">The library contains all your saved eBooks and displays them for you to view or edit.\nPressing an eBook will open it, using the small button on the right side of the list will open a small menu that lets you play, edit or delete the eBook.\nPressing the round \'add\'-Button will open the \'Add Book\' window.</string>
@@ -81,11 +82,11 @@
     <string name="help_settings">The settings give the user the opportunity to change some options for the application and lets him/her reset the database of the application.</string>
 
     <string name="gutenberg_name">Project Gutenberg</string>
-    <string name="gutenberg_howto">After the your browser has loaded the website, search for a book with the search bar. Then click the book in the list that you want to download. Now scroll down and download the eBook as TXT, PDF or Epub(no images). After the download is completed, open the eReader application again, go to the \'Add Book\' window, click the \'add\'-Button and find the book on your device\'s drive.</string>
+    <string name="gutenberg_howto">After the your browser has loaded the website, search for a book with the search bar.\nThen click the book in the list that you want to download.\nNow scroll down and download the eBook as TXT, PDF or Epub(no images).\nAfter the download is completed, open the eReader application again, go to the \'Add Book\' window, click the \'add\'-Button and find the book on your device\'s drive.</string>
     <string name="free_ebooks_name">Free eBooks</string>
-    <string name="free_ebooks_howto">After the your browser has loaded the website, search for a book with the search bar. Then click the cover of the book that you want to download. Now scroll down and click the '\DOWNLOAD'\-Button and select either TXT, PDF or Epub format. After the download is completed, open the eReader application again, go to the \'Add Book\' window, click the \'add\'-Button and find the book on your device\'s drive.</string>
+    <string name="free_ebooks_howto">After the your browser has loaded the website, search for a book with the search bar.\nThen click the cover of the book that you want to download.\nNow scroll down and click the \'DOWNLOAD\'-Button and select either TXT, PDF or Epub format.\nAfter the download is completed, open the eReader application again, go to the \'Add Book\' window, click the \'add\'-Button and find the book on your device\'s drive.</string>
     <string name="mobileread_name">MobileRead Wiki</string>
-    <string name="mobileread_howto">After the your browser has loaded the website, search manually for a book in the list. Then click the ePub link to open a new Tab in which you can download the eBook. After the download is completed, open the eReader application again, go to the \'Add Book\' window, click the \'add\'-Button and find the book on your device\'s drive.</string>
+    <string name="mobileread_howto">After the your browser has loaded the website, search manually for a book in the list.\nThen click the ePub link to open a new Tab in which you can download the eBook.\nAfter the download is completed, open the eReader application again, go to the \'Add Book\' window, click the \'add\'-Button and find the book on your device\'s drive.</string>
     <string name="general_download_name">General Download Info</string>
     <string name="general_download_howto">Go to the \'Add Book\' window, click the \'add\'-Button and find the book on your device\'s drive.</string>
 </resources>
