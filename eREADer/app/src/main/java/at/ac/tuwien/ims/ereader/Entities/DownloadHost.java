@@ -26,9 +26,9 @@ public class DownloadHost {
     private String URL;
     private String how_to_string;
     private String site_name;
-    private Language language;
+    private String language;
 
-    public DownloadHost(String site_name, String URL, String how_to_string, Language language) {
+    public DownloadHost(String site_name, String URL, String how_to_string, String language) {
         this.URL = URL;
         this.how_to_string = how_to_string;
         this.site_name = site_name;
@@ -59,11 +59,11 @@ public class DownloadHost {
         this.site_name = site_name;
     }
 
-    public Language getLanguage() {
+    public String getLanguage() {
         return language;
     }
 
-    public void setLanguage(Language language) {
+    public void setLanguage(String language) {
         this.language = language;
     }
 }

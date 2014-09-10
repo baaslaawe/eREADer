@@ -143,14 +143,14 @@ public class AddBookActivity extends Activity {
         addToast.setIndeterminate(true);
         addToast.setProgressIndeterminate(true);
 
-        View lanugageDialogView = getLayoutInflater().inflate(R.layout.dialog_selectlanguage, null);
+        View languageDialogView = getLayoutInflater().inflate(R.layout.dialog_selectlanguage, null);
         AlertDialog.Builder languageAlertBuilder = new AlertDialog.Builder(this);
-        languageAlertBuilder.setView(lanugageDialogView)
+        languageAlertBuilder.setView(languageDialogView)
                 .setPositiveButton(R.string.save, dialogLangClickListener)
                 .setNegativeButton(R.string.cancel, null)
                 .setTitle(getString(R.string.select_language_book));
         dialogLanguage =languageAlertBuilder.create();
-        langspinner_lang=(Spinner)lanugageDialogView.findViewById(R.id.dialog_lang);
+        langspinner_lang=(Spinner)languageDialogView.findViewById(R.id.dialog_lang);
         String[] array=new String[]{
                 getString(R.string.ger),
                 getString(R.string.eng),
@@ -170,8 +170,6 @@ public class AddBookActivity extends Activity {
         title=(EditText)editView.findViewById(R.id.dialog_title);
         langspinner_edit=(Spinner)editView.findViewById(R.id.dialog_lang);
         langspinner_edit.setAdapter(new ArrayAdapter(AddBookActivity.this, android.R.layout.simple_spinner_dropdown_item, array));
-
-        //todo add help for downloading
     }
 
     DialogInterface.OnClickListener dialogLangClickListener = new DialogInterface.OnClickListener() {
@@ -227,7 +225,7 @@ public class AddBookActivity extends Activity {
         protected void onPostExecute(Book book) {
             addToast.dismiss();
             if(book!=null) {
-                if(book.getTitle().equals(getString(R.string.no_title)) || book.getAuthor().equals(getString(R.string.no_author))) {
+                if(book.getTitle().equals(getString(R.string.no_title)) || book.getAuthor().equals(getString(R.string.no_author)) || book.getLanguage()==Language.UNKNOWN) {
                     tempbook_id=book.getId();
                     author.setHint(book.getAuthor());
                     title.setHint(book.getTitle());
@@ -251,16 +249,16 @@ public class AddBookActivity extends Activity {
         super.onBackPressed();
     }
 
-    /**todo http://allesebook.de/kostenlose-ebooks/
+    /**
      * A method that fills a list with available DownloadHosts.
      *
      * @return a list with DownloadHosts
      */
     private List<DownloadHost> getDownloadHosts() {
         ArrayList<DownloadHost> dhList=new ArrayList<DownloadHost>();
-        dhList.add(new DownloadHost(getString(R.string.gutenberg_name), "http://m.gutenberg.org/", getString(R.string.gutenberg_howto), Language.EN));
-        dhList.add(new DownloadHost(getString(R.string.free_ebooks_name), "http://www.free-ebooks.net", getString(R.string.free_ebooks_howto), Language.EN));
-        dhList.add(new DownloadHost(getString(R.string.mobileread_name), "http://wiki.mobileread.com/wiki/Free_eBooks-de/de", getString(R.string.mobileread_howto), Language.DE));
+        dhList.add(new DownloadHost(getString(R.string.gutenberg_name), "http://m.gutenberg.org/", getString(R.string.gutenberg_howto), getString(R.string.multiple_langs)));
+        dhList.add(new DownloadHost(getString(R.string.free_ebooks_name), "http://www.free-ebooks.net", getString(R.string.free_ebooks_howto), getString(R.string.multiple_langs)));
+        dhList.add(new DownloadHost(getString(R.string.mobileread_name), "http://wiki.mobileread.com/wiki/Free_eBooks-de/de", getString(R.string.mobileread_howto), getString(R.string.ger)));
         dhList.add(new DownloadHost(getString(R.string.general_download_name), "", getString(R.string.general_download_howto), null));
         return dhList;
     }
@@ -320,22 +318,7 @@ public class AddBookActivity extends Activity {
             if(dhList.get(position).getLanguage()==null)
                 holder.site_url.setText(dhList.get(position).getURL());
             else {
-                String lang="";
-                switch (dhList.get(position).getLanguage()) {
-                    case EN:
-                        lang=getString(R.string.eng);
-                        break;
-                    case DE:
-                        lang=getString(R.string.ger);
-                        break;
-                    case ES:
-                        lang=getString(R.string.esp);
-                        break;
-                    case FR:
-                        lang=getString(R.string.fr);
-                        break;
-                }
-                holder.site_url.setText(lang+", "+dhList.get(position).getURL());
+                holder.site_url.setText(dhList.get(position).getLanguage() +", "+dhList.get(position).getURL());
             }
             return convertView;
         }

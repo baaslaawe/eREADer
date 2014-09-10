@@ -122,7 +122,7 @@ public class BookService {
      * @return the inserted book
      * @throws ServiceException if an error occurs during book insertion
      */
-    public Book addBookAsPDF(String URI, String language) throws ServiceException { //todo remove false line breaks
+    public Book addBookAsPDF(String URI, String language) throws ServiceException {//todo remove false line breaks
         try {
             PdfReader reader = new PdfReader(URI);
             StringBuilder str = new StringBuilder();
@@ -154,11 +154,12 @@ public class BookService {
             }
 
             PdfReaderContentParser parser = new PdfReaderContentParser(reader);
-            TextExtractionStrategy strategy=new SimpleTextExtractionStrategy();
+            TextExtractionStrategy strategy;
             for (int i = 1; i <= reader.getNumberOfPages(); i++) {
-                strategy = parser.processContent(i, strategy);
+                strategy = parser.processContent(i, new SimpleTextExtractionStrategy());
                 str.append(strategy.getResultantText());
             }
+            reader.close();
 
             Language lang=Language.getLanguageFromString(language);
             Book bookToSave=insertBook(title, author, lang);
