@@ -541,7 +541,7 @@ public class ReadingService extends Service {
         if (ttsService!=null && book!=null) {
             RemoteViews notificationView = new RemoteViews(getPackageName(), R.layout.notification_bar);
             notificationView.setTextViewText(R.id.bar_title_book, currentBookTitle);
-            notificationView.setTextViewText(R.id.bar_chapter_page, currentContentHeading);
+            notificationView.setTextViewText(R.id.bar_chapter_page, getString(R.string.content)+" "+currentContentHeading);
             notificationView.setTextViewText(R.id.bar_word, getNumberOfSentences());
             notificationView.setOnClickPendingIntent(R.id.bar_close,
                     PendingIntent.getService(getApplicationContext(),

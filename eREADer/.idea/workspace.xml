@@ -86,15 +86,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="82d73246-6504-445f-971f-7a2e53265cb3" name="Default" comment="">
-      <change type="DELETED" beforePath="D:\Projekte\eREADer\eREADer\app\src\main\res\drawable-xxhdpi\optbtn_used.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Projekte\eREADer\eREADer\app\src\main\res\drawable-xxhdpi\pausebtn_bar.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Projekte\eREADer\eREADer\app\src\main\res\drawable-xxhdpi\playbtn_bar.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\Projekte\eREADer\eREADer\app\src\main\res\drawable-xxhdpi\tickbtn.png" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../timetable.ods" afterPath="$PROJECT_DIR$/../timetable.ods" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/AddBookActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/AddBookActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookViewerActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookViewerActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../README.md" afterPath="$PROJECT_DIR$/../README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/ReadingService.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/ReadingService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="eREADer.iws" />
@@ -133,10 +127,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BookService.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="BookService.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/BookService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2446" max-vertical-offset="6749">
+            <state vertical-scroll-proportion="-1.2468427" vertical-offset="2446" max-vertical-offset="6749">
               <caret line="124" column="83" selection-start-line="124" selection-start-column="83" selection-end-line="124" selection-end-column="83" />
               <folding>
                 <element signature="e#2482#2524#0" expanded="true" />
@@ -145,45 +139,6 @@
                 <element signature="e#2657#2701#0" expanded="true" />
                 <element signature="e#5076#5084#0" expanded="true" />
                 <element signature="e#5497#5505#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BookViewerActivity.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookViewerActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5901263" vertical-offset="2189" max-vertical-offset="8959">
-              <caret line="159" column="40" selection-start-line="159" selection-start-column="40" selection-end-line="159" selection-end-column="40" />
-              <folding>
-                <element signature="e#0#21518#0" expanded="true" />
-                <element signature="imports" expanded="true" />
-                <element signature="e#5100#5127#0" expanded="true" />
-                <element signature="e#5159#5186#0" expanded="true" />
-                <element signature="e#6257#7234#0" expanded="true" />
-                <element signature="e#7215#7216#0" expanded="true" />
-                <element signature="e#7291#7498#0" expanded="true" />
-                <element signature="e#7479#7480#0" expanded="true" />
-                <element signature="e#7841#8407#0" expanded="true" />
-                <element signature="e#8392#8393#0" expanded="true" />
-                <element signature="e#9509#9536#0" expanded="true" />
-                <element signature="e#11306#14590#0" expanded="true" />
-                <element signature="e#12060#13066#0" expanded="true" />
-                <element signature="e#13035#13036#0" expanded="true" />
-                <element signature="e#13122#13157#0" expanded="true" />
-                <element signature="e#13159#13185#0" expanded="true" />
-                <element signature="e#13348#13813#0" expanded="true" />
-                <element signature="e#13782#13783#0" expanded="true" />
-                <element signature="e#14110#14390#0" expanded="true" />
-                <element signature="e#14359#14360#0" expanded="true" />
-                <element signature="e#14583#14584#0" expanded="true" />
-                <element signature="e#14731#17291#0" expanded="true" />
-                <element signature="e#17284#17285#0" expanded="true" />
-                <element signature="e#19635#21359#0" expanded="true" />
-                <element signature="e#20563#20594#0" expanded="true" />
-                <element signature="e#20867#21094#0" expanded="true" />
-                <element signature="e#21071#21072#0" expanded="true" />
-                <element signature="e#21352#21353#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1310,7 +1265,6 @@
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/AddingService.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/sidebar_menu.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/ReadingService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Util/StaticHelper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Persistence/DatabaseHelper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Entities/Language.java" />
@@ -1327,9 +1281,10 @@
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/BookService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Entities/DownloadHost.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/AddBookActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookViewerActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values-de/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/ReadingService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookViewerActivity.java" />
       </list>
     </option>
   </component>
@@ -2121,13 +2076,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/ReadingService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2882" max-vertical-offset="9231">
-          <caret line="427" column="6" selection-start-line="427" selection-start-column="6" selection-end-line="427" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/SettingsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.5160797" vertical-offset="1755" max-vertical-offset="4097">
@@ -2293,14 +2241,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values-de/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.32634032" vertical-offset="1080" max-vertical-offset="1938">
-          <caret line="80" column="115" selection-start-line="80" selection-start-column="115" selection-end-line="80" selection-end-column="117" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="944" max-vertical-offset="1870">
@@ -2309,9 +2249,62 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values-de/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="717" max-vertical-offset="1938">
+          <caret line="59" column="18" selection-start-line="59" selection-start-column="18" selection-end-line="59" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/ReadingService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.163031" vertical-offset="7899" max-vertical-offset="9231">
+          <caret line="543" column="89" selection-start-line="543" selection-start-column="89" selection-end-line="543" selection-end-column="89" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookViewerActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.27439725" vertical-offset="2464" max-vertical-offset="8976">
+          <caret line="159" column="20" selection-start-line="159" selection-start-column="20" selection-end-line="159" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#21602#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#5137#5164#0" expanded="true" />
+            <element signature="e#5196#5223#0" expanded="true" />
+            <element signature="e#6303#7280#0" expanded="true" />
+            <element signature="e#7261#7262#0" expanded="true" />
+            <element signature="e#7337#7544#0" expanded="true" />
+            <element signature="e#7525#7526#0" expanded="true" />
+            <element signature="e#7925#8491#0" expanded="true" />
+            <element signature="e#8476#8477#0" expanded="true" />
+            <element signature="e#9593#9620#0" expanded="true" />
+            <element signature="e#11390#14674#0" expanded="true" />
+            <element signature="e#12144#13150#0" expanded="true" />
+            <element signature="e#13119#13120#0" expanded="true" />
+            <element signature="e#13206#13241#0" expanded="true" />
+            <element signature="e#13243#13269#0" expanded="true" />
+            <element signature="e#13432#13897#0" expanded="true" />
+            <element signature="e#13866#13867#0" expanded="true" />
+            <element signature="e#14194#14474#0" expanded="true" />
+            <element signature="e#14443#14444#0" expanded="true" />
+            <element signature="e#14667#14668#0" expanded="true" />
+            <element signature="e#14815#17375#0" expanded="true" />
+            <element signature="e#17368#17369#0" expanded="true" />
+            <element signature="e#19719#21443#0" expanded="true" />
+            <element signature="e#20647#20678#0" expanded="true" />
+            <element signature="e#20951#21178#0" expanded="true" />
+            <element signature="e#21155#21156#0" expanded="true" />
+            <element signature="e#21436#21437#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/BookService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1136" max-vertical-offset="6749">
+        <state vertical-scroll-proportion="-1.2468427" vertical-offset="2446" max-vertical-offset="6749">
           <caret line="124" column="83" selection-start-line="124" selection-start-column="83" selection-end-line="124" selection-end-column="83" />
           <folding>
             <element signature="e#2482#2524#0" expanded="true" />
@@ -2320,43 +2313,6 @@
             <element signature="e#2657#2701#0" expanded="true" />
             <element signature="e#5076#5084#0" expanded="true" />
             <element signature="e#5497#5505#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookViewerActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5901263" vertical-offset="2189" max-vertical-offset="8959">
-          <caret line="159" column="40" selection-start-line="159" selection-start-column="40" selection-end-line="159" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#21518#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-            <element signature="e#5100#5127#0" expanded="true" />
-            <element signature="e#5159#5186#0" expanded="true" />
-            <element signature="e#6257#7234#0" expanded="true" />
-            <element signature="e#7215#7216#0" expanded="true" />
-            <element signature="e#7291#7498#0" expanded="true" />
-            <element signature="e#7479#7480#0" expanded="true" />
-            <element signature="e#7841#8407#0" expanded="true" />
-            <element signature="e#8392#8393#0" expanded="true" />
-            <element signature="e#9509#9536#0" expanded="true" />
-            <element signature="e#11306#14590#0" expanded="true" />
-            <element signature="e#12060#13066#0" expanded="true" />
-            <element signature="e#13035#13036#0" expanded="true" />
-            <element signature="e#13122#13157#0" expanded="true" />
-            <element signature="e#13159#13185#0" expanded="true" />
-            <element signature="e#13348#13813#0" expanded="true" />
-            <element signature="e#13782#13783#0" expanded="true" />
-            <element signature="e#14110#14390#0" expanded="true" />
-            <element signature="e#14359#14360#0" expanded="true" />
-            <element signature="e#14583#14584#0" expanded="true" />
-            <element signature="e#14731#17291#0" expanded="true" />
-            <element signature="e#17284#17285#0" expanded="true" />
-            <element signature="e#19635#21359#0" expanded="true" />
-            <element signature="e#20563#20594#0" expanded="true" />
-            <element signature="e#20867#21094#0" expanded="true" />
-            <element signature="e#21071#21072#0" expanded="true" />
-            <element signature="e#21352#21353#0" expanded="true" />
           </folding>
         </state>
       </provider>

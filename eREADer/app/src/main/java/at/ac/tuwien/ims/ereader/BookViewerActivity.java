@@ -91,6 +91,7 @@ public class BookViewerActivity extends Activity {
     private int size_large;
 
     private long clicktime=0;
+    private boolean firstScrollDone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,13 +157,12 @@ public class BookViewerActivity extends Activity {
         updateTextSettings();
 
         content.setOnTouchListener(contentTouchListener);
-
-        //todo scroll to currentposition
+        firstScrollDone=false;
     }
 
     private void updateScroll() {
         if(serviceBound)
-            if(readingService.isPlaying()) {
+            if(readingService.isPlaying() || !firstScrollDone) {
                 new Handler().post(new Runnable() {
                     @Override
                     public void run() {
@@ -185,6 +185,7 @@ public class BookViewerActivity extends Activity {
                         return true;
                     }
                 });
+                firstScrollDone=true;
             } else {
                 contentScrollView.setOnTouchListener(null);
             }
