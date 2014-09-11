@@ -25,6 +25,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ import com.github.johnpersano.supertoasts.SuperToast;
 
 import net.simonvt.menudrawer.MenuDrawer;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -195,6 +197,16 @@ public class AddBookActivity extends Activity {
         }
     };
 
+    @Override
+    public void onBackPressed() {
+        final int drawerState = sbMenu.getMenuDrawer().getDrawerState();
+        if (drawerState == MenuDrawer.STATE_OPEN || drawerState == MenuDrawer.STATE_OPENING) {
+            sbMenu.getMenuDrawer().closeMenu();
+            return;
+        }
+        super.onBackPressed();
+    }
+
     /**
      * Asynchronous Task that adds a book by its format and informs the user if it is done or
      * if an error has occurred.
@@ -234,16 +246,6 @@ public class AddBookActivity extends Activity {
                 }
             }
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        final int drawerState = sbMenu.getMenuDrawer().getDrawerState();
-        if (drawerState == MenuDrawer.STATE_OPEN || drawerState == MenuDrawer.STATE_OPENING) {
-            sbMenu.getMenuDrawer().closeMenu();
-            return;
-        }
-        super.onBackPressed();
     }
 
     /**
@@ -371,4 +373,23 @@ public class AddBookActivity extends Activity {
         toast.setText(message);
         toast.show();
     }
+
+     /*
+    //use with find(Environment.getExternalStorageDirectory()); if synchonization is needed
+    private List<String> files=new ArrayList<String>();
+    public void find(File dir) {
+        File[] listFile = dir.listFiles();
+        if (listFile != null) {
+            for (int i = 0; i < listFile.length; i++) {
+                if (listFile[i].isDirectory()) {
+                    find(listFile[i]);
+                } else {
+                    String fileName=listFile[i].getName();
+                    if (fileName.endsWith(".pdf")||fileName.endsWith(".txt")||fileName.endsWith(".html")||fileName.endsWith(".htm")||fileName.endsWith(".epub")){
+                        files.add(fileName);
+                    }
+                }
+            }
+        }
+    }*/
 }

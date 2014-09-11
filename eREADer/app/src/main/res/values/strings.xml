@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">eREADer</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
@@ -44,7 +43,7 @@
     <string name="availhosts">Available Download Hosts</string>
     <string name="add">Add</string>
     <string name="click_questmark">Click the questionmark for further information!</string>
-    <string name="ttsDone_str">Loading text-to-speech engine!</string>
+    <string name="ttsDone_str">Loading Text-To-Speech engine!</string>
     <string name="settings_saved">Your settings have been saved!</string>
     <string name="font_settings">Font Settings</string>
     <string name="test">This is a test.</string>
@@ -74,19 +73,32 @@
     <string name="edit_after_insert">Please edit title and author manually.</string>
     <string name="dl_info">Download information</string>
 
-    <string name="help_sidebar">The sidebar helps the user to quickly navigate through the application.\nIt can be opened by either tapping the button on the top-left side or by swiping from the left edge to the middle of the screen.</string>
-    <string name="help_library">The library contains all your saved eBooks and displays them for you to view or edit.\nPressing an eBook will open it, using the small button on the right side of the list will open a small menu that lets you play, edit or delete the eBook.\nPressing the round \'add\'-Button will open the \'Add Book\' window.</string>
-    <string name="help_contentsview">The content view lets the user view all the content chunks of the currently selected book.\nThe arrow displays the current reading position in the eBook.</string>
-    <string name="help_bookview">The book viewer will display certain content of an eBook.\nWhen the user presses the round \'play\'-Button the application will start reading at the current position of the book, if it is in the current content chunk, else it will start at the beginning.\nBy long pressing a sentence, the user can select it to be read next, instead of the current position.\nThe three buttons on the bottom will let the user mute the reading and fast-forward or fast-backbward a content chunk.</string>
-    <string name="help_addbook">This window lets the user add eBooks from the device\'s drive by clicking the \'add\'-Button.\nThe list below is a selection of download sites for free eBooks. By pressing the small button on the right side of the list the application will display an information for every site on how to download an eBook.</string>
+    <string name="help_sidebar">The sidebar helps the user to quickly navigate through the application.\n\t
+        It can be opened by either tapping the button on the top-left side or by swiping from the left edge to the middle of the screen.</string>
+    <string name="help_library">The library contains all your saved eBooks and displays them for you to view or edit.\n\t
+        Pressing an eBook will open it, using the small button on the right side of the list will open a small menu that lets you play, edit or delete the eBook.\n\t
+        Pressing the round \'add\'-Button will open the \'Add Book\' window.</string>
+    <string name="help_contentsview">The content view lets the user view all the content chunks of the currently selected book.\n\t
+        The arrow displays the current reading position in the eBook.</string>
+    <string name="help_bookview">The book view will display certain contents of an eBook.\n\t
+        When the user presses the round \'play\'-Button the application will start reading at the current position of the book, if it is in the current content chunk, else it will start at the beginning.\n\t
+        By long pressing a sentence, the user can select it to be read next, instead of the current position.\n\t
+        The three buttons on the bottom will let the user mute the reading and fast-forward or fast-backbward a content chunk.</string>
+    <string name="help_addbook">This window lets the user add eBooks from the device\'s drive by clicking the \'add\'-Button.\n\t
+        The list below is a selection of download sites for free eBooks.\n\t
+        By pressing the small button on the right side of the list the application will display an information for every site on how to download an eBook.</string>
     <string name="help_settings">The settings give the user the opportunity to change some options for the application and lets him/her reset the database of the application.</string>
 
     <string name="gutenberg_name">Project Gutenberg</string>
-    <string name="gutenberg_howto">After the your browser has loaded the website, search for a book with the search bar.\nThen click the book in the list that you want to download.\nNow scroll down and download the eBook as TXT, PDF or Epub(no images).\nAfter the download is completed, open the eReader application again, go to the \'Add Book\' window, click the \'add\'-Button and find the book on your device\'s drive.</string>
+    <string name="gutenberg_howto">After the your browser has loaded the website, search for a book with the search bar.\n\t
+        Then click the book in the list that you want to download.\nNow scroll down and download the eBook as TXT, PDF or Epub(no images).\nAfter the download is completed, open the eReader application again, go to the \'Add Book\' window, click the \'add\'-Button and find the book on your device\'s drive.</string>
     <string name="free_ebooks_name">Free eBooks</string>
-    <string name="free_ebooks_howto">After the your browser has loaded the website, search for a book with the search bar.\nThen click the cover of the book that you want to download.\nNow scroll down and click the \'DOWNLOAD\'-Button and select either TXT, PDF or Epub format.\nAfter the download is completed, open the eReader application again, go to the \'Add Book\' window, click the \'add\'-Button and find the book on your device\'s drive.</string>
+    <string name="free_ebooks_howto">After the your browser has loaded the website, search for a book with the search bar.\n\t
+        Then click the cover of the book that you want to download.\nNow scroll down and click the \'DOWNLOAD\'-Button and select either TXT, PDF or Epub format.\n\t
+        After the download is completed, open the eReader application again, go to the \'Add Book\' window, click the \'add\'-Button and find the book on your device\'s drive.</string>
     <string name="mobileread_name">MobileRead Wiki</string>
-    <string name="mobileread_howto">After the your browser has loaded the website, search manually for a book in the list.\nThen click the ePub link to open a new Tab in which you can download the eBook.\nAfter the download is completed, open the eReader application again, go to the \'Add Book\' window, click the \'add\'-Button and find the book on your device\'s drive.</string>
+    <string name="mobileread_howto">After the your browser has loaded the website, search manually for a book in the list.\n\t
+        Then click the ePub link to open a new Tab in which you can download the eBook.\nAfter the download is completed, open the eReader application again, go to the \'Add Book\' window, click the \'add\'-Button and find the book on your device\'s drive.</string>
     <string name="general_download_name">General Download Info</string>
     <string name="general_download_howto">Go to the \'Add Book\' window, click the \'add\'-Button and find the book on your device\'s drive.</string>
 </resources>

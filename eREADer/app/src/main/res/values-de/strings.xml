@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">eREADer</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="library">Meine Bibliothek</string>
+    <string name="contents_view">Inhalts Ansicht</string>
+    <string name="book_view">Buch Ansicht</string>
+    <string name="books">Buecher</string>
+    <string name="play">Abspielen</string>
+    <string name="playing">Spielend</string>
+    <string name="paused">Pausiert</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="delete">Loeschen</string>
+    <string name="download">Download</string>
+    <string name="settings">Einstellungen</string>
+    <string name="help">Hilfe</string>
+    <string name="languages_settings">Text-To-Speech Sprache</string>
+    <string name="ger">Deutsch</string>
+    <string name="eng">Englisch</string>
+    <string name="esp">Spanisch</string>
+    <string name="fr">Franzoesisch</string>
+    <string name="multiple_langs">Verschiedene Sprachen</string>
+    <string name="unknown">Unbekannt</string>
+    <string name="addbook">Buch hinzufuegen</string>
+    <string name="manually_book">Buch manuell hinzufuegen</string>
+    <string name="supported_formats">Unterstuetzte Formate: .epub, .pdf, .txt, .html</string>
+    <string name="download_book">Bücher downloaden</string>
+    <string name="path">Pfad</string>
+    <string name="wasdeleted">wurde erfolgreich geloescht</string>
+    <string name="reset">Database und Einstellungen zuruecksetzen</string>
+    <string name="resetbtn">Zuruecksetzen</string>
+    <string name="sure">Sind sie sicher?</string>
+    <string name="positive">Ja</string>
+    <string name="negative">Nein</string>
+    <string name="understood">Verstanden!</string>
+    <string name="notification_bar_welcome">Sie lesen jetzt</string>
+    <string name="format_not_supported">Sorry, dieses Format wird nicht unterstuetzt!</string>
+    <string name="ebook_loading_failed">Ups, etwas ist falsch gelaufen! Die Datei konnte nicht geladen werden.</string>
+    <string name="words">Woerter</string>
+    <string name="could_not_download">Sorry, das eBook konnte nicht heruntergeladen werden!</string>
+    <string name="ebook_unknown_language">Sorry, die Sprache des eBooks konnte nicht festgestellt werden!</string>
+    <string name="availhosts">Verfuegbare Download Seiten</string>
+    <string name="add">Hinzufuegen</string>
+    <string name="click_questmark">Druecken sie das Fragezeichen fuer weitere Informationen!</string>
+    <string name="ttsDone_str">Text-To-Speech Engine wird geladen!</string>
+    <string name="settings_saved">Ihre Einstellungen wurden gespeichert!</string>
+    <string name="font_settings">Schrift Einstellungen</string>
+    <string name="test">Das ist ein Test.</string>
+    <string name="longer_test">Das ist ein laengerer Test fuer besseres Testen.</string>
+    <string name="small">Klein</string>
+    <string name="medium">Mittel</string>
+    <string name="large">Gross</string>
+    <string name="standard">Standard</string>
+    <string name="geosans">GeoSans Light</string>
+    <string name="libertine">Linux Libertine</string>
+    <string name="start_from_here">Von diesem Satz zu lesen starten</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="sentences">Saetze</string>
+    <string name="content">Inhalt</string>
+    <string name="parse_str">Das eBook wird der Bibliothek hinzugefuegt!</string>
+    <string name="success_ebook_add">Das eBook wurde erfolgreich der Bibliothek hinzugefuegt!</string>
+    <string name="loading">Lade Inhalt…</string>
+    <string name="tts_speed">Text-to-Speech Tempo anpassen</string>
+    <string name="no_title">Unbekannter Titel</string>
+    <string name="no_author">Unbekannter Autor</string>
+    <string name="save">Speichern</string>
+    <string name="edit_book">Buch bearbeiten</string>
+    <string name="delete_book">Buch loeschen</string>
+    <string name="sure_delete">Sind sie sich sicher, dass sie dieses eBook loeschen wollen:</string>
+    <string name="select_language_book">Bitte waehlen sie eine Sprache fuer das eBook aus.</string>
+    <string name="sidebar">Sidebar</string>
+    <string name="edit_after_insert">Bitte bearbeiten sie Titel und Autor manuell.</string>
+    <string name="dl_info">Download Information</string>
+
+    <string name="help_sidebar">Die Sidebar hilft dem User schneller durch die Applikation zu navigieren.\n\t
+        Sie kann entweder durch kliken des Buttons in der linken-oberen Ecke geoeffnet werden oder durch das wischen von der linken Seite zur Mitte des Bildschirms.</string>
+    <string name="help_library">Die Bibliothek enthaelt alle gespeicherten eBooks.\n\t
+        Das klicken eines eBooks in der Liste oeffnet es, das klicken des kleinen Buttons auf der rechten Seite der Liste oeffnet ein Kontextmenu, indem man das eBook oeffnen, bearbeiten oder loeschen kann.\n\t
+        Wenn man den runden \'add\'-Button drueckt, wird das \'Add Book\' Fenster geoeffnet.</string>
+    <string name="help_contentsview">Die Inhalts Ansicht stellt alle Inhaltsstuecke des ausgewaehlten eBooks dar.\n\t
+        Der Pfeil rechts in einem Listenelement stellt das derzeitige Lesezeichen dar.</string>
+    <string name="help_bookview">Die Buch Ansicht stellt den ausgewaehlten Inhalt des Buches dar.\n\t
+        Wenn der User den runden \'play\'-Button drueckt, dann wird beim gespeicherten Lesezeichen weitergelesen wenn man sofern diese sich im derzeitigen Inhaltsstueck befindet, sonst wird beim ersten Satz angefangen.\n\t
+        Wenn ein Satz lang gedrueckt wird, dann oefnnet sich ein Kontextmenu in dem der User auswaehlen kann ob bei diesem Satz weitergelesen werden soll.\n\t
+        Die drei Buttons am unteren Rand des Bildschirms macht es dem User moeglich auf Stumm zu schalten, ein Inhaltsstueck nach vorne oder nach hinten zu springen.</string>
+    <string name="help_addbook">Dieses Fenster macht es dem user moeglich der Bibliothek eBooks hinzuzufuegen indem der \'add\'-Button gedrueckt wird.\n\t
+        In der Liste darunter werden Websites angezeigt von denen man gratis eBooks herunterladen kann.\n\t
+        Wenn man in dieser Liste den kleinen Button rechts anklickt werden Informationen zum Download fuer die jeweilige Seite angezeigt.</string>
+    <string name="help_settings">Die Einstellungen geben dem User eine Moeglichkeit einige Aenderungen an der Applikation vorzunehmen und den Inhalt der Bibliothek zu loeschen.</string>
+
+    <string name="gutenberg_name">Project Gutenberg</string>
+    <string name="gutenberg_howto">Nachdem der Browser die Website geladen hat, suchen sie nach einem eBook mit Hilfe der Suchleiste.\n\t
+        Dann klicken sie das Buch das sie downloaden wollen.\n\t
+        Nun scrollen sie hinunter und downloaden das eBook als TXT, PDF oder Epub(no images).\n\t
+        Nachdem der Download abgeschlossen ist, oeffnen sie das \'Buch hinzufuegen\' Fenster, klicken sie den \'Hinzufuegen\'-Button und suchen das Buch im Speicher.</string>
+    <string name="free_ebooks_name">Free eBooks</string>
+    <string name="free_ebooks_howto">Nachdem der Browser die Website geladen hat, suchen sie nach einem eBook mit Hilfe der Suchleiste.\n\t
+        Dann klicken sie das Cover des Buches das sie downloaden wollen.\n\t
+        Nun scrollen sie hinunter und klicken den \'DOWNLOAD\'-Button und waehlen eines dr folgenden Formate: TXT, PDF oder Epub.\n\t
+        Nachdem der Download abgeschlossen ist, oeffnen sie das \'Buch hinzufuegen\' Fenster, klicken sie den \'Hinzufuegen\'-Button und suchen das Buch im Speicher.</string>
+    <string name="mobileread_name">MobileRead Wiki</string>
+    <string name="mobileread_howto">Nachdem der Browser die Website geladen hat, suchen sie manuell nach einem eBook in der Liste.\n\t
+        Dann klicken sie den ePub link, der ein neues Tab oeffnet in dem sie das eBook downloaden koennen.\n\t
+        Nachdem der Download abgeschlossen ist, oeffnen sie das \'Buch hinzufuegen\' Fenster, klicken sie den \'Hinzufuegen\'-Button und suchen das Buch im Speicher.</string>
+    <string name="general_download_name">Generelle Download Information</string>
+    <string name="general_download_howto">Oeffnen sie das \'Buch hinzufuegen\' Fenster, klicken sie den \'Hinzufuegen\'-Button und suchen das Buch im Speicher.</string>
+</resources>

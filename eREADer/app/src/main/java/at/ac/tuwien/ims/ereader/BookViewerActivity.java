@@ -155,61 +155,9 @@ public class BookViewerActivity extends Activity {
         face2 = Typeface.createFromAsset(getAssets(), "fonts/LinLibertine_R.ttf");
         updateTextSettings();
 
-        content.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                if (serviceBound && !readingService.isPlaying()) {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        clicktime = event.getEventTime();
-                        return true;
-                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                        if (clicktime != 0 && (event.getEventTime() - clicktime) >= 800) {
-                            final Layout layout = ((TextView) v).getLayout();
-                            if (layout != null) {
-                                final int x = (int) event.getX();
-                                final int y = (int) event.getY();
+        content.setOnTouchListener(contentTouchListener);
 
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Spannable spanText = Spannable.Factory.getInstance().newSpannable(readingService.getCurrentContentString());
-                                        int i[] = readingService.getIndicesOfCurrentSentence();
-                                        int j[] = readingService.getIndicesOfClickedSentence(layout, x, y);
-                                        if (i != null && j != null) {
-                                            spanText.setSpan(new BackgroundColorSpan(Color.parseColor("#0FC1B8")), i[0], i[1], Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                            spanText.setSpan(new BackgroundColorSpan(Color.parseColor("#0FC1B8")), j[0], j[1], Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                            content.setText(spanText);
-                                        }
-                                    }
-                                });
-
-                                CharSequence[] items = {getString(R.string.start_from_here), getString(R.string.cancel)};
-                                AlertDialog.Builder builder = new AlertDialog.Builder(BookViewerActivity.this);
-                                builder.setItems(items, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int item) {
-                                        if (item == 0) {
-                                            readingService.setCurrentSentence(readingService.getSentenceNumberByClick(layout, x, y));
-                                        }
-                                        updateContent();
-                                    }
-                                });
-                                AlertDialog dialog = builder.create();
-                                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                                dialog.getWindow().getAttributes().gravity = Gravity.BOTTOM;
-                                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                    @Override
-                                    public void onDismiss(DialogInterface dialog) {
-                                        updateContent();
-                                    }
-                                });
-                                dialog.show();
-                            }
-                        }
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
+        //todo scroll to currentposition
     }
 
     private void updateScroll() {
@@ -338,6 +286,71 @@ public class BookViewerActivity extends Activity {
         super.onBackPressed();
     }
 
+    /**
+     * A OnTouchListener that handles the user touching the currently displayed content.
+     * It marks the touched sentence.
+     *
+     */
+    private View.OnTouchListener contentTouchListener = new View.OnTouchListener() {
+        public boolean onTouch(View v, MotionEvent event) {
+            if (serviceBound && !readingService.isPlaying()) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    clicktime = event.getEventTime();
+                    return true;
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (clicktime != 0 && (event.getEventTime() - clicktime) >= 800) {
+                        final Layout layout = ((TextView) v).getLayout();
+                        if (layout != null) {
+                            final int x = (int) event.getX();
+                            final int y = (int) event.getY();
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Spannable spanText = Spannable.Factory.getInstance().newSpannable(readingService.getCurrentContentString());
+                                    int i[] = readingService.getIndicesOfCurrentSentence();
+                                    int j[] = readingService.getIndicesOfClickedSentence(layout, x, y);
+                                    if (i != null && j != null) {
+                                        spanText.setSpan(new BackgroundColorSpan(Color.parseColor("#0FC1B8")), i[0], i[1], Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                        spanText.setSpan(new BackgroundColorSpan(Color.parseColor("#0FC1B8")), j[0], j[1], Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                        content.setText(spanText);
+                                    }
+                                }
+                            });
+
+                            CharSequence[] items = {getString(R.string.start_from_here), getString(R.string.cancel)};
+                            AlertDialog.Builder builder = new AlertDialog.Builder(BookViewerActivity.this);
+                            builder.setItems(items, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int item) {
+                                    if (item == 0) {
+                                        readingService.setCurrentSentence(readingService.getSentenceNumberByClick(layout, x, y));
+                                    }
+                                    updateContent();
+                                }
+                            });
+                            AlertDialog dialog = builder.create();
+                            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                            dialog.getWindow().getAttributes().gravity = Gravity.BOTTOM;
+                            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                @Override
+                                public void onDismiss(DialogInterface dialog) {
+                                    updateContent();
+                                }
+                            });
+                            dialog.show();
+                        }
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+    };
+
+    /**
+     * A OnTouchListener for the existing buttons in this activity.
+     *
+     */
     private View.OnTouchListener btnListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent m) {
