@@ -1,12 +1,13 @@
 #eREADer
-###Bachelor Thesis - Summer 2014
-###Schuster Florian (e1025700)
+======
+**Bachelor Thesis - Summer 2014**
+**Schuster Florian (e1025700)**
 
-eREADer is an eBook narrator application for android.
-Supported eBook formats: ePub, Pdf, Txt, Html
+eREADer is an eBook narrator application for android. Supported eBook formats: ePub, Pdf, Txt, Html
+======
 
 ![Library screenshot](https://raw.github.com/SoulRiser/eREADer/master/Design/screenshot_lib.png)
-![Reading screenshot](https://raw.github.com/SoulRiser/eREADer/master/Design/screenshot2_reading.png)
+![Reading screenshot](https://raw.github.com/SoulRiser/eREADer/master/Design/screenshot_reading.png)
 
 ###3rd-Party-Software and Libraries used:
 - [SLF4J](http://www.slf4j.org/download.html)
