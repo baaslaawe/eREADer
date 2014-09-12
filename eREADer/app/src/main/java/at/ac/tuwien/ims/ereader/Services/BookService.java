@@ -19,8 +19,10 @@ package at.ac.tuwien.ims.ereader.Services;
 
 import android.content.Context;
 import android.text.Html;
+
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfReaderContentParser;
+import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy;
 import com.itextpdf.text.pdf.parser.TextExtractionStrategy;
 
@@ -35,6 +37,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.BreakIterator;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -125,8 +129,6 @@ public class BookService {
     public Book addBookAsPDF(String URI, String language) throws ServiceException {//todo remove false line breaks
         try {
             PdfReader reader = new PdfReader(URI);
-            StringBuilder str = new StringBuilder();
-
             Map<String,String> info=reader.getInfo();
             String title=null;
             List<String> titleSearch=new ArrayList<String>();
@@ -134,27 +136,26 @@ public class BookService {
             titleSearch.add("title");
             titleSearch.add("Titel");
             titleSearch.add("titel");
-            for(String s: titleSearch) {
+            for(String s: titleSearch)
                 if(title==null)
                     title=info.get(s);
                 else
                     break;
-            }
             String author=null;
             List<String> authorSearch=new ArrayList<String>();
             authorSearch.add("Author");
             authorSearch.add("author");
             authorSearch.add("Autor");
             authorSearch.add("autor");
-            for(String s: authorSearch) {
+            for(String s: authorSearch)
                 if(author==null)
                     author=info.get(s);
                 else
                     break;
-            }
 
             PdfReaderContentParser parser = new PdfReaderContentParser(reader);
             TextExtractionStrategy strategy;
+            StringBuilder str = new StringBuilder();
             for (int i = 1; i <= reader.getNumberOfPages(); i++) {
                 strategy = parser.processContent(i, new SimpleTextExtractionStrategy());
                 str.append(strategy.getResultantText());
@@ -363,6 +364,22 @@ public class BookService {
      */
     public List<Book> getAllBooks() {
         return db.getAllBooks();
+    }
+
+    /**
+     * Returns all books alphabetically in the database using the DatabaseHelper.
+     *
+     * @return list with book entities
+     */
+    public List<Book> getAllBooksAlphabetically() {
+        List<Book> list=db.getAllBooks();
+        Collections.sort(list, new Comparator<Book>() {
+            @Override
+            public int compare(final Book object1, final Book object2) {
+                return object1.getTitle().compareTo(object2.getTitle());
+            }
+        });
+        return list;
     }
 
     /**

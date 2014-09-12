@@ -48,7 +48,8 @@ public class StaticHelper {
     public static final String ACTION_PAUSE="at.ac.tuwien.ims.ereader.Services.ACTION_PAUSE";
     public static final String ACTION_CLOSE="at.ac.tuwien.ims.ereader.Services.ACTION_CLOSE";
 
-    public static final int NOTIFICATION_ID=1;
+    public static final int NOTIFICATION_ID_PLAY=1;
+    public static final int NOTIFICATION_ID_ADD=2;
 
     public static final float normal_Speechrate=1.f;
 

@@ -19,13 +19,20 @@ package at.ac.tuwien.ims.ereader;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.NotificationCompat;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +76,6 @@ public class AddBookActivity extends Activity {
     private DHAdapter dhAdapter;
     private SidebarMenu sbMenu;
     private SimpleFileDialog fileDialog;
-    private SuperActivityToast addToast;
 
     private AlertDialog dialogLanguage;
     private Spinner langspinner_lang;
@@ -81,14 +87,20 @@ public class AddBookActivity extends Activity {
     private Spinner langspinner_edit;
     private long tempbook_id;
 
+    private NotificationManager notificationManager;
+    private NotificationCompat.Builder mBuilder;
+    private List<String> contentString;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SuperActivityToast.onRestoreState(savedInstanceState, AddBookActivity.this);
         setContentView(R.layout.activity_addbook);
         if (getActionBar() != null)
             getActionBar().hide();
 
         bookService=new BookService(this);
+        contentString=new ArrayList<String>();
 
         add_button=(Button)findViewById(R.id.add_button);
         add_button.setOnTouchListener(btnListener);
@@ -118,8 +130,8 @@ public class AddBookActivity extends Activity {
                     @Override
                     public void onChosenDir(final String chosenDir) {
                         if(chosenDir.endsWith(".pdf")||chosenDir.endsWith(".txt")||chosenDir.endsWith(".html")||chosenDir.endsWith(".htm")||chosenDir.endsWith(".epub")) {
+                            contentString.add(chosenDir.substring(chosenDir.lastIndexOf("/") + 1).trim());
                             if(chosenDir.endsWith(".epub")) {
-                                addToast.show();
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -137,11 +149,6 @@ public class AddBookActivity extends Activity {
                 });
         fileDialog.Default_File_Name = "";
 
-        addToast = new SuperActivityToast(this, SuperToast.Type.PROGRESS);
-        addToast.setText(getString(R.string.parse_str));
-        addToast.setIndeterminate(true);
-        addToast.setProgressIndeterminate(true);
-
         View languageDialogView = getLayoutInflater().inflate(R.layout.dialog_selectlanguage, null);
         AlertDialog.Builder languageAlertBuilder = new AlertDialog.Builder(this);
         languageAlertBuilder.setView(languageDialogView)
@@ -157,7 +164,6 @@ public class AddBookActivity extends Activity {
                 getString(R.string.fr)};
         langspinner_lang.setAdapter(new ArrayAdapter(AddBookActivity.this, android.R.layout.simple_spinner_dropdown_item, array));
 
-
         View editView = getLayoutInflater().inflate(R.layout.dialog_editbook, null);
         AlertDialog.Builder editBuilder = new AlertDialog.Builder(this);
         editBuilder.setView(editView)
@@ -169,13 +175,19 @@ public class AddBookActivity extends Activity {
         title=(EditText)editView.findViewById(R.id.dialog_title);
         langspinner_edit=(Spinner)editView.findViewById(R.id.dialog_lang);
         langspinner_edit.setAdapter(new ArrayAdapter(AddBookActivity.this, android.R.layout.simple_spinner_dropdown_item, array));
+
+        notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mBuilder = new NotificationCompat.Builder(this);
+        mBuilder.setContentTitle(getString(R.string.adding_book))
+                .setSmallIcon(R.drawable.logo_small_bar_dl)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.logo))
+                .setProgress(0, 0, true);
     }
 
     DialogInterface.OnClickListener dialogLangClickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             final String l=(String) langspinner_lang.getSelectedItem();
-            addToast.show();
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -197,25 +209,25 @@ public class AddBookActivity extends Activity {
         }
     };
 
-    @Override
-    public void onBackPressed() {
-        final int drawerState = sbMenu.getMenuDrawer().getDrawerState();
-        if (drawerState == MenuDrawer.STATE_OPEN || drawerState == MenuDrawer.STATE_OPENING) {
-            sbMenu.getMenuDrawer().closeMenu();
-            return;
-        }
-        super.onBackPressed();
-    }
-
     /**
      * Asynchronous Task that adds a book by its format and informs the user if it is done or
      * if an error has occurred.
+     * Also informs the user via notification what books are being added.
      *
      */
     private class AddTask extends AsyncTask<String, Integer, Book> {
         protected Book doInBackground(String... vars) {
             try {
                 String URI=vars[0];
+                String cont="";
+                for(int i=0;i<contentString.size();i++) {
+                    cont+=contentString.get(i);
+                    if(i<contentString.size()-1)
+                        cont+=", ";
+                }
+                mBuilder.setContentText(cont);
+                notificationManager.notify(StaticHelper.NOTIFICATION_ID_ADD, mBuilder.build());
+
                 if(URI.endsWith(".epub"))
                     return bookService.addBookAsEPUB(URI);
                 else if(URI.endsWith(".pdf"))
@@ -232,7 +244,9 @@ public class AddBookActivity extends Activity {
         }
 
         protected void onPostExecute(Book book) {
-            addToast.dismiss();
+            notificationManager.cancel(StaticHelper.NOTIFICATION_ID_ADD);
+            if(!contentString.isEmpty())
+                contentString.remove(0);
             if(book!=null) {
                 if(book.getTitle().equals(getString(R.string.no_title)) || book.getAuthor().equals(getString(R.string.no_author)) || book.getLanguage()==Language.UNKNOWN) {
                     tempbook_id=book.getId();
@@ -246,6 +260,16 @@ public class AddBookActivity extends Activity {
                 }
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        final int drawerState = sbMenu.getMenuDrawer().getDrawerState();
+        if (drawerState == MenuDrawer.STATE_OPEN || drawerState == MenuDrawer.STATE_OPENING) {
+            sbMenu.getMenuDrawer().closeMenu();
+            return;
+        }
+        super.onBackPressed();
     }
 
     /**
@@ -372,6 +396,12 @@ public class AddBookActivity extends Activity {
         SuperToast toast=new SuperToast(this);
         toast.setText(message);
         toast.show();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        SuperActivityToast.onSaveState(outState);
     }
 
      /*

@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.github.johnpersano.supertoasts.SuperActivityToast;
 import com.github.johnpersano.supertoasts.SuperToast;
 
 import net.simonvt.menudrawer.MenuDrawer;
@@ -41,16 +42,15 @@ public class HelpActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SuperActivityToast.onRestoreState(savedInstanceState, HelpActivity.this);
         setContentView(R.layout.activity_help);
         if (getActionBar() != null)
             getActionBar().hide();
 
         SharedPreferences settings = getSharedPreferences("settings", 0);
-        if(!settings.getBoolean("startUpHelpSeen", true)) {
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putBoolean("startUpHelpSeen", true);
-            editor.apply();
-        }
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("startUpHelpSeen", true);
+        editor.apply();
 
         menuBtn=(ImageButton)findViewById(R.id.optnbtn_help);
         menuBtn.setOnClickListener(btnListener);
@@ -84,5 +84,11 @@ public class HelpActivity extends Activity {
         SuperToast toast=new SuperToast(this);
         toast.setText(message);
         toast.show();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        SuperActivityToast.onSaveState(outState);
     }
 }

@@ -34,6 +34,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.github.johnpersano.supertoasts.SuperActivityToast;
 import com.github.johnpersano.supertoasts.SuperToast;
 
 import net.simonvt.menudrawer.MenuDrawer;
@@ -68,6 +69,7 @@ public class BookContentsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SuperActivityToast.onRestoreState(savedInstanceState, BookContentsActivity.this);
         setContentView(R.layout.activity_book_contents);
 
         if (getActionBar() != null)
@@ -315,5 +317,11 @@ public class BookContentsActivity extends Activity {
         SuperToast toast=new SuperToast(this);
         toast.setText(message);
         toast.show();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        SuperActivityToast.onSaveState(outState);
     }
 }

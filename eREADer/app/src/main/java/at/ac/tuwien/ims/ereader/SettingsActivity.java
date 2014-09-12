@@ -36,6 +36,7 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.github.johnpersano.supertoasts.SuperActivityToast;
 import com.github.johnpersano.supertoasts.SuperToast;
 
 import net.simonvt.menudrawer.MenuDrawer;
@@ -79,6 +80,7 @@ public class SettingsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SuperActivityToast.onRestoreState(savedInstanceState, SettingsActivity.this);
         setContentView(R.layout.activity_settings);
         if (getActionBar() != null)
             getActionBar().hide();
@@ -286,5 +288,11 @@ public class SettingsActivity extends Activity {
         SuperToast toast=new SuperToast(this);
         toast.setText(message);
         toast.show();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        SuperActivityToast.onSaveState(outState);
     }
 }

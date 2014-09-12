@@ -72,6 +72,8 @@ public class ReadingService extends Service {
     private Boolean playing=false;
     private Boolean reading=false;
 
+    private NotificationManager notificationManager;
+
     /**
      * Constructor for this service.
      */
@@ -88,6 +90,8 @@ public class ReadingService extends Service {
     public void onCreate(){
         super.onCreate();
         bookService=new BookService(this);
+
+        notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         Intent intent = new Intent(StaticHelper.BROADCAST_ACTION);
         intent.putExtra("ttsStart", true);
@@ -160,8 +164,7 @@ public class ReadingService extends Service {
                     play();
                 } else if (action.equalsIgnoreCase(StaticHelper.ACTION_CLOSE)) {
                     Log.d(ReadingService.class.getName(), "Pressed close from Notificationbar");
-                    NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                    mNotificationManager.cancel(StaticHelper.NOTIFICATION_ID);
+                    notificationManager.cancel(StaticHelper.NOTIFICATION_ID_PLAY);
                     sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
                     stopSelf();
                 }
@@ -184,7 +187,7 @@ public class ReadingService extends Service {
             ttsService.shutdown();
         }
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancel(StaticHelper.NOTIFICATION_ID);
+        mNotificationManager.cancel(StaticHelper.NOTIFICATION_ID_PLAY);
         Log.d(ReadingService.class.getName(), "Readingservice destroyed.");
     }
 
@@ -584,10 +587,7 @@ public class ReadingService extends Service {
                     .setContent(notificationView)
                     .setOngoing(true);
             builder.setContentIntent(resultPendingIntent);
-
-            NotificationManager notificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(StaticHelper.NOTIFICATION_ID, builder.build());
+            notificationManager.notify(StaticHelper.NOTIFICATION_ID_PLAY, builder.build());
         }
     }
 

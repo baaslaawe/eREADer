@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="lingpipe-4.1.0">
+  <library name="itextg-5.5.2">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/app/libs/lingpipe-4.1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/app/libs/itextg-5.5.2.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

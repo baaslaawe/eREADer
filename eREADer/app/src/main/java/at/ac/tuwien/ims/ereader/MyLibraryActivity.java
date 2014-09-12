@@ -40,6 +40,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.github.johnpersano.supertoasts.SuperActivityToast;
 import com.github.johnpersano.supertoasts.SuperToast;
 
 import net.simonvt.menudrawer.MenuDrawer;
@@ -81,6 +82,7 @@ public class MyLibraryActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SuperActivityToast.onRestoreState(savedInstanceState, MyLibraryActivity.this);
         setContentView(R.layout.activity_my_library);
         if (getActionBar() != null)
             getActionBar().hide();
@@ -93,7 +95,7 @@ public class MyLibraryActivity extends Activity {
         bookService=new BookService(this);
 
         ListView listview = (ListView)findViewById(R.id.booklist);
-        blAdapter = new BLAdapter(listview, bookService.getAllBooks());
+        blAdapter = new BLAdapter(listview, bookService.getAllBooksAlphabetically());
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -136,7 +138,6 @@ public class MyLibraryActivity extends Activity {
                 getString(R.string.fr),
                 getString(R.string.unknown)};
         langspinner.setAdapter(new ArrayAdapter(MyLibraryActivity.this, android.R.layout.simple_spinner_dropdown_item, array));
-
         registerForContextMenu(listview);
         hideSearchBar();
     }
@@ -271,7 +272,7 @@ public class MyLibraryActivity extends Activity {
         }
 
         public void updateBookList(String s) {
-            booklist=bookService.getAllBooks();
+            booklist=bookService.getAllBooksAlphabetically();
 
             if (!s.isEmpty() && searchbarVisible) {
                 ArrayList<Book> temp = new ArrayList<Book>();
@@ -419,5 +420,11 @@ public class MyLibraryActivity extends Activity {
         SuperToast toast=new SuperToast(this);
         toast.setText(message);
         toast.show();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        SuperActivityToast.onSaveState(outState);
     }
 }

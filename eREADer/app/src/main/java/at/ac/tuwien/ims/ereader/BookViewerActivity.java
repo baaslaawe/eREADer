@@ -96,6 +96,7 @@ public class BookViewerActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SuperActivityToast.onRestoreState(savedInstanceState, BookViewerActivity.this);
         setContentView(R.layout.activity_book);
         if (getActionBar() != null)
             getActionBar().hide();
@@ -518,5 +519,11 @@ public class BookViewerActivity extends Activity {
         SuperToast toast=new SuperToast(this);
         toast.setText(message);
         toast.show();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        SuperActivityToast.onSaveState(outState);
     }
 }

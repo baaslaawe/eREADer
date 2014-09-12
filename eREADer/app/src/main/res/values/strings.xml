@@ -72,6 +72,8 @@
     <string name="sidebar">Sidebar</string>
     <string name="edit_after_insert">Please edit title and author manually.</string>
     <string name="dl_info">Download information</string>
+    <string name="adding_book">Adding book…</string>
+
 
     <string name="help_sidebar">The sidebar helps the user to quickly navigate through the application.\n\t
         It can be opened by either tapping the button on the top-left side or by swiping from the left edge to the middle of the screen.</string>
