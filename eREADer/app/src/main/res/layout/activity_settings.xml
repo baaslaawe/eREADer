@@ -183,7 +183,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="@string/font_settings"
-                        android:id="@+id/textView"
+                        android:id="@+id/font_settings"
                         android:layout_gravity="left|center_vertical"
                         android:layout_marginLeft="20dp"
                         android:textColor="#fffafafa" />
@@ -322,7 +322,9 @@
                             android:id="@+id/longer_test_sentence"
                             android:layout_gravity="center"
                             android:textColor="#ff263941"
-                            android:textAppearance="?android:attr/textAppearanceMedium" />
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp" />
                     </FrameLayout>
 
                 </LinearLayout>

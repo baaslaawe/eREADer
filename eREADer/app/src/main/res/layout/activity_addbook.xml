@@ -136,152 +136,452 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:background="#fffafafa"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:baselineAligned="false"
-        android:weightSum="3"
+        android:id="@+id/scrollView"
+        android:layout_weight="1.5"
+        android:background="#ffe8e8e8"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_weight="1.5">
+        android:layout_marginRight="10dp">
 
         <LinearLayout
+            android:background="#fffafafa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1.8"
             android:weightSum="3">
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="2"
-                android:background="#ff283a42"
-                android:weightSum="4">
-
+                android:layout_height="150dp"
+                android:layout_weight="1"
+                android:weightSum="3">
                 <LinearLayout
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_weight="2">
+                    android:layout_weight="2"
+                    android:background="#ff283a42"
+                    android:weightSum="4">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="@string/manually_book"
-                        android:layout_gravity="center_vertical|bottom"
-                        android:layout_marginLeft="20dp"
-                        android:textColor="#fffafafa" />
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="2">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="@string/manually_book"
+                            android:layout_gravity="center_vertical|bottom"
+                            android:layout_marginLeft="20dp"
+                            android:textColor="#fffafafa" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="2">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="@string/supported_formats"
+                            android:id="@+id/textView2"
+                            android:textColor="#ffd4d4d4"
+                            android:layout_marginLeft="20dp"
+                            android:layout_gravity="top" />
+                    </LinearLayout>
                 </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
+                <FrameLayout
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_weight="2">
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#ffe8e8e8"
+                    android:id="@+id/lel2">
+                    <Button
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="@string/supported_formats"
-                        android:id="@+id/textView2"
-                        android:textColor="#ffd4d4d4"
-                        android:layout_marginLeft="20dp"
-                        android:layout_gravity="top" />
-                </LinearLayout>
+                        android:text="@string/add"
+                        android:id="@+id/add_button"
+                        android:layout_gravity="center_horizontal|top"
+                        android:textColor="#ff263941"
+                        android:background="#ffd4d4d4"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp" />
+                </FrameLayout>
             </LinearLayout>
 
-            <FrameLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:background="#ffe8e8e8"
-                android:id="@+id/lel2">
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/add"
-                    android:id="@+id/add_button"
-                    android:layout_gravity="center_horizontal|top"
-                    android:textColor="#ff263941"
-                    android:background="#ffd4d4d4"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp" />
-            </FrameLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1.2"
-            android:weightSum="3">
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="2"
-                android:background="#ff283a42"
-                android:weightSum="4">
+                android:layout_height="match_parent"
+                android:weightSum="3">
 
                 <LinearLayout
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_weight="2">
+                    android:layout_weight="2"
+                    android:background="#ff283a42"
+                    android:weightSum="4">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="@string/availhosts"
-                        android:layout_gravity="center_vertical|bottom"
-                        android:layout_marginLeft="20dp"
-                        android:textColor="#fffafafa" />
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="2">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="@string/availhosts"
+                            android:layout_gravity="center_vertical|bottom"
+                            android:layout_marginLeft="20dp"
+                            android:textColor="#fffafafa" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="2">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="@string/click_questmark"
+                            android:id="@+id/textView2"
+                            android:textColor="#ffd4d4d4"
+                            android:layout_marginLeft="20dp"
+                            android:layout_gravity="top" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_weight="2">
+                    android:layout_weight="1"
+                    android:background="#ff2a3b43">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="@string/click_questmark"
-                        android:id="@+id/textView2"
-                        android:textColor="#ffd4d4d4"
-                        android:layout_marginLeft="20dp"
-                        android:layout_gravity="top" />
+                        android:orientation="horizontal"
+                        android:padding="6dp"
+                        android:weightSum="10"
+                        android:baselineAligned="false"
+                        android:descendantFocusability="blocksDescendants"
+                        android:background="#ffd4d4d4"
+                        android:id="@+id/gutenberg_host">
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="fill_parent"
+                            android:layout_height="55dp"
+                            android:layout_weight="1"
+                            android:weightSum="4">
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="fill_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.7">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:textAppearance="?android:attr/textAppearanceLarge"
+                                    android:id="@+id/page_name"
+                                    android:layout_gravity="top"
+                                    android:singleLine="true"
+                                    android:paddingLeft="6dp"
+                                    android:paddingRight="6dp"
+                                    android:textColor="#243840"
+                                    android:text="@string/gutenberg_name" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="fill_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="2.3">
+
+                                <TextView
+                                    android:id="@+id/gutenberg_url"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="0dp"
+                                    android:layout_gravity="top"
+                                    android:layout_weight="1"
+                                    android:ellipsize="end"
+                                    android:paddingLeft="6dp"
+                                    android:paddingRight="6dp"
+                                    android:singleLine="true"
+                                    android:textColor="#4d646d"
+                                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="9">
+
+                            <ImageButton
+                                android:id="@+id/gutenberg_howto"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal|top"
+                                android:src="@drawable/howtobtn"
+                                android:background="#00ffffff" />
+
+                        </FrameLayout>
+                    </LinearLayout>
+
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="6dp"
+                        android:weightSum="10"
+                        android:baselineAligned="false"
+                        android:descendantFocusability="blocksDescendants"
+                        android:background="#ffd4d4d4"
+                        android:layout_marginTop="1px"
+                        android:id="@+id/freeEbooks_host">
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="fill_parent"
+                            android:layout_height="55dp"
+                            android:layout_weight="1"
+                            android:weightSum="4">
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="fill_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.7">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:textAppearance="?android:attr/textAppearanceLarge"
+                                    android:id="@+id/page_name"
+                                    android:layout_gravity="top"
+                                    android:singleLine="true"
+                                    android:paddingLeft="6dp"
+                                    android:paddingRight="6dp"
+                                    android:textColor="#243840"
+                                    android:text="@string/free_ebooks_name" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="fill_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="2.3">
+
+                                <TextView
+                                    android:id="@+id/freeebooks_url"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_gravity="top"
+                                    android:layout_weight="1"
+                                    android:ellipsize="end"
+                                    android:paddingLeft="6dp"
+                                    android:paddingRight="6dp"
+                                    android:singleLine="true"
+                                    android:textColor="#4d646d"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:text="" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="9">
+
+                            <ImageButton
+                                android:id="@+id/freeEbooks_howto"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal|top"
+                                android:src="@drawable/howtobtn"
+                                android:background="#00ffffff" />
+
+                        </FrameLayout>
+                    </LinearLayout>
+
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="6dp"
+                        android:weightSum="10"
+                        android:baselineAligned="false"
+                        android:descendantFocusability="blocksDescendants"
+                        android:background="#ffd4d4d4"
+                        android:layout_marginTop="1px"
+                        android:id="@+id/mobileread_host">
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="fill_parent"
+                            android:layout_height="55dp"
+                            android:layout_weight="1"
+                            android:weightSum="4">
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="fill_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.7">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:textAppearance="?android:attr/textAppearanceLarge"
+                                    android:id="@+id/page_name"
+                                    android:layout_gravity="top"
+                                    android:singleLine="true"
+                                    android:paddingLeft="6dp"
+                                    android:paddingRight="6dp"
+                                    android:textColor="#243840"
+                                    android:text="@string/mobileread_name" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="fill_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="2.3">
+
+                                <TextView
+                                    android:id="@+id/mobileread_url"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_gravity="top"
+                                    android:layout_weight="1"
+                                    android:ellipsize="end"
+                                    android:paddingLeft="6dp"
+                                    android:paddingRight="6dp"
+                                    android:singleLine="true"
+                                    android:textColor="#4d646d"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:text="" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="9">
+
+                            <ImageButton
+                                android:id="@+id/mobileread_howto"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal|top"
+                                android:src="@drawable/howtobtn"
+                                android:background="#00ffffff" />
+
+                        </FrameLayout>
+                    </LinearLayout>
+
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="6dp"
+                        android:weightSum="10"
+                        android:baselineAligned="false"
+                        android:descendantFocusability="blocksDescendants"
+                        android:background="#ffd4d4d4"
+                        android:layout_marginTop="1px"
+                        android:id="@+id/general_host">
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="fill_parent"
+                            android:layout_height="55dp"
+                            android:layout_weight="1"
+                            android:weightSum="4">
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="fill_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.7">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:textAppearance="?android:attr/textAppearanceLarge"
+                                    android:id="@+id/page_name"
+                                    android:layout_gravity="top"
+                                    android:singleLine="true"
+                                    android:paddingLeft="6dp"
+                                    android:paddingRight="6dp"
+                                    android:textColor="#243840"
+                                    android:text="@string/general_download_name" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="fill_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="2.3">
+
+                                <TextView
+                                    android:id="@+id/site_url"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_gravity="top"
+                                    android:layout_weight="1"
+                                    android:ellipsize="end"
+                                    android:paddingLeft="6dp"
+                                    android:paddingRight="6dp"
+                                    android:singleLine="true"
+                                    android:textColor="#4d646d"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:text="" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="9">
+
+                            <ImageButton
+                                android:id="@+id/general_howto"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal|top"
+                                android:src="@drawable/howtobtn"
+                                android:background="#00ffffff" />
+
+                        </FrameLayout>
+                    </LinearLayout>
+
+
+
                 </LinearLayout>
             </LinearLayout>
-
-            <FrameLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:background="#ffe8e8e8">
-
-                <ListView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/downloadhosts_list"
-                    android:layout_gravity="center_horizontal|top"
-                    android:choiceMode="singleChoice"
-                    android:divider="#96243840"
-                    android:dividerHeight="1px" />
-            </FrameLayout>
-
         </LinearLayout>
-
-    </LinearLayout>
-
+    </ScrollView>
 </LinearLayout>

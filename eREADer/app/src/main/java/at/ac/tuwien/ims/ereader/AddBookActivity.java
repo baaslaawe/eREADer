@@ -28,6 +28,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -42,6 +43,8 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -73,7 +76,6 @@ public class AddBookActivity extends Activity {
     private Button add_button;
     private ImageButton optButton;
     private BookService bookService;
-    private DHAdapter dhAdapter;
     private SidebarMenu sbMenu;
     private SimpleFileDialog fileDialog;
 
@@ -91,6 +93,10 @@ public class AddBookActivity extends Activity {
     private NotificationCompat.Builder mBuilder;
     private List<String> contentString;
 
+    private TextView url_gutenberg;
+    private TextView url_freeebooks;
+    private TextView url_mobileread;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,25 +113,26 @@ public class AddBookActivity extends Activity {
         optButton=(ImageButton)findViewById(R.id.optnbtn_add);
         optButton.setOnTouchListener(btnListener);
 
-        ListView listview = (ListView)findViewById(R.id.downloadhosts_list);
-        dhAdapter = new DHAdapter(listview, getDownloadHosts());
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3) {
-                String uri=dhAdapter.getItem(position).getURL();
-                if (uri.isEmpty()) {
-                    AlertDialog.Builder ab = new AlertDialog.Builder(AddBookActivity.this);
-                    ab.setMessage(dhAdapter.getItem(position).getHow_to_string()).setNeutralButton(getString(R.string.understood), null).show();
-                } else {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(uri)));
-                }
-            }
-        });
-        listview.setAdapter(dhAdapter);
+        url_gutenberg=(TextView)findViewById(R.id.gutenberg_url);
+        url_gutenberg.setText(getString(R.string.gutenberg_url)+", " + getString(R.string.multiple_langs));
+        url_freeebooks=(TextView)findViewById(R.id.freeebooks_url);
+        url_freeebooks.setText(getString(R.string.free_ebooks_url)+", " + getString(R.string.multiple_langs));
+        url_mobileread=(TextView)findViewById(R.id.mobileread_url);
+        url_mobileread.setText(getString(R.string.mobileread_url)+", " + getString(R.string.ger));
+
+        findViewById(R.id.gutenberg_howto).setOnTouchListener(howToButtonListener);
+        findViewById(R.id.freeEbooks_howto).setOnTouchListener(howToButtonListener);
+        findViewById(R.id.mobileread_howto).setOnTouchListener(howToButtonListener);
+        findViewById(R.id.general_howto).setOnTouchListener(howToButtonListener);
+
+        findViewById(R.id.gutenberg_host).setOnClickListener(onHostClickListener);
+        findViewById(R.id.freeEbooks_host).setOnClickListener(onHostClickListener);
+        findViewById(R.id.mobileread_host).setOnClickListener(onHostClickListener);
+        findViewById(R.id.general_host).setOnClickListener(onHostClickListener);
 
         sbMenu=new SidebarMenu(this, false, false, false, true);
 
-        fileDialog =new SimpleFileDialog(AddBookActivity.this, "FileOpen",
+        fileDialog=new SimpleFileDialog(AddBookActivity.this, "FileOpen",
                 new SimpleFileDialog.SimpleFileDialogListener() {
                     @Override
                     public void onChosenDir(final String chosenDir) {
@@ -183,6 +190,81 @@ public class AddBookActivity extends Activity {
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.logo))
                 .setProgress(0, 0, true);
     }
+
+    View.OnClickListener onHostClickListener=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch(v.getId()) {
+                case R.id.gutenberg_host:
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.gutenberg_url))));
+                    break;
+                case R.id.freeEbooks_host:
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.free_ebooks_url))));
+                    break;
+                case R.id.mobileread_host:
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.mobileread_url))));
+                    break;
+                case R.id.general_host:
+                    AlertDialog.Builder ab = new AlertDialog.Builder(AddBookActivity.this);
+                    ab.setMessage(getString(R.string.general_download_howto)).setNeutralButton(getString(R.string.understood), null).show();
+                    break;
+            }
+        }
+    };
+
+    View.OnTouchListener howToButtonListener=new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent m) {
+            if (m.getAction() == MotionEvent.ACTION_DOWN) {
+                ((ImageButton)v).setImageResource(R.drawable.howtobtn_pressed);
+            } else if(m.getAction()==MotionEvent.ACTION_UP) {
+                ((ImageButton)v).setImageResource(R.drawable.howtobtn);
+
+                switch(v.getId()) {
+                    case R.id.gutenberg_howto:
+                        new AlertDialog.Builder(AddBookActivity.this)
+                                .setMessage(getString(R.string.gutenberg_howto))
+                                .setNeutralButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.gutenberg_url))));
+                                    }
+                                })
+                                .setTitle(getString(R.string.dl_info)).show();
+                        break;
+                    case R.id.freeEbooks_howto:
+                        new AlertDialog.Builder(AddBookActivity.this)
+                                .setMessage(getString(R.string.free_ebooks_howto))
+                                .setNeutralButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.free_ebooks_url))));
+                                    }
+                                })
+                                .setTitle(getString(R.string.dl_info)).show();
+                        break;
+                    case R.id.mobileread_howto:
+                        new AlertDialog.Builder(AddBookActivity.this)
+                                .setMessage(getString(R.string.mobileread_howto))
+                                .setNeutralButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.mobileread_url))));
+                                    }
+                                })
+                                .setTitle(getString(R.string.dl_info)).show();
+                        break;
+                    case R.id.general_howto:
+                        new AlertDialog.Builder(AddBookActivity.this)
+                                .setMessage(getString(R.string.general_download_howto))
+                                .setNeutralButton(getString(R.string.understood), null)
+                                .setTitle(getString(R.string.dl_info)).show();
+                        break;
+                }
+            }
+            return true;
+        }
+    };
 
     DialogInterface.OnClickListener dialogLangClickListener = new DialogInterface.OnClickListener() {
         @Override
@@ -284,91 +366,6 @@ public class AddBookActivity extends Activity {
         dhList.add(new DownloadHost(getString(R.string.mobileread_name), "http://wiki.mobileread.com/wiki/Free_eBooks-de/de", getString(R.string.mobileread_howto), getString(R.string.ger)));
         dhList.add(new DownloadHost(getString(R.string.general_download_name), "", getString(R.string.general_download_howto), null));
         return dhList;
-    }
-
-    /**
-     * BaseAdapter that fills the list of DownloadHosts with Listitems.
-     *
-     */
-    private class DHAdapter extends BaseAdapter {
-        private ListView listview;
-        private List<DownloadHost> dhList;
-
-        private class ItemHolder {
-            public TextView page_name;
-            public TextView site_url;
-        }
-
-        public DHAdapter(ListView listview, List<DownloadHost> dhList) {
-            this.listview=listview;
-            this.dhList=dhList;
-        }
-
-        @Override
-        public int getCount() {
-            return dhList.size();
-        }
-
-        @Override
-        public DownloadHost getItem(int position) {
-            return dhList.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ItemHolder holder = null;
-
-            if (convertView == null) {
-                convertView = getLayoutInflater().inflate(R.layout.downloadlist_item, parent, false);
-
-                holder = new ItemHolder();
-                holder.page_name = (TextView) convertView.findViewById(R.id.page_name);
-                holder.site_url = (TextView) convertView.findViewById(R.id.site_url);
-
-                ImageButton bt = (ImageButton) convertView.findViewById(R.id.howtobtnlist);
-                bt.setOnTouchListener(howtobtnListener);
-                convertView.setTag(holder);
-            } else {
-                holder = (ItemHolder) convertView.getTag();
-            }
-
-            holder.page_name.setText(dhList.get(position).getSite_name());
-            if(dhList.get(position).getLanguage()==null)
-                holder.site_url.setText(dhList.get(position).getURL());
-            else {
-                holder.site_url.setText(dhList.get(position).getLanguage() +", "+dhList.get(position).getURL());
-            }
-            return convertView;
-        }
-
-        private View.OnTouchListener howtobtnListener = new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent m) {
-                if (m.getAction() == MotionEvent.ACTION_DOWN) {
-                    ((ImageButton)v).setImageResource(R.drawable.howtobtn_pressed);
-                } else if(m.getAction()==MotionEvent.ACTION_UP) {
-                    ((ImageButton)v).setImageResource(R.drawable.howtobtn);
-                    final int position = listview.getPositionForView(v);
-                    if (position != ListView.INVALID_POSITION) {
-                        AlertDialog.Builder ab = new AlertDialog.Builder(AddBookActivity.this);
-                        ab.setMessage(dhList.get(position).getHow_to_string()).setNeutralButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String URI=dhList.get(position).getURL();
-                                if(!URI.isEmpty())
-                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(URI)));
-                            }
-                        }).setTitle(getString(R.string.dl_info)).show();
-                    }
-                }
-                return true;
-            }
-        };
     }
 
     private View.OnTouchListener btnListener = new View.OnTouchListener() {

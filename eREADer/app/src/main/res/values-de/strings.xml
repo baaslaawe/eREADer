@@ -28,7 +28,7 @@
     <string name="download_book">Bücher downloaden</string>
     <string name="path">Pfad</string>
     <string name="wasdeleted">wurde erfolgreich geloescht</string>
-    <string name="reset">Database und Einstellungen zuruecksetzen</string>
+    <string name="reset">Database zuruecksetzen</string>
     <string name="resetbtn">Zuruecksetzen</string>
     <string name="sure">Sind sie sicher?</string>
     <string name="positive">Ja</string>

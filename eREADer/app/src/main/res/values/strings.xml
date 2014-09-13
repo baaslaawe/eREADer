@@ -28,7 +28,7 @@
     <string name="download_book">Download Books</string>
     <string name="path">Path</string>
     <string name="wasdeleted">was successfully deleted</string>
-    <string name="reset">Reset Database and Settings</string>
+    <string name="reset">Reset Database</string>
     <string name="resetbtn">Reset Now</string>
     <string name="sure">Are you sure?</string>
     <string name="positive">Yes</string>
@@ -94,13 +94,21 @@
     <string name="gutenberg_name">Project Gutenberg</string>
     <string name="gutenberg_howto">After the your browser has loaded the website, search for a book with the search bar.\n\t
         Then click the book in the list that you want to download.\nNow scroll down and download the eBook as TXT, PDF or Epub(no images).\nAfter the download is completed, open the eReader application again, go to the \'Add Book\' window, click the \'add\'-Button and find the book on your device\'s drive.</string>
+    <string name="gutenberg_url">http://m.gutenberg.org</string>
+
+
     <string name="free_ebooks_name">Free eBooks</string>
     <string name="free_ebooks_howto">After the your browser has loaded the website, search for a book with the search bar.\n\t
         Then click the cover of the book that you want to download.\nNow scroll down and click the \'DOWNLOAD\'-Button and select either TXT, PDF or Epub format.\n\t
         After the download is completed, open the eReader application again, go to the \'Add Book\' window, click the \'add\'-Button and find the book on your device\'s drive.</string>
+    <string name="free_ebooks_url">http://www.free-ebooks.net</string>
+
+
     <string name="mobileread_name">MobileRead Wiki</string>
     <string name="mobileread_howto">After the your browser has loaded the website, search manually for a book in the list.\n\t
         Then click the ePub link to open a new Tab in which you can download the eBook.\nAfter the download is completed, open the eReader application again, go to the \'Add Book\' window, click the \'add\'-Button and find the book on your device\'s drive.</string>
+    <string name="mobileread_url">http://wiki.mobileread.com/wiki/Free_eBooks-de/de</string>
+
     <string name="general_download_name">General Download Info</string>
     <string name="general_download_howto">Go to the \'Add Book\' window, click the \'add\'-Button and find the book on your device\'s drive.</string>
 </resources>
