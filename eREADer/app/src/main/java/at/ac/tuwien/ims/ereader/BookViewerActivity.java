@@ -180,12 +180,13 @@ public class BookViewerActivity extends Activity {
                     }
                 });
 
-                contentScrollView.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        return true;
-                    }
-                });
+                if(firstScrollDone)
+                    contentScrollView.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            return true;
+                        }
+                    });
                 firstScrollDone=true;
             } else {
                 contentScrollView.setOnTouchListener(null);

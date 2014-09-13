@@ -30,7 +30,7 @@
     <string name="wasdeleted">wurde erfolgreich geloescht</string>
     <string name="reset">Database zuruecksetzen</string>
     <string name="resetbtn">Zuruecksetzen</string>
-    <string name="sure">Sind sie sicher?</string>
+    <string name="sure">Sind Sie sicher?</string>
     <string name="positive">Ja</string>
     <string name="negative">Nein</string>
     <string name="understood">Verstanden!</string>
@@ -42,7 +42,7 @@
     <string name="ebook_unknown_language">Sorry, die Sprache des eBooks konnte nicht festgestellt werden!</string>
     <string name="availhosts">Verfuegbare Download Seiten</string>
     <string name="add">Hinzufuegen</string>
-    <string name="click_questmark">Druecken sie das Fragezeichen fuer weitere Informationen!</string>
+    <string name="click_questmark">Druecken Sie das Fragezeichen fuer weitere Informationen!</string>
     <string name="ttsDone_str">Text-To-Speech Engine wird geladen!</string>
     <string name="settings_saved">Ihre Einstellungen wurden gespeichert!</string>
     <string name="font_settings">Schrift Einstellungen</string>
@@ -67,12 +67,13 @@
     <string name="save">Speichern</string>
     <string name="edit_book">Buch bearbeiten</string>
     <string name="delete_book">Buch loeschen</string>
-    <string name="sure_delete">Sind sie sich sicher, dass sie dieses eBook loeschen wollen:</string>
-    <string name="select_language_book">Bitte waehlen sie eine Sprache fuer das eBook aus.</string>
+    <string name="sure_delete">Sind Sie sich sicher, dass Sie dieses eBook loeschen wollen:</string>
+    <string name="select_language_book">Bitte waehlen Sie eine Sprache fuer das eBook aus.</string>
     <string name="sidebar">Sidebar</string>
-    <string name="edit_after_insert">Bitte bearbeiten sie Titel und Autor manuell.</string>
+    <string name="edit_after_insert">Bitte bearbeiten Sie Titel und Autor manuell.</string>
     <string name="dl_info">Download Information</string>
     <string name="adding_book">Buch wird hinzugefuegt…</string>
+    <string name="select_book">Waehlen Sie das eBook:</string>
 
     <string name="help_sidebar">Die Sidebar hilft dem User schneller durch die Applikation zu navigieren.\n\t
         Sie kann entweder durch kliken des Buttons in der linken-oberen Ecke geoeffnet werden oder durch das wischen von der linken Seite zur Mitte des Bildschirms.</string>
@@ -91,19 +92,19 @@
     <string name="help_settings">Die Einstellungen geben dem User eine Moeglichkeit einige Aenderungen an der Applikation vorzunehmen und den Inhalt der Bibliothek zu loeschen.</string>
 
     <string name="gutenberg_name">Project Gutenberg</string>
-    <string name="gutenberg_howto">Nachdem der Browser die Website geladen hat, suchen sie nach einem eBook mit Hilfe der Suchleiste.\n\t
-        Dann klicken sie das Buch das sie downloaden wollen.\n\t
-        Nun scrollen sie hinunter und downloaden das eBook als TXT, PDF oder Epub(no images).\n\t
-        Nachdem der Download abgeschlossen ist, oeffnen sie das \'Buch hinzufuegen\' Fenster, klicken sie den \'Hinzufuegen\'-Button und suchen das Buch im Speicher.</string>
+    <string name="gutenberg_howto">Nachdem der Browser die Website geladen hat, suchen Sie nach einem eBook mit Hilfe der Suchleiste.\n\t
+        Dann klicken Sie das Buch das Sie downloaden wollen.\n\t
+        Nun scrollen Sie hinunter und downloaden das eBook als TXT, PDF oder Epub(no images).\n\t
+        Nachdem der Download abgeschlossen ist, oeffnen Sie das \'Buch hinzufuegen\' Fenster, klicken Sie den \'Hinzufuegen\'-Button und suchen das Buch im Speicher.</string>
     <string name="free_ebooks_name">Free eBooks</string>
-    <string name="free_ebooks_howto">Nachdem der Browser die Website geladen hat, suchen sie nach einem eBook mit Hilfe der Suchleiste.\n\t
-        Dann klicken sie das Cover des Buches das sie downloaden wollen.\n\t
-        Nun scrollen sie hinunter und klicken den \'DOWNLOAD\'-Button und waehlen eines dr folgenden Formate: TXT, PDF oder Epub.\n\t
-        Nachdem der Download abgeschlossen ist, oeffnen sie das \'Buch hinzufuegen\' Fenster, klicken sie den \'Hinzufuegen\'-Button und suchen das Buch im Speicher.</string>
+    <string name="free_ebooks_howto">Nachdem der Browser die Website geladen hat, suchen Sie nach einem eBook mit Hilfe der Suchleiste.\n\t
+        Dann klicken Sie das Cover des Buches das Sie downloaden wollen.\n\t
+        Nun scrollen Sie hinunter und klicken den \'DOWNLOAD\'-Button und waehlen eines dr folgenden Formate: TXT, PDF oder Epub.\n\t
+        Nachdem der Download abgeschlossen ist, oeffnen Sie das \'Buch hinzufuegen\' Fenster, klicken Sie den \'Hinzufuegen\'-Button und suchen das Buch im Speicher.</string>
     <string name="mobileread_name">MobileRead Wiki</string>
-    <string name="mobileread_howto">Nachdem der Browser die Website geladen hat, suchen sie manuell nach einem eBook in der Liste.\n\t
-        Dann klicken sie den ePub link, der ein neues Tab oeffnet in dem sie das eBook downloaden koennen.\n\t
-        Nachdem der Download abgeschlossen ist, oeffnen sie das \'Buch hinzufuegen\' Fenster, klicken sie den \'Hinzufuegen\'-Button und suchen das Buch im Speicher.</string>
+    <string name="mobileread_howto">Nachdem der Browser die Website geladen hat, suchen Sie manuell nach einem eBook in der Liste.\n\t
+        Dann klicken Sie den ePub link, der ein neues Tab oeffnet in dem Sie das eBook downloaden koennen.\n\t
+        Nachdem der Download abgeschlossen ist, oeffnen Sie das \'Buch hinzufuegen\' Fenster, klicken Sie den \'Hinzufuegen\'-Button und suchen das Buch im Speicher.</string>
     <string name="general_download_name">Generelle Download Information</string>
-    <string name="general_download_howto">Oeffnen sie das \'Buch hinzufuegen\' Fenster, klicken sie den \'Hinzufuegen\'-Button und suchen das Buch im Speicher.</string>
+    <string name="general_download_howto">Oeffnen Sie das \'Buch hinzufuegen\' Fenster, klicken Sie den \'Hinzufuegen\'-Button und suchen das Buch im Speicher.</string>
 </resources>

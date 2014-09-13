@@ -23,12 +23,8 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -36,16 +32,10 @@ import android.os.Environment;
 import android.support.v4.app.NotificationCompat;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -54,7 +44,6 @@ import com.github.johnpersano.supertoasts.SuperToast;
 
 import net.simonvt.menudrawer.MenuDrawer;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,6 +86,8 @@ public class AddBookActivity extends Activity {
     private TextView url_freeebooks;
     private TextView url_mobileread;
 
+    private String dir;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,29 +123,27 @@ public class AddBookActivity extends Activity {
 
         sbMenu=new SidebarMenu(this, false, false, false, true);
 
-        fileDialog=new SimpleFileDialog(AddBookActivity.this, "FileOpen",
-                new SimpleFileDialog.SimpleFileDialogListener() {
-                    @Override
-                    public void onChosenDir(final String chosenDir) {
-                        if(chosenDir.endsWith(".pdf")||chosenDir.endsWith(".txt")||chosenDir.endsWith(".html")||chosenDir.endsWith(".htm")||chosenDir.endsWith(".epub")) {
-                            contentString.add(chosenDir.substring(chosenDir.lastIndexOf("/") + 1).trim());
-                            if(chosenDir.endsWith(".epub")) {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        new AddTask().execute(chosenDir);
-                                    }
-                                });
-                            } else {
-                                temp_chosendir = chosenDir;
-                                dialogLanguage.show();
+        fileDialog=new SimpleFileDialog(AddBookActivity.this, getString(R.string.select_book), new SimpleFileDialog.SimpleFileDialogListener() {
+            @Override
+            public void onChosenDir(final String chosenDir) {
+                if(chosenDir.endsWith(".pdf")||chosenDir.endsWith(".txt")||chosenDir.endsWith(".html")||chosenDir.endsWith(".htm")||chosenDir.endsWith(".epub")) {
+                    contentString.add(chosenDir.substring(chosenDir.lastIndexOf("/") + 1).trim());
+                    if(chosenDir.endsWith(".epub")) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                new AddTask().execute(chosenDir);
                             }
-                        } else {
-                            showMessage(getString(R.string.format_not_supported));
-                        }
+                        });
+                    } else {
+                        temp_chosendir = chosenDir;
+                        dialogLanguage.show();
                     }
-                });
-        fileDialog.Default_File_Name = "";
+                } else {
+                    showMessage(getString(R.string.format_not_supported));
+                }
+            }
+        });
 
         View languageDialogView = getLayoutInflater().inflate(R.layout.dialog_selectlanguage, null);
         AlertDialog.Builder languageAlertBuilder = new AlertDialog.Builder(this);
@@ -189,8 +178,18 @@ public class AddBookActivity extends Activity {
                 .setSmallIcon(R.drawable.logo_small_bar_dl)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.logo))
                 .setProgress(0, 0, true);
+
+        //todo not tested on phones with external sd cards
+        dir=Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+        if(dir.isEmpty())
+            dir=Environment.getExternalStorageDirectory().getAbsolutePath();
+        //todo is empty on some phones?
     }
 
+    /**
+     * OnClickListener that handles clicking a downloadhost item.
+     *
+     */
     View.OnClickListener onHostClickListener=new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -212,6 +211,10 @@ public class AddBookActivity extends Activity {
         }
     };
 
+    /**
+     * OnTouchListener that handles the questionmark ImageButton in a downloadhost item.
+     *
+     */
     View.OnTouchListener howToButtonListener=new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent m) {
@@ -266,6 +269,11 @@ public class AddBookActivity extends Activity {
         }
     };
 
+    /**
+     * OnClickListener that handles the save button inside the language select alert builder that is
+     * opened before a TXT/PDF/HTML eBook is loaded.
+     *
+     */
     DialogInterface.OnClickListener dialogLangClickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
@@ -279,6 +287,11 @@ public class AddBookActivity extends Activity {
         }
     };
 
+    /**
+     * OnClickListener that handles the save book button inside the edit book alert builder that is
+     * opened after a book is added but has unkown author/title/language.
+     *
+     */
     DialogInterface.OnClickListener dialogEditClickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
@@ -309,6 +322,7 @@ public class AddBookActivity extends Activity {
                 }
                 mBuilder.setContentText(cont);
                 notificationManager.notify(StaticHelper.NOTIFICATION_ID_ADD, mBuilder.build());
+                //todo notification is not updated when adding multiple books...
 
                 if(URI.endsWith(".epub"))
                     return bookService.addBookAsEPUB(URI);
@@ -354,20 +368,6 @@ public class AddBookActivity extends Activity {
         super.onBackPressed();
     }
 
-    /**
-     * A method that fills a list with available DownloadHosts.
-     *
-     * @return a list with DownloadHosts
-     */
-    private List<DownloadHost> getDownloadHosts() {
-        ArrayList<DownloadHost> dhList=new ArrayList<DownloadHost>();
-        dhList.add(new DownloadHost(getString(R.string.gutenberg_name), "http://m.gutenberg.org/", getString(R.string.gutenberg_howto), getString(R.string.multiple_langs)));
-        dhList.add(new DownloadHost(getString(R.string.free_ebooks_name), "http://www.free-ebooks.net", getString(R.string.free_ebooks_howto), getString(R.string.multiple_langs)));
-        dhList.add(new DownloadHost(getString(R.string.mobileread_name), "http://wiki.mobileread.com/wiki/Free_eBooks-de/de", getString(R.string.mobileread_howto), getString(R.string.ger)));
-        dhList.add(new DownloadHost(getString(R.string.general_download_name), "", getString(R.string.general_download_howto), null));
-        return dhList;
-    }
-
     private View.OnTouchListener btnListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent m) {
@@ -375,7 +375,7 @@ public class AddBookActivity extends Activity {
                 if(m.getAction()==MotionEvent.ACTION_DOWN)
                     v.setBackgroundColor(Color.parseColor(StaticHelper.COLOR_Blue));
                 else if(m.getAction()==MotionEvent.ACTION_UP) {
-                    fileDialog.chooseFile_or_Dir();
+                    fileDialog.chooseFile_or_Dir(dir);
                     v.setBackgroundColor(Color.parseColor(StaticHelper.COLOR_Grey));
                 }
             } else if(v==optButton) {

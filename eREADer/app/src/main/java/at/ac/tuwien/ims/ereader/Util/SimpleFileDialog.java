@@ -54,12 +54,12 @@ public class SimpleFileDialog
     private int FileOpen     = 0;
     private int FileSave     = 1;
     private int FolderChoose = 2;
-    private int Select_type = FileSave;
+    private int Select_type = 0;
     private String m_sdcardDirectory = "";
     private Context m_context;
     private TextView m_titleView1;
     private TextView m_titleView;
-    public String Default_File_Name = "default.txt";
+    public String Default_File_Name = "";
     private String Selected_File_Name = Default_File_Name;
     private EditText input_text;
 
@@ -67,6 +67,8 @@ public class SimpleFileDialog
     private List<String> m_subdirs = null;
     private SimpleFileDialogListener m_SimpleFileDialogListener = null;
     private ArrayAdapter<String> m_listAdapter = null;
+
+    private String title_text;
 
     //////////////////////////////////////////////////////
     // Callback interface for selected directory
@@ -76,13 +78,9 @@ public class SimpleFileDialog
         public void onChosenDir(String chosenDir);
     }
 
-    public SimpleFileDialog(Context context, String file_select_type, SimpleFileDialogListener SimpleFileDialogListener)
+    public SimpleFileDialog(Context context, String title, SimpleFileDialogListener SimpleFileDialogListener)
     {
-        if (file_select_type.equals("FileOpen"))          Select_type = FileOpen;
-        else if (file_select_type.equals("FileSave"))     Select_type = FileSave;
-        else if (file_select_type.equals("FolderChoose")) Select_type = FolderChoose;
-        else Select_type = FileOpen;
-
+        title_text=title;
         m_context = context;
         m_sdcardDirectory = Environment.getExternalStorageDirectory().getAbsolutePath();
         m_SimpleFileDialogListener = SimpleFileDialogListener;
@@ -254,9 +252,11 @@ public class SimpleFileDialog
         //m_titleView1.setTextAppearance(m_context, android.R.style.TextAppearance_Large);
         //m_titleView1.setTextColor( m_context.getResources().getColor(android.R.color.black) );
 
-        if (Select_type == FileOpen    ) m_titleView1.setText("Open:");
+        /*if (Select_type == FileOpen    ) m_titleView1.setText("Open:");
         if (Select_type == FileSave    ) m_titleView1.setText("Save As:");
-        if (Select_type == FolderChoose) m_titleView1.setText("Folder Select:");
+        if (Select_type == FolderChoose) m_titleView1.setText("Folder Select:");*/
+
+        m_titleView1.setText(title_text);
 
         //need to make this a variable Save as, Open, Select Directory
         m_titleView1.setGravity(Gravity.CENTER_VERTICAL);
