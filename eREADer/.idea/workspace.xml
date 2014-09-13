@@ -86,27 +86,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: at.ac.tuwien.ims.ereader" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="82d73246-6504-445f-971f-7a2e53265cb3" name="Default" comment="">
-      <change type="DELETED" beforePath="D:\Projekte\eREADer\eREADer\.idea\libraries\epublib_core_latest.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\Projekte\eREADer\eREADer\.idea\libraries\itextg_5_5_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\Projekte\eREADer\eREADer\.idea\libraries\jsoup_1_7_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\Projekte\eREADer\eREADer\.idea\libraries\menudrawer_3_0_6.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\Projekte\eREADer\eREADer\.idea\libraries\slf4j_api_1_7_7.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\Projekte\eREADer\eREADer\.idea\libraries\supertoasts_1_3_4.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\Projekte\eREADer\eREADer\.idea\libraries\support_v4_19_1_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\Projekte\eREADer\eREADer\app\src\main\res\layout\downloadlist_item.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\Projekte\eREADer\eREADer\eREADer.iml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/AddBookActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/AddBookActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_addbook.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_addbook.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/import-summary.txt" afterPath="$PROJECT_DIR$/import-summary.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/settings.gradle" afterPath="$PROJECT_DIR$/settings.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values-de/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values-de/strings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="82d73246-6504-445f-971f-7a2e53265cb3" name="Default" comment="" />
     <ignored path="eREADer.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -156,8 +136,8 @@
       <file leaf-file-name="AddBookActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/AddBookActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="2.5028703" vertical-offset="948" max-vertical-offset="6069">
-              <caret line="251" column="128" selection-start-line="251" selection-start-column="128" selection-end-line="251" selection-end-column="128" />
+            <state vertical-scroll-proportion="0.5510907" vertical-offset="948" max-vertical-offset="6069">
+              <caret line="150" column="29" selection-start-line="150" selection-start-column="29" selection-end-line="150" selection-end-column="29" />
               <folding>
                 <element signature="e#4108#4141#0" expanded="true" />
                 <element signature="e#4149#4183#0" expanded="true" />
@@ -202,6 +182,7 @@
                 <element signature="e#11908#11944#0" expanded="true" />
                 <element signature="e#11996#12026#0" expanded="true" />
                 <element signature="e#12028#12412#0" expanded="true" />
+                <element signature="e#12302#12336#0" expanded="true" />
                 <element signature="e#12377#12378#0" expanded="true" />
                 <element signature="e#12456#12483#0" expanded="true" />
                 <element signature="e#12683#12725#0" expanded="true" />
@@ -2096,7 +2077,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="1389" y="205" width="317" height="290" />
@@ -2576,8 +2557,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/AddBookActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.5028703" vertical-offset="948" max-vertical-offset="6069">
-          <caret line="251" column="128" selection-start-line="251" selection-start-column="128" selection-end-line="251" selection-end-column="128" />
+        <state vertical-scroll-proportion="0.5510907" vertical-offset="948" max-vertical-offset="6069">
+          <caret line="150" column="29" selection-start-line="150" selection-start-column="29" selection-end-line="150" selection-end-column="29" />
           <folding>
             <element signature="e#4108#4141#0" expanded="true" />
             <element signature="e#4149#4183#0" expanded="true" />
@@ -2622,6 +2603,7 @@
             <element signature="e#11908#11944#0" expanded="true" />
             <element signature="e#11996#12026#0" expanded="true" />
             <element signature="e#12028#12412#0" expanded="true" />
+            <element signature="e#12302#12336#0" expanded="true" />
             <element signature="e#12377#12378#0" expanded="true" />
             <element signature="e#12456#12483#0" expanded="true" />
             <element signature="e#12683#12725#0" expanded="true" />
