@@ -97,7 +97,7 @@ public class ReadingService extends Service {
         intent.putExtra("ttsStart", true);
         sendBroadcast(intent);
 
-        ttsService=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+        ttsService=new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if(status == TextToSpeech.SUCCESS) {
@@ -300,6 +300,7 @@ public class ReadingService extends Service {
      */
     public void setCurrentSentence(int currentSentence) {
         this.currentSentence=currentSentence;
+        bookService.updateCurrentPosition(new CurrentPosition(book.getId(), this.currentContent, this.currentSentence));
     }
 
     /**
@@ -547,13 +548,13 @@ public class ReadingService extends Service {
             notificationView.setTextViewText(R.id.bar_chapter_page, getString(R.string.content)+" "+currentContentHeading);
             notificationView.setTextViewText(R.id.bar_word, getNumberOfSentences());
             notificationView.setOnClickPendingIntent(R.id.bar_close,
-                    PendingIntent.getService(getApplicationContext(),
+                    PendingIntent.getService(this,
                             0, new Intent(StaticHelper.ACTION_CLOSE), PendingIntent.FLAG_UPDATE_CURRENT));
             if (playing) {
                 notificationView.setImageViewResource(R.id.bar_btnPlay, android.R.drawable.ic_media_pause);
                 notificationView.setOnClickPendingIntent(R.id.bar_btnPlay,
                         PendingIntent.getService(
-                                getApplicationContext(),
+                                this,
                                 0,
                                 new Intent(StaticHelper.ACTION_PAUSE),
                                 PendingIntent.FLAG_UPDATE_CURRENT));
@@ -561,7 +562,7 @@ public class ReadingService extends Service {
                 notificationView.setImageViewResource(R.id.bar_btnPlay, android.R.drawable.ic_media_play);
                 notificationView.setOnClickPendingIntent(R.id.bar_btnPlay,
                         PendingIntent.getService(
-                                getApplicationContext(),
+                                this,
                                 0,
                                 new Intent(StaticHelper.ACTION_PLAY),
                                 PendingIntent.FLAG_UPDATE_CURRENT));

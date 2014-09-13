@@ -84,7 +84,7 @@ public class SettingsActivity extends Activity {
         setContentView(R.layout.activity_settings);
         if (getActionBar() != null)
             getActionBar().hide();
-        db=new DatabaseHelper(getApplicationContext());
+        db=new DatabaseHelper(this);
 
         saveButton=(ImageButton)findViewById(R.id.savebtn_settings);
         saveButton.setOnTouchListener(btnListener);
@@ -94,7 +94,7 @@ public class SettingsActivity extends Activity {
         menuBtn.setOnTouchListener(btnListener);
         sbMenu=new SidebarMenu(this, false, true, false, false);
 
-        ttsService=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+        ttsService=new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if(status == TextToSpeech.SUCCESS) {
@@ -221,6 +221,7 @@ public class SettingsActivity extends Activity {
         @Override
         public boolean onTouch(View v, MotionEvent m) {
             if (v==saveButton) {
+                ((ImageButton)v).setImageResource(R.drawable.savebtn);
                 if(m.getAction()== MotionEvent.ACTION_DOWN)
                     ((ImageButton)v).setImageResource(R.drawable.savebtn_pressed);
                 else if(m.getAction()==MotionEvent.ACTION_UP) {
@@ -234,6 +235,7 @@ public class SettingsActivity extends Activity {
                     ((ImageButton)v).setImageResource(R.drawable.savebtn);
                 }
             } else if (v==resetbtn) {
+                v.setBackgroundColor(Color.parseColor(StaticHelper.COLOR_Grey));
                 if(m.getAction()== MotionEvent.ACTION_DOWN)
                     v.setBackgroundColor(Color.parseColor(StaticHelper.COLOR_Blue));
                 else if(m.getAction()==MotionEvent.ACTION_UP) {

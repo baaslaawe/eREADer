@@ -150,6 +150,7 @@ public class BookContentsActivity extends Activity {
                     else
                         hideSearchBar();
             } else if (v==playbtn) {
+                ((ImageButton)v).setImageResource(R.drawable.playbtn);
                 if(m.getAction()==MotionEvent.ACTION_DOWN)
                     ((ImageButton)v).setImageResource(R.drawable.playbtn_pressed);
                 else if(m.getAction()==MotionEvent.ACTION_UP) {

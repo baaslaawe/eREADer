@@ -87,11 +87,21 @@ public class BookService {
     public Book addBookAsEPUB(String URI) throws ServiceException {
         try {
             nl.siegmann.epublib.domain.Book b=new EpubReader().readEpub(new FileInputStream(URI));
-            String author=b.getMetadata().getAuthors().get(0).getFirstname() + " " + b.getMetadata().getAuthors().get(0).getLastname();
-            author=author.replace(",", "");
+            String author="";
+            if(!b.getMetadata().getAuthors().isEmpty()) {
+                author = b.getMetadata().getAuthors().get(0).getFirstname() + " " + b.getMetadata().getAuthors().get(0).getLastname();
+                author = author.replace(",", "");
+            }
 
-            Language lang=Language.getLanguageFromString(b.getMetadata().getLanguage());
-            Book bookToSave=insertBook(b.getMetadata().getFirstTitle(), author, lang);
+            String lan="";
+            if(b.getMetadata().getLanguage()!=null)
+                lan=b.getMetadata().getLanguage();
+            Language lang=Language.getLanguageFromString(lan);
+
+            String title="";
+            if(b.getMetadata().getFirstTitle()!=null)
+                title=b.getMetadata().getFirstTitle();
+            Book bookToSave=insertBook(title, author, lang);
 
             List<Resource> list=b.getContents();
             if(list.isEmpty()) {

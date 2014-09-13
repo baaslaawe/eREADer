@@ -30,12 +30,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -48,7 +50,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import at.ac.tuwien.ims.ereader.Entities.Book;
-import at.ac.tuwien.ims.ereader.Entities.DownloadHost;
 import at.ac.tuwien.ims.ereader.Entities.Language;
 import at.ac.tuwien.ims.ereader.Services.BookService;
 import at.ac.tuwien.ims.ereader.Services.ServiceException;
@@ -80,7 +81,6 @@ public class AddBookActivity extends Activity {
 
     private NotificationManager notificationManager;
     private NotificationCompat.Builder mBuilder;
-    private List<String> contentString;
 
     private TextView url_gutenberg;
     private TextView url_freeebooks;
@@ -97,7 +97,6 @@ public class AddBookActivity extends Activity {
             getActionBar().hide();
 
         bookService=new BookService(this);
-        contentString=new ArrayList<String>();
 
         add_button=(Button)findViewById(R.id.add_button);
         add_button.setOnTouchListener(btnListener);
@@ -116,10 +115,10 @@ public class AddBookActivity extends Activity {
         findViewById(R.id.mobileread_howto).setOnTouchListener(howToButtonListener);
         findViewById(R.id.general_howto).setOnTouchListener(howToButtonListener);
 
-        findViewById(R.id.gutenberg_host).setOnClickListener(onHostClickListener);
-        findViewById(R.id.freeEbooks_host).setOnClickListener(onHostClickListener);
-        findViewById(R.id.mobileread_host).setOnClickListener(onHostClickListener);
-        findViewById(R.id.general_host).setOnClickListener(onHostClickListener);
+        findViewById(R.id.gutenberg_host).setOnTouchListener(onHostTouchListener);
+        findViewById(R.id.freeEbooks_host).setOnTouchListener(onHostTouchListener);
+        findViewById(R.id.mobileread_host).setOnTouchListener(onHostTouchListener);
+        findViewById(R.id.general_host).setOnTouchListener(onHostTouchListener);
 
         sbMenu=new SidebarMenu(this, false, false, false, true);
 
@@ -127,7 +126,6 @@ public class AddBookActivity extends Activity {
             @Override
             public void onChosenDir(final String chosenDir) {
                 if(chosenDir.endsWith(".pdf")||chosenDir.endsWith(".txt")||chosenDir.endsWith(".html")||chosenDir.endsWith(".htm")||chosenDir.endsWith(".epub")) {
-                    contentString.add(chosenDir.substring(chosenDir.lastIndexOf("/") + 1).trim());
                     if(chosenDir.endsWith(".epub")) {
                         runOnUiThread(new Runnable() {
                             @Override
@@ -177,37 +175,46 @@ public class AddBookActivity extends Activity {
         mBuilder.setContentTitle(getString(R.string.adding_book))
                 .setSmallIcon(R.drawable.logo_small_bar_dl)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.logo))
-                .setProgress(0, 0, true);
+                .setProgress(0, 0, true)
+                .setOngoing(true);
 
-        //todo not tested on phones with external sd cards
+        //*****
+        //not tested on phones with external sd cards
+        //*****
         dir=Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
         if(dir.isEmpty())
             dir=Environment.getExternalStorageDirectory().getAbsolutePath();
-        //todo is empty on some phones?
     }
 
     /**
      * OnClickListener that handles clicking a downloadhost item.
      *
      */
-    View.OnClickListener onHostClickListener=new View.OnClickListener() {
+    View.OnTouchListener onHostTouchListener=new View.OnTouchListener() {
         @Override
-        public void onClick(View v) {
-            switch(v.getId()) {
-                case R.id.gutenberg_host:
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.gutenberg_url))));
-                    break;
-                case R.id.freeEbooks_host:
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.free_ebooks_url))));
-                    break;
-                case R.id.mobileread_host:
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.mobileread_url))));
-                    break;
-                case R.id.general_host:
-                    AlertDialog.Builder ab = new AlertDialog.Builder(AddBookActivity.this);
-                    ab.setMessage(getString(R.string.general_download_howto)).setNeutralButton(getString(R.string.understood), null).show();
-                    break;
+        public boolean onTouch(View v, MotionEvent m) {
+            v.setBackgroundColor(Color.parseColor(StaticHelper.COLOR_Grey));
+            if (m.getAction() == MotionEvent.ACTION_DOWN) {
+                v.setBackgroundColor(Color.parseColor(StaticHelper.COLOR_Blue));
+            } else if(m.getAction()==MotionEvent.ACTION_UP) {
+                v.setBackgroundColor(Color.parseColor(StaticHelper.COLOR_Grey));
+                switch (v.getId()) {
+                    case R.id.gutenberg_host:
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.gutenberg_url))));
+                        break;
+                    case R.id.freeEbooks_host:
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.free_ebooks_url))));
+                        break;
+                    case R.id.mobileread_host:
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.mobileread_url))));
+                        break;
+                    case R.id.general_host:
+                        AlertDialog.Builder ab = new AlertDialog.Builder(AddBookActivity.this);
+                        ab.setMessage(getString(R.string.general_download_howto)).setNeutralButton(getString(R.string.understood), null).show();
+                        break;
+                }
             }
+            return true;
         }
     };
 
@@ -218,11 +225,11 @@ public class AddBookActivity extends Activity {
     View.OnTouchListener howToButtonListener=new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent m) {
+            ((ImageButton)v).setImageResource(R.drawable.howtobtn);
             if (m.getAction() == MotionEvent.ACTION_DOWN) {
                 ((ImageButton)v).setImageResource(R.drawable.howtobtn_pressed);
             } else if(m.getAction()==MotionEvent.ACTION_UP) {
                 ((ImageButton)v).setImageResource(R.drawable.howtobtn);
-
                 switch(v.getId()) {
                     case R.id.gutenberg_howto:
                         new AlertDialog.Builder(AddBookActivity.this)
@@ -314,15 +321,8 @@ public class AddBookActivity extends Activity {
         protected Book doInBackground(String... vars) {
             try {
                 String URI=vars[0];
-                String cont="";
-                for(int i=0;i<contentString.size();i++) {
-                    cont+=contentString.get(i);
-                    if(i<contentString.size()-1)
-                        cont+=", ";
-                }
-                mBuilder.setContentText(cont);
+                mBuilder.setContentText(URI.substring(URI.lastIndexOf("/") + 1).trim());
                 notificationManager.notify(StaticHelper.NOTIFICATION_ID_ADD, mBuilder.build());
-                //todo notification is not updated when adding multiple books...
 
                 if(URI.endsWith(".epub"))
                     return bookService.addBookAsEPUB(URI);
@@ -333,7 +333,13 @@ public class AddBookActivity extends Activity {
                 else if(URI.endsWith(".html")||URI.endsWith(".htm"))
                     return bookService.addBookAsHTML(URI, vars[1]);
             } catch(ServiceException s) {
-                showMessage(s.getMessage());
+                final String message=s.getMessage();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showMessage(message);
+                    }
+                });
                 return null;
             }
             return null;
@@ -341,8 +347,6 @@ public class AddBookActivity extends Activity {
 
         protected void onPostExecute(Book book) {
             notificationManager.cancel(StaticHelper.NOTIFICATION_ID_ADD);
-            if(!contentString.isEmpty())
-                contentString.remove(0);
             if(book!=null) {
                 if(book.getTitle().equals(getString(R.string.no_title)) || book.getAuthor().equals(getString(R.string.no_author)) || book.getLanguage()==Language.UNKNOWN) {
                     tempbook_id=book.getId();
@@ -372,6 +376,7 @@ public class AddBookActivity extends Activity {
         @Override
         public boolean onTouch(View v, MotionEvent m) {
             if (v==add_button) {
+                v.setBackgroundColor(Color.parseColor(StaticHelper.COLOR_Grey));
                 if(m.getAction()==MotionEvent.ACTION_DOWN)
                     v.setBackgroundColor(Color.parseColor(StaticHelper.COLOR_Blue));
                 else if(m.getAction()==MotionEvent.ACTION_UP) {

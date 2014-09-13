@@ -161,6 +161,10 @@ public class BookViewerActivity extends Activity {
         firstScrollDone=false;
     }
 
+    /**
+     * Updates the scroll position to the currently read sentence.
+     *
+     */
     private void updateScroll() {
         if(serviceBound)
             if(readingService.isPlaying() || !firstScrollDone) {
@@ -379,6 +383,7 @@ public class BookViewerActivity extends Activity {
                     }
                 }
             } else if (v==ffButton && serviceBound) {
+                ffButton.setImageResource(R.drawable.ffbtn);
                 if(m.getAction()== MotionEvent.ACTION_DOWN)
                     ffButton.setImageResource(R.drawable.ffbtn_pressed);
                 else if(m.getAction()==MotionEvent.ACTION_UP) {
@@ -386,6 +391,7 @@ public class BookViewerActivity extends Activity {
                     readingService.next();
                 }
             } else if(v==fbButton && serviceBound) {
+                fbButton.setImageResource(R.drawable.fbbtn);
                 if(m.getAction()== MotionEvent.ACTION_DOWN)
                     fbButton.setImageResource(R.drawable.fbbtn_pressed);
                 else if(m.getAction()==MotionEvent.ACTION_UP) {

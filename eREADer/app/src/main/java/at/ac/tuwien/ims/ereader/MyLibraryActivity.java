@@ -168,6 +168,7 @@ public class MyLibraryActivity extends Activity {
                     else
                         hideSearchBar();
             } else if (v==addButton) {
+                ((ImageButton)v).setImageResource(R.drawable.plusbtn);
                 if(m.getAction()== MotionEvent.ACTION_DOWN)
                     ((ImageButton)v).setImageResource(R.drawable.plusbtn_pressed);
                 else if(m.getAction()==MotionEvent.ACTION_UP) {
@@ -344,6 +345,7 @@ public class MyLibraryActivity extends Activity {
         private View.OnTouchListener optBtnListener = new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent m) {
+                ((ImageButton)v).setImageResource(R.drawable.setbtn);
                 if (m.getAction() == MotionEvent.ACTION_DOWN) {
                     ((ImageButton)v).setImageResource(R.drawable.setbtn_pressed);
                 } else if(m.getAction()==MotionEvent.ACTION_UP) {
