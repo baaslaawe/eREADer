@@ -15,4 +15,4 @@ eREADer is an eBook narrator application for android. Supported eBook formats: e
 - [SimpleFileDialog](http://www.scorchworks.com/Blog/simple-file-dialog-for-android-applications/)
 
 ###License
-Code released under the [GNU GENERAL PUBLIC LICENSE Version 2](http://www.gnu.org/licenses/gpl-2.0.html)
+Please check the provided LICENSE file.
