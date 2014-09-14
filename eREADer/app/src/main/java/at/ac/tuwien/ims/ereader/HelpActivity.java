@@ -58,6 +58,10 @@ public class HelpActivity extends Activity {
         sbMenu=new SidebarMenu(this, false, false, true, false);
     }
 
+    /**
+     * A OnTouchListener for the existing buttons in this activity.
+     *
+     */
     private View.OnClickListener btnListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -78,12 +82,6 @@ public class HelpActivity extends Activity {
             return;
         }
         super.onBackPressed();
-    }
-
-    private void showMessage(String message) {
-        SuperToast toast=new SuperToast(this);
-        toast.setText(message);
-        toast.show();
     }
 
     @Override

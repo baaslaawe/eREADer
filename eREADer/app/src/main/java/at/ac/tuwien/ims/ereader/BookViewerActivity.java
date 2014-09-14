@@ -413,6 +413,10 @@ public class BookViewerActivity extends Activity {
         }
     };
 
+    /**
+     * OnStart binds the ReadingService to the BookViewerActivity.
+     *
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -428,6 +432,10 @@ public class BookViewerActivity extends Activity {
         }
     }
 
+    /**
+     * ServiceConnection that handles connection and disconnection of the Readingservice.
+     *
+     */
     ServiceConnection mConnection = new ServiceConnection() {
         public void onServiceDisconnected(ComponentName name) {
             serviceBound = false;
@@ -521,12 +529,6 @@ public class BookViewerActivity extends Activity {
             }
         }
     };
-
-    private void showMessage(String message) {
-        SuperToast toast=new SuperToast(this);
-        toast.setText(message);
-        toast.show();
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

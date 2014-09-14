@@ -20,12 +20,8 @@ package at.ac.tuwien.ims.ereader.Services;
 import android.content.Context;
 import android.text.Html;
 
-import com.itextpdf.text.io.RandomAccessSourceFactory;
-import com.itextpdf.text.pdf.PRTokeniser;
 import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.RandomAccessFileOrArray;
 import com.itextpdf.text.pdf.parser.PdfReaderContentParser;
-import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy;
 import com.itextpdf.text.pdf.parser.TextExtractionStrategy;
 

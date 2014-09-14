@@ -134,6 +134,10 @@ public class BookContentsActivity extends Activity {
         super.onBackPressed();
     }
 
+    /**
+     * A OnTouchListener for the existing buttons in this activity.
+     *
+     */
     private View.OnTouchListener btnListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent m) {
@@ -312,12 +316,6 @@ public class BookContentsActivity extends Activity {
                 holder.marker.setVisibility(View.GONE);
             return convertView;
         }
-    }
-
-    private void showMessage(String message) {
-        SuperToast toast=new SuperToast(this);
-        toast.setText(message);
-        toast.show();
     }
 
     @Override

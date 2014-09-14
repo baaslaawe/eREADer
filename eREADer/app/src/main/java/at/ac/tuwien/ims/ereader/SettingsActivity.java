@@ -217,6 +217,10 @@ public class SettingsActivity extends Activity {
         });
     }
 
+    /**
+     * A OnTouchListener for the existing buttons in this activity.
+     *
+     */
     private View.OnTouchListener btnListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent m) {
@@ -241,7 +245,7 @@ public class SettingsActivity extends Activity {
                 else if(m.getAction()==MotionEvent.ACTION_UP) {
                     AlertDialog.Builder ab = new AlertDialog.Builder(SettingsActivity.this);
                     ab.setMessage(getString(R.string.sure)).setPositiveButton(getString(R.string.positive), dialogClickListener)
-                            .setNegativeButton(getString(R.string.negative), dialogClickListener).show();
+                            .setNegativeButton(getString(R.string.negative), null).show();
                     v.setBackgroundColor(Color.parseColor(StaticHelper.COLOR_Grey));
                 }
             } else if(v==menuBtn) {
@@ -265,24 +269,21 @@ public class SettingsActivity extends Activity {
         super.onBackPressed();
     }
 
+    /**
+     * OnClickListener that handles the positive button of the reset dialog.
+     *
+     */
     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            switch (which){
-                case DialogInterface.BUTTON_POSITIVE:
-                    SharedPreferences pref = getSharedPreferences("settings", 0);
-                    SharedPreferences.Editor editor = pref.edit();
-                    editor.clear();
-                    editor.apply();
-                    db.resetDatabase();
-                    Intent myIntent = new Intent(SettingsActivity.this, MyLibraryActivity.class);
-                    finish();
-                    startActivity(myIntent);
-                    break;
-                case DialogInterface.BUTTON_NEGATIVE:
-                    //do nothing
-                    break;
-            }
+            SharedPreferences pref = getSharedPreferences("settings", 0);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.clear();
+            editor.apply();
+            db.resetDatabase();
+            Intent myIntent = new Intent(SettingsActivity.this, MyLibraryActivity.class);
+            finish();
+            startActivity(myIntent);
         }
     };
 

@@ -372,6 +372,10 @@ public class AddBookActivity extends Activity {
         super.onBackPressed();
     }
 
+    /**
+     * A OnTouchListener for the existing buttons in this activity.
+     *
+     */
     private View.OnTouchListener btnListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent m) {

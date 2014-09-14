@@ -152,6 +152,10 @@ public class MyLibraryActivity extends Activity {
         super.onBackPressed();
     }
 
+    /**
+     * A OnTouchListener for the existing buttons in this activity.
+     *
+     */
     private View.OnTouchListener btnListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent m) {
@@ -367,6 +371,11 @@ public class MyLibraryActivity extends Activity {
             getMenuInflater().inflate(R.menu.library_context_menu, menu);
     }
 
+    /**
+     * Method that handles item seelction of the context menu that is opened when the user presses
+     * the small button on the right of each book list item.
+     *
+     */
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
@@ -398,6 +407,10 @@ public class MyLibraryActivity extends Activity {
         return super.onContextItemSelected(item);
     }
 
+    /**
+     * OnClickListener that handles the edit dialog save button.
+     *
+     */
     DialogInterface.OnClickListener dialogEditClickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
@@ -409,6 +422,10 @@ public class MyLibraryActivity extends Activity {
         }
     };
 
+    /**
+     * OnClickListener that handles the delete dialog save button.
+     *
+     */
     DialogInterface.OnClickListener dialogDeleteClickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
