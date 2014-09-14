@@ -163,19 +163,56 @@ public class BookService {
                 else
                     break;
 
-            PdfReaderContentParser parser = new PdfReaderContentParser(reader);
+            /*PdfReaderContentParser parser = new PdfReaderContentParser(reader);
             TextExtractionStrategy strategy;
             StringBuilder str = new StringBuilder();
             for (int i = 1; i <= reader.getNumberOfPages(); i++) {
                 strategy = parser.processContent(i, new SimpleTextExtractionStrategy());
                 str.append(strategy.getResultantText());
             }
-            reader.close();
+            reader.close();*/
 
             Language lang=Language.getLanguageFromString(language);
             Book bookToSave=insertBook(title, author, lang);
 
-            String content=str.toString().trim();
+            //String content=str.toString().trim();
+            String content="Hermann LoensDer WehrwolfEine Bauernchronik\n" +
+                    " \n" +
+                    " \n" +
+                    " \n" +
+                    "ebook 2009 © TUX\n" +
+                    " \n" +
+                    " Der Wehrwolf\n" +
+                    " Die Haidbauern\n" +
+                    " \n" +
+                    "Im Anfange war es wüst und leer in der Haide. Der\n" +
+                    "Adler führte über Tage das große Wort, und bei\n" +
+                    "Nacht hatte es der Uhu; Bär und Wolf waren Herren\n" +
+                    "im Lande und hatten Macht über jegliches Getier.\n" +
+                    "Kein Mensch wehrte es ihnen, denn die paar\n" +
+                    "armseligen Wilden, die dort vom Jagen und Fischen\n" +
+                    "lebten, waren froh, wenn sie das Leben hatten und\n" +
+                    "gingen den Untieren liebendgern aus der Kehr.\n" +
+                    "Da kamen eines Abends andere Menschen\n" +
+                    "zugereist, die blanke Gesichter und gelbes Haar\n" +
+                    "hatten; mit Pferd und Wagen, Kind und Kegel kamen\n" +
+                    "sie an, und mit Hunden und Federvieh.\n" +
+                    "Es gefiel ihnen gut in der Haide, denn sie kamen\n" +
+                    "daher, wo das Eis noch bis in den Mai auf den\n" +
+                    "Pümpen stand und im Oktober schon wieder Schnee\n" +
+                    "fiel.\n" +
+                    "Ein jeder suchte sich einen Platz und baute sich\n" +
+                    "darauf ein breites Haus mit spitzem Dach, das mit\n" +
+                    "Reet und Plaggen gedeckt war und am Giebel ein\n" +
+                    "paar bunte Pferdeköpfe aus Holz aufwies.Jeglicher Hof lag für sich. Ganz zu hinterst in der\n" +
+                    "Haide wohnte Reineke; sein Nachbar war Hingst; auf\n" +
+                    "ihn folgte Marten, darauf Hennig, hinterher Hors, und\n" +
+                    "dann Bock und Bolle und Otte und Katz und Duw\n" +
+                    "und Specht und Petz und Ul und wie sie alle hießen,\n" +
+                    "und zuletzt Wulf, ein langer Mann mit lustigen Augen\n" +
+                    "und einer hellen Stimme, der sich da angebaut hatte,\n" +
+                    "wo das Bruch anfing.";
+            content=content.replaceAll("\n", "");
             divideAndSafeContentInChunks(bookToSave, content);
 
             return bookToSave;
@@ -303,6 +340,15 @@ public class BookService {
                     savedIndex=lastIndex;
                 }
             }
+        }
+
+        lastIndex=content.length()-1;
+        if(words<=1500 && actualContentNumber>1) {
+            Content lastContent=db.getContentsByBook(bookToSaveTo.getId()).get(db.getContentsByBook(bookToSaveTo.getId()).size()-1);
+            db.deleteContent(lastContent.getId());
+            insertContent(bookToSaveTo, Integer.toString(actualContentNumber-1), lastContent.getContent()+"\n"+content.substring(savedIndex, lastIndex), lastContent.getWords()+words);
+        } else {
+            insertContent(bookToSaveTo, Integer.toString(actualContentNumber), content.substring(savedIndex, lastIndex), words);
         }
     }
 
