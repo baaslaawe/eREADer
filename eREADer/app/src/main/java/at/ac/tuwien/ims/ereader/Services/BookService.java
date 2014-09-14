@@ -204,7 +204,8 @@ public class BookService {
                     "Ein jeder suchte sich einen Platz und baute sich\n" +
                     "darauf ein breites Haus mit spitzem Dach, das mit\n" +
                     "Reet und Plaggen gedeckt war und am Giebel ein\n" +
-                    "paar bunte Pferdeköpfe aus Holz aufwies.Jeglicher Hof lag für sich. Ganz zu hinterst in der\n" +
+                    "paar bunte Pferdeköpfe aus Holz aufwies.Jeglicher\n" +
+                    "Hof lag für sich. Ganz zu hinterst in der\n" +
                     "Haide wohnte Reineke; sein Nachbar war Hingst; auf\n" +
                     "ihn folgte Marten, darauf Hennig, hinterher Hors, und\n" +
                     "dann Bock und Bolle und Otte und Katz und Duw\n" +
@@ -212,7 +213,6 @@ public class BookService {
                     "und zuletzt Wulf, ein langer Mann mit lustigen Augen\n" +
                     "und einer hellen Stimme, der sich da angebaut hatte,\n" +
                     "wo das Bruch anfing.";
-            content=content.replaceAll("\n", "");
             divideAndSafeContentInChunks(bookToSave, content);
 
             return bookToSave;
@@ -331,8 +331,8 @@ public class BookService {
             lastIndex = it.next();
 
             if (lastIndex != BreakIterator.DONE) {
-                words+=content.substring(firstIndex, lastIndex).split("\\s+").length;
-
+                String sentence=content.substring(firstIndex, lastIndex);
+                words+=sentence.split("\\s+").length;
                 if(words>=5000) {
                     insertContent(bookToSaveTo, Integer.toString(actualContentNumber), content.substring(savedIndex, lastIndex), words);
                     actualContentNumber++;

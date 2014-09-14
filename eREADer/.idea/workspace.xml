@@ -87,6 +87,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="82d73246-6504-445f-971f-7a2e53265cb3" name="Default" comment="">
+      <change type="DELETED" beforePath="D:\Projekte\eREADer\eREADer\aFileChooser\aFileChooser.iml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/BookService.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/BookService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -129,10 +130,10 @@
       <file leaf-file-name="BookService.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/BookService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.4064294" vertical-offset="4623" max-vertical-offset="8942">
-              <caret line="344" column="16" selection-start-line="344" selection-start-column="16" selection-end-line="344" selection-end-column="16" />
+            <state vertical-scroll-proportion="3.2181401" vertical-offset="2739" max-vertical-offset="8942">
+              <caret line="326" column="0" selection-start-line="326" selection-start-column="0" selection-end-line="326" selection-end-column="0" />
               <folding>
-                <element signature="e#0#20151#0" expanded="true" />
+                <element signature="e#0#20168#0" expanded="true" />
                 <element signature="imports" expanded="true" />
                 <element signature="e#2596#2638#0" expanded="true" />
                 <element signature="e#2657#2687#0" expanded="true" />
@@ -140,20 +141,20 @@
                 <element signature="e#2771#2815#0" expanded="true" />
                 <element signature="e#5460#5468#0" expanded="true" />
                 <element signature="e#5865#5873#0" expanded="true" />
-                <element signature="e#17369#17370#0" expanded="true" />
-                <element signature="e#17408#17409#0" expanded="true" />
-                <element signature="e#17680#17896#0" expanded="true" />
-                <element signature="e#17885#17886#0" expanded="true" />
-                <element signature="e#18379#18380#0" expanded="true" />
-                <element signature="e#18421#18422#0" expanded="true" />
-                <element signature="e#18567#18568#0" expanded="true" />
-                <element signature="e#18602#18603#0" expanded="true" />
-                <element signature="e#18846#18847#0" expanded="true" />
-                <element signature="e#18898#18899#0" expanded="true" />
-                <element signature="e#19833#19834#0" expanded="true" />
-                <element signature="e#19876#19877#0" expanded="true" />
-                <element signature="e#20089#20090#0" expanded="true" />
-                <element signature="e#20148#20149#0" expanded="true" />
+                <element signature="e#17386#17387#0" expanded="true" />
+                <element signature="e#17425#17426#0" expanded="true" />
+                <element signature="e#17697#17913#0" expanded="true" />
+                <element signature="e#17902#17903#0" expanded="true" />
+                <element signature="e#18396#18397#0" expanded="true" />
+                <element signature="e#18438#18439#0" expanded="true" />
+                <element signature="e#18584#18585#0" expanded="true" />
+                <element signature="e#18619#18620#0" expanded="true" />
+                <element signature="e#18863#18864#0" expanded="true" />
+                <element signature="e#18915#18916#0" expanded="true" />
+                <element signature="e#19850#19851#0" expanded="true" />
+                <element signature="e#19893#19894#0" expanded="true" />
+                <element signature="e#20106#20107#0" expanded="true" />
+                <element signature="e#20165#20166#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1969,7 +1970,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="189" />
+      <option name="time" value="190" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -2456,10 +2457,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/BookService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.4064294" vertical-offset="4623" max-vertical-offset="8942">
-          <caret line="344" column="16" selection-start-line="344" selection-start-column="16" selection-end-line="344" selection-end-column="16" />
+        <state vertical-scroll-proportion="3.2181401" vertical-offset="2739" max-vertical-offset="8942">
+          <caret line="326" column="0" selection-start-line="326" selection-start-column="0" selection-end-line="326" selection-end-column="0" />
           <folding>
-            <element signature="e#0#20151#0" expanded="true" />
+            <element signature="e#0#20168#0" expanded="true" />
             <element signature="imports" expanded="true" />
             <element signature="e#2596#2638#0" expanded="true" />
             <element signature="e#2657#2687#0" expanded="true" />
@@ -2467,20 +2468,20 @@
             <element signature="e#2771#2815#0" expanded="true" />
             <element signature="e#5460#5468#0" expanded="true" />
             <element signature="e#5865#5873#0" expanded="true" />
-            <element signature="e#17369#17370#0" expanded="true" />
-            <element signature="e#17408#17409#0" expanded="true" />
-            <element signature="e#17680#17896#0" expanded="true" />
-            <element signature="e#17885#17886#0" expanded="true" />
-            <element signature="e#18379#18380#0" expanded="true" />
-            <element signature="e#18421#18422#0" expanded="true" />
-            <element signature="e#18567#18568#0" expanded="true" />
-            <element signature="e#18602#18603#0" expanded="true" />
-            <element signature="e#18846#18847#0" expanded="true" />
-            <element signature="e#18898#18899#0" expanded="true" />
-            <element signature="e#19833#19834#0" expanded="true" />
-            <element signature="e#19876#19877#0" expanded="true" />
-            <element signature="e#20089#20090#0" expanded="true" />
-            <element signature="e#20148#20149#0" expanded="true" />
+            <element signature="e#17386#17387#0" expanded="true" />
+            <element signature="e#17425#17426#0" expanded="true" />
+            <element signature="e#17697#17913#0" expanded="true" />
+            <element signature="e#17902#17903#0" expanded="true" />
+            <element signature="e#18396#18397#0" expanded="true" />
+            <element signature="e#18438#18439#0" expanded="true" />
+            <element signature="e#18584#18585#0" expanded="true" />
+            <element signature="e#18619#18620#0" expanded="true" />
+            <element signature="e#18863#18864#0" expanded="true" />
+            <element signature="e#18915#18916#0" expanded="true" />
+            <element signature="e#19850#19851#0" expanded="true" />
+            <element signature="e#19893#19894#0" expanded="true" />
+            <element signature="e#20106#20107#0" expanded="true" />
+            <element signature="e#20165#20166#0" expanded="true" />
           </folding>
         </state>
       </provider>
