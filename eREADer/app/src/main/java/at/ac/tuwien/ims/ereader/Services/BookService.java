@@ -148,9 +148,10 @@ public class BookService {
             titleSearch.add("Titel");
             titleSearch.add("titel");
             for(String s: titleSearch)
-                if(title.equals(""))
-                    title=info.get(s);
-                else
+                if(title.equals("")) {
+                    if (info.get(s) != null)
+                        title = info.get(s);
+                } else
                     break;
             String author="";
             List<String> authorSearch=new ArrayList<String>();
@@ -159,9 +160,10 @@ public class BookService {
             authorSearch.add("Autor");
             authorSearch.add("autor");
             for(String s: authorSearch)
-                if(author.equals(""))
-                    author=info.get(s);
-                else
+                if(author.equals("")) {
+                    if (info.get(s) != null)
+                        author = info.get(s);
+                } else
                     break;
 
             PdfReaderContentParser parser = new PdfReaderContentParser(reader);
@@ -366,7 +368,9 @@ public class BookService {
      * @throws ServiceException if book is null, content is empty or words are negative
      */
     private Content insertContent(Book bookOfContent, String heading, String content, int numberOfWords) throws ServiceException {
-        if(bookOfContent==null || content.isEmpty() || numberOfWords<0)
+        if(bookOfContent==null || content==null)
+            throw new ServiceException(ebook_loading_failed);
+        if(heading.isEmpty() || content.isEmpty() || numberOfWords<0)
             throw new ServiceException(ebook_loading_failed);
 
         Content c=new Content(bookOfContent, heading, content, numberOfWords);
