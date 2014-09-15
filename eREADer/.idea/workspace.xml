@@ -87,13 +87,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="82d73246-6504-445f-971f-7a2e53265cb3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/AddBookActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/AddBookActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookContentsActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookContentsActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/BookService.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/BookService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookViewerActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookViewerActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/HelpActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/HelpActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/MyLibraryActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/MyLibraryActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/SettingsActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/SettingsActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Util/SimpleFileDialog.java" afterPath="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Util/SimpleFileDialog.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="eREADer.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -121,14 +118,34 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="BookService.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="BookService.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/BookService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.19747417" vertical-offset="4061" max-vertical-offset="7735">
-              <caret line="282" column="0" selection-start-line="282" selection-start-column="0" selection-end-line="282" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="4280" max-vertical-offset="7769">
+              <caret line="101" column="21" selection-start-line="101" selection-start-column="21" selection-end-line="101" selection-end-column="21" />
               <folding>
-                <element signature="e#0#18448#0" expanded="true" />
+                <element signature="e#0#18554#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SimpleFileDialog.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Util/SimpleFileDialog.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="3015" max-vertical-offset="6001">
+              <caret line="225" column="78" selection-start-line="225" selection-start-column="78" selection-end-line="225" selection-end-column="78" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AddBookActivity.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/AddBookActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.12162162" vertical-offset="982" max-vertical-offset="5814">
+              <caret line="116" column="0" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -1326,7 +1343,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Entities/DownloadHost.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Util/StaticHelper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Entities/Book.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/downloadlist_item.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/attrs.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Util/Option.java" />
@@ -1334,7 +1350,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Util/FileChooser.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/file_view.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/file_chooser_item.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Util/SimpleFileDialog.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values-de/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
@@ -1342,13 +1357,15 @@
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/ReadingService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Util/PDFTextParser.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
-        <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/BookService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/AddBookActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookViewerActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/BookContentsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/HelpActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/SettingsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/MyLibraryActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Util/SimpleFileDialog.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/BookService.java" />
       </list>
     </option>
   </component>
@@ -1401,6 +1418,7 @@
     </navigator>
     <panes>
       <pane id="AndroidView" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -1478,6 +1496,36 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eREADer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eREADer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1617,7 +1665,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -1692,19 +1739,6 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -1730,6 +1764,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -1858,7 +1905,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32925472" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1872,6 +1919,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5605889" sideWeight="0.5003003" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4749722" sideWeight="0.4997118" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39377084" sideWeight="0.4996997" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32925472" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1879,15 +1927,14 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18603411" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31034482" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18603411" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31034482" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="1389" y="205" width="317" height="290" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4260289" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4749722" sideWeight="0.4997118" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -2039,13 +2086,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Util/SimpleFileDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.1320322" vertical-offset="1696" max-vertical-offset="5831">
-          <caret line="242" column="42" selection-start-line="242" selection-start-column="42" selection-end-line="242" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/app/libs/epublib-core-latest.jar!/nl/siegmann/epublib/domain/Metadata.class">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.35240275" vertical-offset="696" max-vertical-offset="1751">
@@ -2124,60 +2164,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/AddBookActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.29735935" vertical-offset="4977" max-vertical-offset="5865">
-          <caret line="399" column="0" selection-start-line="399" selection-start-column="0" selection-end-line="399" selection-end-column="0" />
-          <folding>
-            <element signature="e#3680#3713#0" expanded="true" />
-            <element signature="e#3721#3755#0" expanded="true" />
-            <element signature="e#3857#3892#0" expanded="true" />
-            <element signature="e#3900#3934#0" expanded="true" />
-            <element signature="e#4036#4070#0" expanded="true" />
-            <element signature="e#4078#4101#0" expanded="true" />
-            <element signature="e#4903#4934#0" expanded="true" />
-            <element signature="e#4936#5843#0" expanded="true" />
-            <element signature="e#5759#5799#0" expanded="true" />
-            <element signature="e#5832#5833#0" expanded="true" />
-            <element signature="e#6122#6135#0" expanded="true" />
-            <element signature="e#6197#6212#0" expanded="true" />
-            <element signature="e#6246#6286#0" expanded="true" />
-            <element signature="e#6482#6505#0" expanded="true" />
-            <element signature="e#6523#6546#0" expanded="true" />
-            <element signature="e#6564#6587#0" expanded="true" />
-            <element signature="e#6605#6627#0" expanded="true" />
-            <element signature="e#6993#7006#0" expanded="true" />
-            <element signature="e#7068#7083#0" expanded="true" />
-            <element signature="e#7117#7154#0" expanded="true" />
-            <element signature="e#7727#7758#0" expanded="true" />
-            <element signature="e#9056#9089#0" expanded="true" />
-            <element signature="e#9251#9286#0" expanded="true" />
-            <element signature="e#9448#9482#0" expanded="true" />
-            <element signature="e#9696#9738#0" expanded="true" />
-            <element signature="e#9757#9787#0" expanded="true" />
-            <element signature="e#10708#10743#0" expanded="true" />
-            <element signature="e#10795#10825#0" expanded="true" />
-            <element signature="e#11101#11134#0" expanded="true" />
-            <element signature="e#11254#11281#0" expanded="true" />
-            <element signature="e#11484#11521#0" expanded="true" />
-            <element signature="e#11573#11603#0" expanded="true" />
-            <element signature="e#11879#11914#0" expanded="true" />
-            <element signature="e#12034#12061#0" expanded="true" />
-            <element signature="e#12264#12300#0" expanded="true" />
-            <element signature="e#12352#12382#0" expanded="true" />
-            <element signature="e#12658#12692#0" expanded="true" />
-            <element signature="e#12812#12839#0" expanded="true" />
-            <element signature="e#13039#13081#0" expanded="true" />
-            <element signature="e#13133#13163#0" expanded="true" />
-            <element signature="e#13213#13240#0" expanded="true" />
-            <element signature="e#14807#14844#0" expanded="true" />
-            <element signature="e#16578#16606#0" expanded="true" />
-            <element signature="e#16635#16664#0" expanded="true" />
-            <element signature="e#17038#17075#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1292">
@@ -2204,7 +2190,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.45350173" vertical-offset="217" max-vertical-offset="1156">
           <caret line="63" column="7" selection-start-line="63" selection-start-column="7" selection-end-line="63" selection-end-column="7" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2318,17 +2303,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="3.3033175" vertical-offset="0" max-vertical-offset="6579">
-          <caret line="164" column="34" selection-start-line="150" selection-start-column="4" selection-end-line="164" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/booklist_item.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1632">
@@ -2417,13 +2391,40 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml">
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4853" max-vertical-offset="6579">
+          <caret line="302" column="24" selection-start-line="302" selection-start-column="24" selection-end-line="302" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Services/BookService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.19747417" vertical-offset="4061" max-vertical-offset="7735">
-          <caret line="282" column="0" selection-start-line="282" selection-start-column="0" selection-end-line="282" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="4280" max-vertical-offset="7769">
+          <caret line="101" column="21" selection-start-line="101" selection-start-column="21" selection-end-line="101" selection-end-column="21" />
           <folding>
-            <element signature="e#0#18448#0" expanded="true" />
+            <element signature="e#0#18554#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/Util/SimpleFileDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3015" max-vertical-offset="6001">
+          <caret line="225" column="78" selection-start-line="225" selection-start-column="78" selection-end-line="225" selection-end-column="78" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/at/ac/tuwien/ims/ereader/AddBookActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.12162162" vertical-offset="982" max-vertical-offset="5814">
+          <caret line="116" column="0" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

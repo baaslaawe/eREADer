@@ -49,6 +49,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+/**
+ * Modified Methods:
+ * -getDirectories(...)
+ * -createDirectoryChooserDialog(...)
+ * -SimpleFileDialog(...)
+ *
+ */
 public class SimpleFileDialog
 {
     private int FileOpen     = 0;
@@ -221,7 +229,9 @@ public class SimpleFileDialog
                 else if (Select_type == FileSave || Select_type == FileOpen)
                 {
                     // Add file names to the list if we are doing a file save or file open operation
-                    dirs.add( file.getName() );
+                    String chosenDir=file.getName();
+                    if(chosenDir.endsWith(".pdf")||chosenDir.endsWith(".txt")||chosenDir.endsWith(".html")||chosenDir.endsWith(".htm")||chosenDir.endsWith(".epub"))
+                        dirs.add(chosenDir);
                 }
             }
         }

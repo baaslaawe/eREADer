@@ -141,25 +141,25 @@ public class BookService {
         try {
             PdfReader reader = new PdfReader(URI);
             Map<String,String> info=reader.getInfo();
-            String title=null;
+            String title="";
             List<String> titleSearch=new ArrayList<String>();
             titleSearch.add("Title");
             titleSearch.add("title");
             titleSearch.add("Titel");
             titleSearch.add("titel");
             for(String s: titleSearch)
-                if(title==null)
+                if(title.equals(""))
                     title=info.get(s);
                 else
                     break;
-            String author=null;
+            String author="";
             List<String> authorSearch=new ArrayList<String>();
             authorSearch.add("Author");
             authorSearch.add("author");
             authorSearch.add("Autor");
             authorSearch.add("autor");
             for(String s: authorSearch)
-                if(author==null)
+                if(author.equals(""))
                     author=info.get(s);
                 else
                     break;
@@ -340,6 +340,8 @@ public class BookService {
      * @throws ServiceException if an error occurs while inserting currentposition
      */
     private Book insertBook(String title, String author, Language language) throws ServiceException {
+        if(title==null||author==null)
+            throw new ServiceException(ebook_loading_failed);
         if(title.isEmpty())
             title=no_title;
         if(author.isEmpty())
