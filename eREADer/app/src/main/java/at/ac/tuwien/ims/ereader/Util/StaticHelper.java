@@ -41,7 +41,7 @@ public class StaticHelper {
     public static final long typesize_medium=1;
     public static final long typesize_large=2;
     public static final int typesize_range_down=10;
-    public static final int typesize_range_up=7;
+    public static final int typesize_range_up=10;
 
     public static final String BROADCAST_ACTION = "at.ac.tuwien.ims.ereader.Services.BROADCAST";
     public static final String ACTION_PLAY="at.ac.tuwien.ims.ereader.Services.ACTION_PLAY";

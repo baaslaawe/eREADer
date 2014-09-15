@@ -246,7 +246,7 @@
                             android:id="@+id/test_sentence"
                             android:layout_gravity="center"
                             android:textColor="#ff263941"
-                            android:textAppearance="?android:attr/textAppearanceMedium" />
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
                     </FrameLayout>
 
                 </LinearLayout>

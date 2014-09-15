@@ -34,6 +34,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.text.Layout;
 import android.text.Spannable;
+import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
@@ -138,7 +139,7 @@ public class BookViewerActivity extends Activity {
             chapt= contents.get(cha).getHeading();
         }
 
-        content.setText(getString(R.string.loading));
+        content.setText(getString(R.string.loading), TextView.BufferType.SPANNABLE);
         cont_heading.setText(getString(R.string.content)+ " "+chapt);
         sbMenu=new SidebarMenu(this, false, false, false, false);
 
@@ -159,6 +160,11 @@ public class BookViewerActivity extends Activity {
 
         content.setOnTouchListener(contentTouchListener);
         firstScrollDone=false;
+
+        ttsDoneToast = new SuperActivityToast(BookViewerActivity.this, SuperToast.Type.PROGRESS);
+        ttsDoneToast.setText(getString(R.string.ttsDone_str));
+        ttsDoneToast.setIndeterminate(true);
+        ttsDoneToast.setProgressIndeterminate(true);
     }
 
     /**
@@ -198,23 +204,37 @@ public class BookViewerActivity extends Activity {
     }
 
     /**
-     * Method that updates the current content and applies a span to it that displays the current-
-     * sentence that is read.
+     * Method that updates the current content.
      *
      */
     private void updateContent() {
-        if(serviceBound)
+        if(serviceBound) {
+            content.setText(readingService.getCurrentContentString(), TextView.BufferType.SPANNABLE);
+            updateSpan();
+            firstScrollDone=false;
+        }
+    }
+
+    /**
+     *  Method that applies a span to the content that displays the current sentence that is read.
+     *
+     */
+    private void updateSpan() {
+        if(serviceBound) {
+            final Spannable sp = (Spannable)content.getText();
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Spannable spanText = Spannable.Factory.getInstance().newSpannable(readingService.getCurrentContentString());
                     int i[] = readingService.getIndicesOfCurrentSentence();
-                    if (i!=null){
-                        spanText.setSpan(new BackgroundColorSpan(Color.parseColor("#0FC1B8")), i[0], i[1], Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        content.setText(spanText);
+                    if (i != null) {
+                        BackgroundColorSpan[] toRemoveSpans=sp.getSpans(0, sp.length(), BackgroundColorSpan.class);
+                        for (int j = 0; j < toRemoveSpans.length; j++)
+                            sp.removeSpan(toRemoveSpans[j]);
+                        sp.setSpan(new BackgroundColorSpan(Color.parseColor("#0FC1B8")), i[0], i[1], Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     }
                 }
             });
+        }
     }
 
     /**
@@ -311,16 +331,15 @@ public class BookViewerActivity extends Activity {
                             final int x = (int) event.getX();
                             final int y = (int) event.getY();
 
+                            final Spannable sp = (Spannable)content.getText();
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Spannable spanText = Spannable.Factory.getInstance().newSpannable(readingService.getCurrentContentString());
                                     int i[] = readingService.getIndicesOfCurrentSentence();
                                     int j[] = readingService.getIndicesOfClickedSentence(layout, x, y);
-                                    if (i != null && j != null) {
-                                        spanText.setSpan(new BackgroundColorSpan(Color.parseColor("#0FC1B8")), i[0], i[1], Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                        spanText.setSpan(new BackgroundColorSpan(Color.parseColor("#0FC1B8")), j[0], j[1], Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                        content.setText(spanText);
+                                    if (i != null) {
+                                        sp.setSpan(new BackgroundColorSpan(Color.parseColor("#0FC1B8")), i[0], i[1], Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                        sp.setSpan(new BackgroundColorSpan(Color.parseColor("#0FC1B8")), j[0], j[1], Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                     }
                                 }
                             });
@@ -332,7 +351,7 @@ public class BookViewerActivity extends Activity {
                                     if (item == 0) {
                                         readingService.setCurrentSentence(readingService.getSentenceNumberByClick(layout, x, y));
                                     }
-                                    updateContent();
+                                    updateSpan();
                                 }
                             });
                             AlertDialog dialog = builder.create();
@@ -341,7 +360,7 @@ public class BookViewerActivity extends Activity {
                             dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                                 @Override
                                 public void onDismiss(DialogInterface dialog) {
-                                    updateContent();
+                                    updateSpan();
                                 }
                             });
                             dialog.show();
@@ -502,19 +521,21 @@ public class BookViewerActivity extends Activity {
                     else
                         playButton.setImageResource(R.drawable.playbtn);
 
-                    updateContent();
+                    updateSpan();
+                    updateButtons();
+                    updateScroll();
+                }
+
+                if(extra.getBoolean("updateContent")) {
                     updateContentHeader();
+                    updateContent();
                     updateButtons();
                     updateScroll();
                 }
 
                 if(extra.getBoolean("ttsStart")) {
-                    ttsDoneToast = new SuperActivityToast(BookViewerActivity.this, SuperToast.Type.PROGRESS);
-                    ttsDoneToast.setText(getString(R.string.ttsDone_str));
-                    ttsDoneToast.setIndeterminate(true);
-                    ttsDoneToast.setProgressIndeterminate(true);
                     ttsDoneToast.show();
-                    playButton.setEnabled(false);
+                    disableButtons();
                     contentScrollView.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
@@ -523,12 +544,26 @@ public class BookViewerActivity extends Activity {
                     });
                 } else if (extra.getBoolean("ttsDone")) {
                     ttsDoneToast.dismiss();
-                    playButton.setEnabled(true);
+                    enableButtons();
                     contentScrollView.setOnTouchListener(null);
                 }
             }
         }
     };
+
+    private void disableButtons() {
+        playButton.setEnabled(false);
+        ffButton.setEnabled(false);
+        fbButton.setEnabled(false);
+        volumeButton.setEnabled(false);
+    }
+
+    private void enableButtons() {
+        playButton.setEnabled(true);
+        ffButton.setEnabled(true);
+        fbButton.setEnabled(true);
+        volumeButton.setEnabled(true);
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

@@ -90,13 +90,11 @@ public class ReadingService extends Service {
     public void onCreate(){
         super.onCreate();
         bookService=new BookService(this);
-
         notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         Intent intent = new Intent(StaticHelper.BROADCAST_ACTION);
         intent.putExtra("ttsStart", true);
         sendBroadcast(intent);
-
         ttsService=new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -225,7 +223,7 @@ public class ReadingService extends Service {
     }
 
     /**
-     *Method that stops the TTS-service and therefore pauses the read sentence.
+     * Method that stops the TTS-service and therefore pauses the read sentence.
      *
      */
     public void pause() {
@@ -241,12 +239,23 @@ public class ReadingService extends Service {
     }
 
     /**
-     *Helper method that sends a broadcast to the BookViewerActivity to update its contents.
+     * Helper method that sends a broadcast to the BookViewerActivity to update buttons, scrolling
+     * and span.
      *
      */
     private void broadcastUpdate() {
         Intent intent = new Intent(StaticHelper.BROADCAST_ACTION);
         intent.putExtra("update", true);
+        sendBroadcast(intent);
+    }
+
+    /**
+     * Helper method that sends a broadcast to the BookViewerActivity to update its contents.
+     *
+     */
+    private void broadcastUpdateContent() {
+        Intent intent = new Intent(StaticHelper.BROADCAST_ACTION);
+        intent.putExtra("updateContent", true);
         sendBroadcast(intent);
     }
 
@@ -262,7 +271,7 @@ public class ReadingService extends Service {
             this.currentContentString=contents.get(currentContent).getContent();
             this.currentContentHeading=contents.get(currentContent).getHeading();
             updateSentences();
-            broadcastUpdate();
+            broadcastUpdateContent();
             updateNotificationBar();
         }
     }
@@ -279,7 +288,7 @@ public class ReadingService extends Service {
             this.currentContentString=contents.get(currentContent).getContent();
             this.currentContentHeading=contents.get(currentContent).getHeading();
             updateSentences();
-            broadcastUpdate();
+            broadcastUpdateContent();
             updateNotificationBar();
         }
     }
@@ -424,7 +433,7 @@ public class ReadingService extends Service {
 
         updateSentences();
         updateTTS();
-        broadcastUpdate();
+        broadcastUpdateContent();
     }
 
     /**
