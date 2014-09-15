@@ -94,6 +94,8 @@ public class BookViewerActivity extends Activity {
     private long clicktime=0;
     private boolean firstScrollDone;
 
+    private SuperActivityToast contentLoadToast;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,6 +167,11 @@ public class BookViewerActivity extends Activity {
         ttsDoneToast.setText(getString(R.string.ttsDone_str));
         ttsDoneToast.setIndeterminate(true);
         ttsDoneToast.setProgressIndeterminate(true);
+
+        contentLoadToast = new SuperActivityToast(BookViewerActivity.this, SuperToast.Type.PROGRESS);
+        contentLoadToast.setText(getString(R.string.loading));
+        contentLoadToast.setIndeterminate(true);
+        contentLoadToast.setProgressIndeterminate(true);
     }
 
     /**
