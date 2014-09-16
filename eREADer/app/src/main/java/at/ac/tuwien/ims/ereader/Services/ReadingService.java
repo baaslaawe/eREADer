@@ -100,7 +100,7 @@ public class ReadingService extends Service {
             public void onInit(int status) {
                 if(status == TextToSpeech.SUCCESS) {
                     ttsService.setLanguage(Locale.US);
-                    Log.d(ReadingService.class.getName(), "TTS initialized.");
+                    //Log.d(ReadingService.class.getName(), "TTS initialized.");
                     Intent intent = new Intent(StaticHelper.BROADCAST_ACTION);
                     intent.putExtra("ttsDone", true);
                     sendBroadcast(intent);
@@ -111,20 +111,20 @@ public class ReadingService extends Service {
         ttsService.setOnUtteranceProgressListener(new UtteranceProgressListener() {
             @Override
             public void onDone(String utteranceId) {
-                Log.d(ReadingService.class.getName(), "Stopped reading: " + sentences.get(currentSentence));
+                //Log.d(ReadingService.class.getName(), "Stopped reading: " + sentences.get(currentSentence));
                 if (currentSentence < sentences.size()-1) {
                     if(playing)
                         currentSentence++;
                     bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentContent, currentSentence));
                     reading = false;
                 } else if (currentSentence==sentences.size()-1 && currentContent == contents.size()-1) {
-                    Log.d(ReadingService.class.getName(), "Reached end of book.");
+                    //Log.d(ReadingService.class.getName(), "Reached end of book.");
                     pause();
                     bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentContent, currentSentence));
                     reading = false;
                     updateNotificationBar();
                 } else {
-                    Log.d(ReadingService.class.getName(), "Reached end of chapter, skipping to the next.");
+                    //Log.d(ReadingService.class.getName(), "Reached end of chapter, skipping to the next.");
                     next();
                     bookService.updateCurrentPosition(new CurrentPosition(book.getId(), currentContent, currentSentence));
                     reading = false;
@@ -138,7 +138,7 @@ public class ReadingService extends Service {
 
             @Override
             public void onStart(String utteranceId) {
-                Log.d(ReadingService.class.getName(), "Starting to read: " + sentences.get(currentSentence));
+                //Log.d(ReadingService.class.getName(), "Starting to read: " + sentences.get(currentSentence));
                 broadcastUpdate();
             }
         });
@@ -155,13 +155,13 @@ public class ReadingService extends Service {
             String action = intent.getAction();
             if (!TextUtils.isEmpty(action)) {
                 if(action.equalsIgnoreCase(StaticHelper.ACTION_PAUSE)) {
-                    Log.d(ReadingService.class.getName(), "Pressed pause from Notificationbar");
+                    //Log.d(ReadingService.class.getName(), "Pressed pause from Notificationbar");
                     pause();
                 } else if (action.equalsIgnoreCase(StaticHelper.ACTION_PLAY)) {
-                    Log.d(ReadingService.class.getName(), "Pressed play from Notificationbar");
+                    //Log.d(ReadingService.class.getName(), "Pressed play from Notificationbar");
                     play();
                 } else if (action.equalsIgnoreCase(StaticHelper.ACTION_CLOSE)) {
-                    Log.d(ReadingService.class.getName(), "Pressed close from Notificationbar");
+                    //Log.d(ReadingService.class.getName(), "Pressed close from Notificationbar");
                     notificationManager.cancel(StaticHelper.NOTIFICATION_ID_PLAY);
                     sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
                     stopSelf();
@@ -186,7 +186,7 @@ public class ReadingService extends Service {
         }
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancel(StaticHelper.NOTIFICATION_ID_PLAY);
-        Log.d(ReadingService.class.getName(), "Readingservice destroyed.");
+        //Log.d(ReadingService.class.getName(), "Readingservice destroyed.");
     }
 
     /**
@@ -614,7 +614,7 @@ public class ReadingService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        Log.d(ReadingService.class.getName(), "Readingservice onBind.");
+        //Log.d(ReadingService.class.getName(), "Readingservice onBind.");
         return binder;
     }
 }

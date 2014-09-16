@@ -96,15 +96,21 @@
         Dann klicken Sie das Buch das Sie downloaden wollen.\n\t
         Nun scrollen Sie hinunter und downloaden das eBook als TXT, PDF oder Epub(no images).\n\t
         Nachdem der Download abgeschlossen ist, oeffnen Sie das \'Buch hinzufuegen\' Fenster, klicken Sie den \'Hinzufuegen\'-Button und suchen das Buch im Speicher.</string>
+    <string name="gutenberg_url">http://m.gutenberg.org</string>
+
     <string name="free_ebooks_name">Free eBooks</string>
     <string name="free_ebooks_howto">Nachdem der Browser die Website geladen hat, suchen Sie nach einem eBook mit Hilfe der Suchleiste.\n\t
         Dann klicken Sie das Cover des Buches das Sie downloaden wollen.\n\t
         Nun scrollen Sie hinunter und klicken den \'DOWNLOAD\'-Button und waehlen eines dr folgenden Formate: TXT, PDF oder Epub.\n\t
         Nachdem der Download abgeschlossen ist, oeffnen Sie das \'Buch hinzufuegen\' Fenster, klicken Sie den \'Hinzufuegen\'-Button und suchen das Buch im Speicher.</string>
+    <string name="free_ebooks_url">http://www.free-ebooks.net</string>
+
     <string name="mobileread_name">MobileRead Wiki</string>
     <string name="mobileread_howto">Nachdem der Browser die Website geladen hat, suchen Sie manuell nach einem eBook in der Liste.\n\t
         Dann klicken Sie den ePub link, der ein neues Tab oeffnet in dem Sie das eBook downloaden koennen.\n\t
         Nachdem der Download abgeschlossen ist, oeffnen Sie das \'Buch hinzufuegen\' Fenster, klicken Sie den \'Hinzufuegen\'-Button und suchen das Buch im Speicher.</string>
+    <string name="mobileread_url">http://wiki.mobileread.com/wiki/Free_eBooks-de/de</string>
+
     <string name="general_download_name">Generelle Download Information</string>
     <string name="general_download_howto">Oeffnen Sie das \'Buch hinzufuegen\' Fenster, klicken Sie den \'Hinzufuegen\'-Button und suchen das Buch im Speicher.</string>
 </resources>

@@ -208,8 +208,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:weightSum="3"
-                    android:id="@+id/linearLayout2">
+                    android:weightSum="3">
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -232,7 +231,6 @@
                         android:layout_height="match_parent"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="@string/help_library"
-                        android:id="@+id/textView2"
                         android:layout_weight="1"
                         android:background="#ffe8e8e8"
                         android:textColor="#243840"
@@ -248,8 +246,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:weightSum="3"
-                    android:id="@+id/linearLayout2">
+                    android:weightSum="3">
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -272,7 +269,6 @@
                         android:layout_height="match_parent"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="@string/help_contentsview"
-                        android:id="@+id/textView2"
                         android:layout_weight="1"
                         android:background="#ffe8e8e8"
                         android:textColor="#243840"
@@ -287,8 +283,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:weightSum="3"
-                    android:id="@+id/linearLayout2">
+                    android:weightSum="3">
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -311,7 +306,6 @@
                         android:layout_height="match_parent"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="@string/help_bookview"
-                        android:id="@+id/textView2"
                         android:layout_weight="1"
                         android:background="#ffe8e8e8"
                         android:textColor="#243840"
@@ -326,8 +320,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:weightSum="3"
-                    android:id="@+id/linearLayout2">
+                    android:weightSum="3">
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -350,7 +343,6 @@
                         android:layout_height="match_parent"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="@string/help_addbook"
-                        android:id="@+id/textView2"
                         android:layout_weight="1"
                         android:background="#ffe8e8e8"
                         android:textColor="#243840"
@@ -365,8 +357,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:weightSum="3"
-                    android:id="@+id/linearLayout2">
+                    android:weightSum="3">
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -389,7 +380,6 @@
                         android:layout_height="match_parent"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="@string/help_settings"
-                        android:id="@+id/textView2"
                         android:layout_weight="1"
                         android:background="#ffe8e8e8"
                         android:textColor="#243840"

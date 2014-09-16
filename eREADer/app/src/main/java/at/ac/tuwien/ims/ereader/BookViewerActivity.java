@@ -466,7 +466,7 @@ public class BookViewerActivity extends Activity {
         public void onServiceDisconnected(ComponentName name) {
             serviceBound = false;
             readingService = null;
-            Log.d(BookViewerActivity.class.getName(), "Service is disconnected");
+            //Log.d(BookViewerActivity.class.getName(), "Service is disconnected");
         }
 
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -478,7 +478,7 @@ public class BookViewerActivity extends Activity {
                 playButton.setImageResource(R.drawable.pausebtn);
             else
                 playButton.setImageResource(R.drawable.playbtn);
-            Log.d(BookViewerActivity.class.getName(), "Service is connected");
+            //Log.d(BookViewerActivity.class.getName(), "Service is connected");
         }
     };
 

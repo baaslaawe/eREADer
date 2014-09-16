@@ -75,8 +75,6 @@
     <string name="adding_book">Adding book…</string>
     <string name="select_book">Select the eBook:</string>
 
-
-
     <string name="help_sidebar">The sidebar helps the user to quickly navigate through the application.\n\t
         It can be opened by either tapping the button on the top-left side or by swiping from the left edge to the middle of the screen.</string>
     <string name="help_library">The library contains all your saved eBooks and displays them for you to view or edit.\n\t
@@ -98,13 +96,11 @@
         Then click the book in the list that you want to download.\nNow scroll down and download the eBook as TXT, PDF or Epub(no images).\nAfter the download is completed, open the eReader application again, go to the \'Add Book\' window, click the \'add\'-Button and find the book on your device\'s drive.</string>
     <string name="gutenberg_url">http://m.gutenberg.org</string>
 
-
     <string name="free_ebooks_name">Free eBooks</string>
     <string name="free_ebooks_howto">After the your browser has loaded the website, search for a book with the search bar.\n\t
         Then click the cover of the book that you want to download.\nNow scroll down and click the \'DOWNLOAD\'-Button and select either TXT, PDF or Epub format.\n\t
         After the download is completed, open the eReader application again, go to the \'Add Book\' window, click the \'add\'-Button and find the book on your device\'s drive.</string>
     <string name="free_ebooks_url">http://www.free-ebooks.net</string>
-
 
     <string name="mobileread_name">MobileRead Wiki</string>
     <string name="mobileread_howto">After the your browser has loaded the website, search manually for a book in the list.\n\t

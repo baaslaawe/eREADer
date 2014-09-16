@@ -3,6 +3,8 @@
 
 eREADer is an eBook narrator application for android. Supported eBook formats: ePub, Pdf, Txt, Html.
 
+Download *app-release.apk* to use the application.
+
 ![Library screenshot](https://raw.github.com/SoulRiser/eREADer/master/Design/screenshot_lib.png)
 ![Reading screenshot](https://raw.github.com/SoulRiser/eREADer/master/Design/screenshot_reading.png)
 

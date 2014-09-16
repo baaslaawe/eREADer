@@ -114,16 +114,13 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.d(DatabaseHelper.class.getName(), "Upgrading Database "+TABLE_BOOKS+" from Version "
-                + oldVersion + "to " + newVersion);
+        //Log.d(DatabaseHelper.class.getName(), "Upgrading Database "+TABLE_BOOKS+" from Version "+ oldVersion + "to " + newVersion);
         db.execSQL(DROP_BOOK_TABLE);
 
-        Log.d(DatabaseHelper.class.getName(), "Upgrading Database "+ TABLE_CONTENTS +" from Version "
-                + oldVersion + "to " + newVersion);
+        //Log.d(DatabaseHelper.class.getName(), "Upgrading Database "+ TABLE_CONTENTS +" from Version "+ oldVersion + "to " + newVersion);
         db.execSQL(DROP_CONTENTS_TABLE);
 
-        Log.d(DatabaseHelper.class.getName(), "Upgrading Database "+TABLE_CURR+" from Version "
-                + oldVersion + "to " + newVersion);
+        //Log.d(DatabaseHelper.class.getName(), "Upgrading Database "+TABLE_CURR+" from Version "+ oldVersion + "to " + newVersion);
         db.execSQL(DROP_CURR_TABLE);
         onCreate(db);
     }
@@ -143,7 +140,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
         db.execSQL(CREATE_CURR_TABLE);
 
         db.close();
-        Log.d(DatabaseHelper.class.getName(), "DB was reset");
+        //Log.d(DatabaseHelper.class.getName(), "DB was reset");
     }
 
     //---------------------------------------------------------------------
@@ -159,7 +156,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
 
         long id=db.insert(TABLE_BOOKS, null, values);
         db.close();
-        Log.d(DatabaseHelper.class.getName(), book.toString()+" added to DB");
+        //Log.d(DatabaseHelper.class.getName(), book.toString()+" added to DB");
         return id;
     }
 
@@ -175,7 +172,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
 
         Book book = new Book(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2),
                 Language.getLanguageFromCode(Integer.parseInt(cursor.getString(3))));
-        Log.d(DatabaseHelper.class.getName(), book.toString() + " read from DB");
+        //Log.d(DatabaseHelper.class.getName(), book.toString() + " read from DB");
         return book;
     }
 
@@ -191,11 +188,11 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
                 Book book = new Book(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2),
                         Language.getLanguageFromCode(Integer.parseInt(cursor.getString(3))));
                 bookList.add(book);
-                Log.d(DatabaseHelper.class.getName(), "book got from db: "+book.getId());
+                //Log.d(DatabaseHelper.class.getName(), "book got from db: "+book.getId());
             } while (cursor.moveToNext());
         }
 
-        Log.d(DatabaseHelper.class.getName(), "All books read from DB");
+        //Log.d(DatabaseHelper.class.getName(), "All books read from DB");
         return bookList;
     }
 
@@ -205,7 +202,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
         Cursor cursor = db.rawQuery(countQuery, null);
         cursor.close();
 
-        Log.d(DatabaseHelper.class.getName(), "Number of all books read from DB");
+        //Log.d(DatabaseHelper.class.getName(), "Number of all books read from DB");
         return cursor.getCount();
     }
 
@@ -217,7 +214,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.update(TABLE_BOOKS, values, BOOK_KEY_ID + " = ?", new String[] {String.valueOf(book.getId())});
-        Log.d(DatabaseHelper.class.getName(), book.getTitle()+" updated");
+        //Log.d(DatabaseHelper.class.getName(), book.getTitle()+" updated");
     }
 
     public void deleteBook(long book_id) {
@@ -230,7 +227,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_BOOKS, BOOK_KEY_ID + " = ?", new String[] { String.valueOf(book.getId()) });
         db.close();
-        Log.d(DatabaseHelper.class.getName(), book.toString()+" deleted from DB");
+        //Log.d(DatabaseHelper.class.getName(), book.toString()+" deleted from DB");
     }
 
     //---------------------------------------------------------------------
@@ -247,7 +244,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
 
         long id=db.insert(TABLE_CONTENTS, null, values);
         db.close();
-        Log.d(DatabaseHelper.class.getName(), content.toString()+" added to DB");
+        //Log.d(DatabaseHelper.class.getName(), content.toString()+" added to DB");
         return id;
     }
 
@@ -266,7 +263,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
                 cursor.getString(2),
                 cursor.getString(3),
                 Integer.parseInt(cursor.getString(4)));
-        Log.d(DatabaseHelper.class.getName(), content.toString() + " read from DB");
+        //Log.d(DatabaseHelper.class.getName(), content.toString() + " read from DB");
         return content;
     }
 
@@ -288,7 +285,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
             } while (cursor.moveToNext());
         }
 
-        Log.d(DatabaseHelper.class.getName(), "All chapters without content from book " + String.valueOf(book_id) + " read from DB");
+        //Log.d(DatabaseHelper.class.getName(), "All chapters without content from book " + String.valueOf(book_id) + " read from DB");
         return contentList;
     }
 
@@ -312,7 +309,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
             } while (cursor.moveToNext());
         }
 
-        Log.d(DatabaseHelper.class.getName(), "All chapters from book " + String.valueOf(book_id) + " read from DB");
+        //Log.d(DatabaseHelper.class.getName(), "All chapters from book " + String.valueOf(book_id) + " read from DB");
         return contentList;
     }
 
@@ -323,7 +320,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_CONTENTS, CONTENTS_KEY_ID + " = ?", new String[] { String.valueOf(content.getId()) });
         db.close();
-        Log.d(DatabaseHelper.class.getName(), content.toString()+" deleted from DB");
+        //Log.d(DatabaseHelper.class.getName(), content.toString()+" deleted from DB");
     }
 
     //---------------------------------------------------------------------
@@ -339,7 +336,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
 
         long id=db.insert(TABLE_CURR, null, values);
         db.close();
-        Log.d(DatabaseHelper.class.getName(), curr.toString()+" added to DB");
+        //Log.d(DatabaseHelper.class.getName(), curr.toString()+" added to DB");
         return id;
     }
 
@@ -351,7 +348,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
         values.put(CURR_KEY_SENTENCE, curr.getCurrentSentence());
 
         db.update(TABLE_CURR, values, CURR_KEY_BOOK_ID + " = ?", new String[]{String.valueOf(curr.getBook_id())});
-        Log.d(DatabaseHelper.class.getName(), curr.toString() + " updated in DB");
+        //Log.d(DatabaseHelper.class.getName(), curr.toString() + " updated in DB");
     }
 
     public CurrentPosition getCurrentPosition(long book_id) {
@@ -365,7 +362,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
 
         CurrentPosition c=new CurrentPosition(Integer.parseInt(cursor.getString(0)), Integer.parseInt(cursor.getString(1)),
                 Integer.parseInt(cursor.getString(2)));
-        Log.d(DatabaseHelper.class.getName(), c.toString() + " read from DB");
+        //Log.d(DatabaseHelper.class.getName(), c.toString() + " read from DB");
         return c;
     }
 
@@ -376,6 +373,6 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BookCRUD, Conten
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_CURR, CURR_KEY_BOOK_ID + " = ?", new String[] { String.valueOf(c.getBook_id()) });
         db.close();
-        Log.d(DatabaseHelper.class.getName(), c.toString()+" deleted from DB");
+        //Log.d(DatabaseHelper.class.getName(), c.toString()+" deleted from DB");
     }
 }

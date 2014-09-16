@@ -28,3 +28,8 @@ eREADer/.gradle
 /.idea/workspace.xml
 .DS_Store
 /build
+
+
+
+#Keep release APK file
+!app-release.apk
